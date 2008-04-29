@@ -1,0 +1,177 @@
+# KDevelop Custom Project File List
+../App Framework
+../App Framework/Application.cpp
+../App Framework/Application.h
+../App Framework/GL
+../App Framework/GL/GLWindow.cpp
+../App Framework/GL/GLWindow.h
+../App Framework/GL/GLWindowL.cpp
+../App Framework/GL/GLWindowL.h
+../App Framework/Input
+../App Framework/Input/InputCodes.h
+../App Framework/Input/InputMgr.cpp
+../App Framework/Input/InputMgr.h
+../App Framework/Input/VirtualKeys.h
+../App Framework/Scene.h
+../App Framework/System.h
+../App Framework/Window.cpp
+../App Framework/Window.h
+../App Framework/WindowProc.cpp
+../App Framework/WindowProcL.cpp
+../Config.cpp
+../Config.h
+../GLExtensions
+../GLExtensions/aGLExt_ARB_fragment_shader.cpp
+../GLExtensions/aGLExt_ARB_fragment_shader.h
+../GLExtensions/aGLExt_ARB_multitexture.cpp
+../GLExtensions/aGLExt_ARB_multitexture.h
+../GLExtensions/aGLExt_ARB_shader_objects.cpp
+../GLExtensions/aGLExt_ARB_shader_objects.h
+../GLExtensions/aGLExt_ARB_vertex_buffer_object.cpp
+../GLExtensions/aGLExt_ARB_vertex_buffer_object.h
+../GLExtensions/aGLExt_ARB_vertex_shader.cpp
+../GLExtensions/aGLExt_ARB_vertex_shader.h
+../GLExtensions/aGLExt_EXT_texture3D.cpp
+../GLExtensions/aGLExt_EXT_texture3D.h
+../GLExtensions/aGLExt_GL_ARB_multitexture.cpp
+../GLExtensions/aGL_Extensions.cpp
+../GLExtensions/aGL_Extensions.h
+../Makefile
+../Math
+../Math/Cameras
+../Math/Cameras/Camera.cpp
+../Math/Cameras/Camera.h
+../Math/Cameras/CameraFree.cpp
+../Math/Cameras/CameraFree.h
+../Math/Cameras/CameraHuman.cpp
+../Math/Cameras/CameraHuman.h
+../Math/xMath.h
+../Math/xMatrix.cpp
+../Math/xMatrix.h
+../Math/xQuaternion.cpp
+../Math/xQuaternion.h
+../Math/xVector3.h
+../Math/xVector4.h
+../Models
+../Models/Model3dx.cpp
+../Models/Model3dx.h
+../Models/ModelMgr.cpp
+../Models/ModelMgr.h
+../Models/lib3ds
+../Models/lib3ds/atmosphere.c
+../Models/lib3ds/atmosphere.h
+../Models/lib3ds/background.c
+../Models/lib3ds/background.h
+../Models/lib3ds/camera.c
+../Models/lib3ds/camera.h
+../Models/lib3ds/chunk.c
+../Models/lib3ds/chunk.h
+../Models/lib3ds/chunktable.h
+../Models/lib3ds/ease.c
+../Models/lib3ds/ease.h
+../Models/lib3ds/file.c
+../Models/lib3ds/file.h
+../Models/lib3ds/io.c
+../Models/lib3ds/io.h
+../Models/lib3ds/light.c
+../Models/lib3ds/light.h
+../Models/lib3ds/material.c
+../Models/lib3ds/material.h
+../Models/lib3ds/matrix.c
+../Models/lib3ds/matrix.h
+../Models/lib3ds/mesh.c
+../Models/lib3ds/mesh.h
+../Models/lib3ds/node.c
+../Models/lib3ds/node.h
+../Models/lib3ds/quat.c
+../Models/lib3ds/quat.h
+../Models/lib3ds/shadow.c
+../Models/lib3ds/shadow.h
+../Models/lib3ds/tcb.c
+../Models/lib3ds/tcb.h
+../Models/lib3ds/tracks.c
+../Models/lib3ds/tracks.h
+../Models/lib3ds/types.h
+../Models/lib3ds/vector.c
+../Models/lib3ds/vector.h
+../Models/lib3ds/viewport.c
+../Models/lib3ds/viewport.h
+../Models/lib3dx
+../Models/lib3dx/xAction.cpp
+../Models/lib3dx/xAction.h
+../Models/lib3dx/xAnimation.cpp
+../Models/lib3dx/xAnimation.h
+../Models/lib3dx/xAnimationMgr.cpp
+../Models/lib3dx/xAnimationMgr.h
+../Models/lib3dx/xImport.cpp
+../Models/lib3dx/xImport.h
+../Models/lib3dx/xModel.cpp
+../Models/lib3dx/xModel.h
+../Models/lib3dx/xRender.h
+../Models/lib3dx/xRenderGL.cpp
+../Models/lib3dx/xRenderGL.h
+../Models/lib3dx/xSkeleton.cpp
+../Models/lib3dx/xSkeleton.h
+../Models/lib3dx/xUtils.cpp
+../Models/lib3dx/xUtils.h
+../OpenGL
+../OpenGL/Fonts
+../OpenGL/Fonts/FontMgr.cpp
+../OpenGL/Fonts/FontMgr.h
+../OpenGL/Fonts/GLFont.cpp
+../OpenGL/Fonts/GLFont.h
+../OpenGL/GLAnimSkeletal.cpp
+../OpenGL/GLAnimSkeletal.h
+../OpenGL/GLButton.h
+../OpenGL/GLShader.cpp
+../OpenGL/GLShader.h
+../OpenGL/ISelectionProvider.cpp
+../OpenGL/ISelectionProvider.h
+../OpenGL/Textures
+../OpenGL/Textures/BMPFile.cpp
+../OpenGL/Textures/ImageFile.h
+../OpenGL/Textures/TGAFile.cpp
+../OpenGL/Textures/Texture.cpp
+../OpenGL/Textures/Texture.h
+../OpenGL/Textures/TextureMgr.cpp
+../OpenGL/Textures/TextureMgr.h
+../OpenGL/Utils.cpp
+../OpenGL/Utils.h
+../Physics
+../Physics/CollisionDetector.h
+../Physics/CollisionInfo.h
+../Physics/RayTrCollisionDetector.cpp
+../Physics/RayTrCollisionDetector.h
+../Source Files
+../Source Files/LightsAndMaterials.cpp
+../Source Files/LightsAndMaterials.h
+../Source Files/SceneConsole.cpp
+../Source Files/SceneConsole.h
+../Source Files/SceneGame.cpp
+../Source Files/SceneGame.h
+../Source Files/SceneSkeleton.cpp
+../Source Files/SceneSkeleton.h
+../Source Files/SceneSkeletonUpd.cpp
+../Source Files/main.cpp
+../Utils
+../Utils/Debug.cpp
+../Utils/Debug.h
+../Utils/Filesystem.h
+../Utils/GraphicsModes.h
+../Utils/Handle.h
+../Utils/HandleDst.h
+../Utils/HandleMgr.h
+../Utils/Manager.h
+../Utils/Singleton.h
+../Utils/Utils.cpp
+../Utils/Utils.h
+../World
+../World/BuiltIn
+../World/BuiltIn/Crate.h
+../World/BuiltIn/Text3d.h
+../World/ModelObj.cpp
+../World/ModelObj.h
+../World/Object3D.cpp
+../World/Object3D.h
+../World/SkeletizedObj.h
+../World/World.h
