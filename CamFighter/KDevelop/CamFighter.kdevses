@@ -1,24 +1,32 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="3" >
-  <Doc0 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xElement.cpp" >
-   <View0 Encoding="ISO 8859-2" line="205" Type="Source" />
+ <DocsAndViews NumberOfDocuments="7" >
+  <Doc0 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xRenderGLAmbient.cpp" >
+   <View0 Encoding="ISO 8859-2" line="87" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/World/World.cpp" >
-   <View0 Encoding="ISO 8859-2" line="138" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xRenderGL.h" >
+   <View0 Encoding="ISO 8859-2" line="0" Type="Source" />
   </Doc1>
-  <Doc2 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xImport.cpp" >
-   <View0 Encoding="ISO 8859-2" line="270" Type="Source" />
+  <Doc2 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xRenderGL.cpp" >
+   <View0 Encoding="ISO 8859-2" line="120" Type="Source" />
   </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xImport.cpp" >
+   <View0 Encoding="ISO 8859-2" line="51" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///usr/local/include/lib3ds/mesh.h" >
+   <View0 Encoding="ISO 8859-2" line="110" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///usr/local/include/lib3ds/node.h" >
+   <View0 Encoding="ISO 8859-2" line="56" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/darek/Projects/CamFighter/Models/lib3dx/xImport.h" >
+   <View0 Encoding="ISO 8859-2" line="15" Type="Source" />
+  </Doc6>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
-   <breakpointList>
-    <breakpoint0 location="/home/darek/Projects/CamFighter/Models/lib3dx/xImport.cpp:73" type="1" tracingFormatString="" traceFormatStringEnabled="0" condition="" tracingEnabled="0" enabled="1" >
-     <tracedExpressions/>
-    </breakpoint0>
-   </breakpointList>
+   <breakpointList/>
    <showInternalCommands value="0" />
   </kdevdebugger>
   <kdevastyle>

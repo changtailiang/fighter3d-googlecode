@@ -23,6 +23,7 @@ Config.h
 GLExtensions
 GLExtensions/ARB_fragment_shader.cpp
 GLExtensions/ARB_fragment_shader.h
+GLExtensions/ARB_multisample.cpp
 GLExtensions/ARB_multitexture.cpp
 GLExtensions/ARB_multitexture.h
 GLExtensions/ARB_shader_objects.cpp
@@ -39,7 +40,7 @@ GLExtensions/EXT_texture3D.cpp
 GLExtensions/EXT_texture3D.h
 GLExtensions/GLExtensions.cpp
 GLExtensions/GLExtensions.h
-GLExtensions/aGLExt_GL_ARB_multitexture.cpp
+GLExtensions/wglext.h
 Makefile
 Math
 Math/Cameras
@@ -59,6 +60,7 @@ Math/xQuaternion.cpp
 Math/xQuaternion.h
 Math/xVector3.h
 Math/xVector4.h
+Math/xVerletConstraint.h
 Models
 Models/Model3dx.cpp
 Models/Model3dx.h
@@ -80,6 +82,8 @@ Models/lib3dx/xElementData.cpp
 Models/lib3dx/xElementData.h
 Models/lib3dx/xElementRunTime.cpp
 Models/lib3dx/xElementRunTime.h
+Models/lib3dx/xIKNode.cpp
+Models/lib3dx/xIKNode.h
 Models/lib3dx/xImport.cpp
 Models/lib3dx/xImport.h
 Models/lib3dx/xMaterial.cpp
@@ -90,7 +94,11 @@ Models/lib3dx/xRender.cpp
 Models/lib3dx/xRender.h
 Models/lib3dx/xRenderGL.cpp
 Models/lib3dx/xRenderGL.h
+Models/lib3dx/xRenderGLAmbient.cpp
+Models/lib3dx/xRenderGLDepth.cpp
+Models/lib3dx/xRenderGLDiffuse.cpp
 Models/lib3dx/xRenderGLShadow.cpp
+Models/lib3dx/xRenderGLShadowV.cpp
 Models/lib3dx/xShadowVolume.cpp
 Models/lib3dx/xShadowVolume.h
 Models/lib3dx/xUtils.cpp
@@ -129,6 +137,8 @@ Physics/CD_MeshToMesh.h
 Physics/CD_RayToMesh.cpp
 Physics/CD_RayToMesh.h
 Physics/CollisionInfo.h
+Physics/IKEngine.cpp
+Physics/IKEngine.h
 Physics/RigidBody.cpp
 Physics/RigidBody.h
 Source Files
