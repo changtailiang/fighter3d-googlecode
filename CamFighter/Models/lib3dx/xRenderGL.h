@@ -62,7 +62,8 @@ class xRenderGL : public xRender
     {
         if (this->shadowMapTexId)
         {
-            glDeleteTextures(1, (GLuint*)&this->shadowMapTexId);
+            GLuint tid = this->shadowMapTexId;
+            glDeleteTextures(1, &tid);
             this->shadowMapTexId = 0;
         }
         
@@ -131,12 +132,13 @@ class xRenderGL : public xRender
         if (hModelGraphics != hModelPhysical)
             FreeVBORenderData(instanceDataPhP, instanceDataPhC);
     }
-
+    
     virtual void FreeAllRenderData()
     {
         if (this->shadowMapTexId)
         {
-            glDeleteTextures(1, (GLuint*)&this->shadowMapTexId);
+            GLuint tid = this->shadowMapTexId;
+            glDeleteTextures(1, &tid);
             this->shadowMapTexId = 0;
         }
         if (UseVBO) FreeVBORenderData();
@@ -192,8 +194,8 @@ class xRenderGL : public xRender
     void RenderShadowMapTextureVBO( xElement *elem, bool transparent );
 
     void RenderShadowVolumeElem(xElement *elem, xLight &light);
-    void RenderShadowVolumeZPass(xElement *elem, xLight &light);
-    void RenderShadowVolumeZFail(xElement *elem, xLight &light);
+    void RenderShadowVolumeZPass(xShadowData &shadowData, bool infiniteL);
+    void RenderShadowVolumeZFail(xShadowData &shadowData, bool infiniteL);
 };
 
 #endif
