@@ -19,8 +19,6 @@ private:
     CD_RayToMesh  cd_RayToMesh;
 
     bool m_Valid;
-    
-    ModelObj *shadowCaster;
 
     virtual void RenderSelect(const xFieldOfView *FOV)
     {

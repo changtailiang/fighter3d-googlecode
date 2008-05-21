@@ -97,17 +97,23 @@ void Application::Terminate()
 
 int Application::Run()
 {
-    float prevTick, curTick = GetTick();
+    float preRenderTick, prevTick, curTick = GetTick();
+    Performance.Reset();
 
     while (!m_window->Terminated())
     {
         if (!m_window->ProcessMessages()) break;
-
+        
         prevTick = curTick;
         curTick = GetTick();
-        this->Update((curTick - prevTick)/1000.f);
+        float realTicks   = curTick - prevTick;
+        float renderTicks = curTick - preRenderTick;
+
+        Performance.NextFrame(realTicks);
+        this->Update(renderTicks * 0.001f);
         if (m_window->Terminated()) break;
-        curTick = GetTick();
+        
+        preRenderTick = GetTick();
         this->Render();
     }
     return 0;

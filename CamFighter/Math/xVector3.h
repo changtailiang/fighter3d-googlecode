@@ -97,7 +97,12 @@ union xVector3 {
     friend bool operator >= (const xVector3 &a, const xVector3 &b) {
         return b <= a;
     }
-
+    
+    bool nearlyEqual (const xVector3 &vec) {
+        return abs(x - vec.x) < EPSILON2 &&
+               abs(y - vec.y) < EPSILON2 &&
+               abs(z - vec.z) < EPSILON2;
+    }
     static xVector3 Normalize(const xVector3 &a) {
         xVector3 res = a;
         return res.normalize();
