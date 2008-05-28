@@ -3,7 +3,7 @@
 
 #include "../App Framework/Application.h"
 #include "../App Framework/Input/InputMgr.h"
-#include "../OGL/GLAnimSkeletal.h"
+#include "../Graphics/OGL/GLAnimSkeletal.h"
 
 #include "../Utils/Debug.h"
 #include "../Utils/GraphicsModes.h"
