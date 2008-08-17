@@ -38,6 +38,8 @@ bool VConstraintAngular :: Satisfy(VerletSystem *system)
     xMatrix  MX_WorldToBone = xMatrixFromVectors( N_front, N_up, - P_rootE ).invert();
     xVector3 P_curr_Local   = MX_WorldToBone.preTransformP( P_curr );
     xVector3 N_curr_Local   = xVector3::Normalize( P_curr_Local );
+
+    if (N_curr_Local.z > 0.99f) return false;
     
     xFLOAT r_Inv = 1.f / sqrt(N_curr_Local.x*N_curr_Local.x+N_curr_Local.y*N_curr_Local.y);
     xFLOAT cosAlpha = fabs(N_curr_Local.x)*r_Inv,
