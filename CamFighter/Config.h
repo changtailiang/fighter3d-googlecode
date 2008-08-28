@@ -20,14 +20,14 @@ struct Config
     static bool  DisplaySkeleton;
     static bool  DisplayBVH;
     static bool  DisplayCameras;
-    
+
 
     static int   TestCase;
     static float Speed;
     static int   LoggingLevel;
     static bool  Save3dsTo3dx;
 
-    static void Load(char *fileName);
+    static void Load(const char *fileName);
 };
 
 struct State

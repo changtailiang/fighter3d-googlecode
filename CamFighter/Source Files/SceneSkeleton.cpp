@@ -18,7 +18,7 @@ SceneSkeleton::SceneSkeleton(Scene *prevScene, const char *gr_modelName, const c
     State.PlayAnimation   = false;
 
     Animation.Instance    = NULL;
-    
+
     Selection.Bone        = NULL;
     Selection.Element     = NULL;
     Selection.ElementId   = xWORD_MAX;
@@ -60,11 +60,11 @@ SceneSkeleton::SceneSkeleton(Scene *prevScene, const char *gr_modelName, const c
     Buttons[emEditBVH].push_back(GLButton("Edit",   190, 2, 45, 15, IC_BE_Edit, true, true));
     Buttons[emEditBVH].push_back(GLButton("Clone",  240, 2, 55, 15, IC_BE_Clone, true));
     Buttons[emEditBVH].push_back(GLButton("Delete", 300, 2, 65, 15, IC_BE_Delete, true));
-    
+
     Buttons[emCreateBVH].push_back(GLButton("Sphere",  120, 2, 65, 15, IC_BE_CreateSphere));
     Buttons[emCreateBVH].push_back(GLButton("Capsule", 190, 2, 75, 15, IC_BE_CreateCapsule));
     Buttons[emCreateBVH].push_back(GLButton("Box",     270, 2, 35, 15, IC_BE_CreateBox));
-    
+
     Buttons[emSelectAnimation].push_back(GLButton("New",  110, 2, 35, 15, IC_BE_Create));
     Buttons[emSelectAnimation].push_back(GLButton("Load", 150, 2, 45, 15, IC_BE_Select));
 
@@ -89,12 +89,12 @@ SceneSkeleton::SceneSkeleton(Scene *prevScene, const char *gr_modelName, const c
     Buttons[emSaveAnimation].push_back(GLButton("Reject",    180, 2, 65, 15, IC_Reject));
 
     Model.Initialize(gr_modelName, ph_modelName);
-    
-    xModel *modelGr = Model.ModelGr_Get().xModel;
+
+    xModel *modelGr = Model.ModelGr_Get().xModelP;
     if (Model.ModelPh)
     {
-        xModel *modelPh = Model.ModelPh_Get().xModel;
-    
+        xModel *modelPh = Model.ModelPh_Get().xModelP;
+
         if (modelPh->Spine.I_bones && !modelGr->Spine.I_bones)
         {
             modelGr->SkeletonAdd(); //   add skeleton to model
@@ -111,7 +111,7 @@ SceneSkeleton::SceneSkeleton(Scene *prevScene, const char *gr_modelName, const c
     }
     modelGr->Spine.ResetQ();
     Model.CalculateSkeleton();
-    
+
     CurrentDirectory = Filesystem::GetFullPath("Data/models");
 }
 bool SceneSkeleton::Initialize(int left, int top, unsigned int width, unsigned int height)
@@ -160,7 +160,7 @@ void SceneSkeleton::InitCameras(bool FL_reposition)
     }
 
     Cameras.Front.FOV.InitOrthogonal();
-    Cameras.Back.FOV.InitOrthogonal(); 
+    Cameras.Back.FOV.InitOrthogonal();
     Cameras.Right.FOV.InitOrthogonal();
     Cameras.Left.FOV.InitOrthogonal();
     Cameras.Top.FOV.InitOrthogonal();
@@ -179,7 +179,7 @@ void SceneSkeleton::InitInputMgr()
 {
     InputMgr &im = g_InputMgr;
     im.SetScene(sceneName);
-    
+
     im.SetInputCodeIfKeyIsFree(VK_RETURN, IC_Accept);
     im.SetInputCodeIfKeyIsFree(VK_ESCAPE, IC_Reject);
     im.SetInputCodeIfKeyIsFree(VK_BACK,   IC_Con_BackSpace);
@@ -212,7 +212,7 @@ void SceneSkeleton::InitInputMgr()
     im.SetInputCodeIfKeyIsFree('N', IC_BE_Select);
     im.SetInputCodeIfKeyIsFree('M', IC_BE_Move);
     im.SetInputCodeIfKeyIsFree('P', IC_BE_Play);
-    
+
     im.SetInputCodeIfKeyIsFree(VK_PRIOR,  IC_MoveForward);
     im.SetInputCodeIfKeyIsFree(VK_NEXT,   IC_MoveBack);
     im.SetInputCodeIfKeyIsFree(VK_LEFT,   IC_MoveLeft);
@@ -232,19 +232,19 @@ void SceneSkeleton::InitInputMgr()
     im.SetInputCodeIfKeyIsFree('H', IC_OrbitLeft);
     im.SetInputCodeIfKeyIsFree('K', IC_OrbitRight);
 }
-    
+
 bool SceneSkeleton::Invalidate()
 {
     WorldRenderGL renderer;
     renderer.Invalidate(Model);
     return Scene::Invalidate();
 }
-    
+
 SceneSkeleton::~SceneSkeleton()
 {
     WorldRenderGL renderer;
     renderer.Free(Model);
-    Model.Finalize(); 
+    Model.Finalize();
 }
 void SceneSkeleton::Terminate()
 {
@@ -271,7 +271,7 @@ void SceneSkeleton::Terminate()
 
     Directories.clear();
 }
-    
+
 #define fractf(a)    ((a)-floorf(a))
 
 /************************** RENDER *************************************/
@@ -301,7 +301,7 @@ bool SceneSkeleton::FrameRender()
     glClearColor( 0.5f, 0.5f, 0.5f, 0.f );  // Background color
     glClearDepth( 100.0f );                 // Draw distance
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT/* | GL_STENCIL_BUFFER_BIT*/);
-    
+
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK, Config::PolygonMode);
 
@@ -311,7 +311,7 @@ bool SceneSkeleton::FrameRender()
     glLoadMatrixf(&Cameras.Current->FOV.MX_Projection_Get().x0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
+
     // lights at viewer position
     GLfloat light_global_amb_color[]  = { 0.2f, 0.2f, 0.2f, 1.0f };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_global_amb_color);
@@ -329,7 +329,7 @@ bool SceneSkeleton::FrameRender()
     glEnable(GL_LIGHT0);
     GLShader::SetLightType(xLight_INFINITE);
     GLShader::EnableTexturing(xState_Enable);
-    
+
     glMultMatrixf(&Cameras.Current->MX_WorldToView_Get().x0);
 
     WorldRenderGL wRender;
@@ -337,10 +337,10 @@ bool SceneSkeleton::FrameRender()
 
     if (Model.FL_renderNeedsUpdate) wRender.Free(Model);
     Model.FrameRender();
-    
-    xModel         &model         = *Model.ModelGr->xModel;
+
+    xModel         &model         = *Model.ModelGr->xModelP;
     xModelInstance &modelInstance = Model.ModelGr->instance;
-    
+
     render.RenderModel(model, modelInstance, false, Cameras.Current->FOV);
     render.RenderModel(model, modelInstance, true, Cameras.Current->FOV);
     GLShader::Suspend();
@@ -348,7 +348,7 @@ bool SceneSkeleton::FrameRender()
     GLShader::EnableTexturing(xState_Disable);
     GLShader::SetLightType(xLight_NONE);
     GLShader::Start();
-    
+
     if (EditMode == emSelectVertex)
         render.RenderVertices(model, modelInstance, Renderer::smNone, Selection.ElementId, &Selection.Vertices);
     if (State.ShowBonesAlways || EditMode == emSelectBone || EditMode == emCreateBone ||
@@ -358,7 +358,7 @@ bool SceneSkeleton::FrameRender()
         render.RenderSkeleton(model, modelInstance, Selection.Bone ? Selection.Bone->ID : xWORD_MAX);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
+
     if (EditMode == emAnimateBones)
     {
         glColor3f(0.2f, 0.5f, 0.2f);
@@ -389,18 +389,18 @@ bool SceneSkeleton::FrameRender()
     GLShader::Suspend();
 
     glFlush();
-    
+
     //////////////////////////// Overlay
-    
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
+
     // Set text output projection
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, Width, 0, Height, 0, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
+
     if (InputState.MouseLIsDown && EditMode == emSelectVertex)
     {
         glEnable(GL_BLEND);
@@ -419,13 +419,13 @@ bool SceneSkeleton::FrameRender()
         glEnable(GL_CULL_FACE);
         glDisable(GL_BLEND);
     }
-    
+
     if (!g_FontMgr.IsHandleValid(Font))
         Font = g_FontMgr.GetFont("Courier New", 15);
     const GLFont* pFont = g_FontMgr.GetFont(Font);
-    
+
     glColor4f( 1.f, 1.f, 1.f, 1.f );
-    
+
     const char* sCamera = "NULL";
     if (Cameras.Current == &Cameras.Front)
         sCamera = "Front";
@@ -442,7 +442,7 @@ bool SceneSkeleton::FrameRender()
     if (Cameras.Current == &Cameras.Perspective)
         sCamera = "Perspective";
     pFont->PrintF(5.f, Height - 20.f, 0.f, sCamera);
-    
+
     if (EditMode == emCreateBone)
         pFont->PrintF(5.f, 5.f, 0.f, "Skeleton |");
     else if (EditMode == emCreateConstraint_Type)
@@ -466,7 +466,7 @@ bool SceneSkeleton::FrameRender()
         if (Constraint.type == IC_BE_CreateConstrAng)
             for (int i = 0; i < 4; ++i)
             {
-                char *label;
+                const char *label = "";
                 if (i == 0) label = "Max X";
                 if (i == 1) label = "Min X";
                 if (i == 2) label = "Max Y";
@@ -527,7 +527,7 @@ bool SceneSkeleton::FrameRender()
 			else
 				pFont->PrintF(150.f, Height - 20.f, 0.f, "Animation: new animation");
 	}
-    
+
 	if (EditMode == emEditAnimation)
         RenderProgressBar();
 	else if (EditMode == emFrameParams) {
@@ -570,7 +570,7 @@ bool SceneSkeleton::FrameRender()
         if (EditMode == emInputWght)
             pFont->PrintF(5.f, Height - 20.f * (i+2), 0.f, "Bone id%d : (%d) %s", Selection.Bone->ID, 100 - sum, InputState.String.c_str());
     }
-    
+
     glFlush();
     return true;
 }
@@ -578,7 +578,7 @@ void SceneSkeleton::RenderProgressBar()
 {
     unsigned int pWidth = Width / 2;
     unsigned int pHeight = 10;
-    
+
     float x  = (float)Width - pWidth - 10;
     float x1, x2, x3 = x;
     float y1 = (float)Height - 10;
@@ -596,10 +596,10 @@ void SceneSkeleton::RenderProgressBar()
         x3 = x2 + frame->T_duration*scale;
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        
+
         glColor3f(0.4f, 0.4f, 1.f);
         glRectf(x1, y2, x2, y1);
-        
+
         glColor3f(0.f, 0.7f, 0.f);
         glRectf(x2, y2, x3, y1);
 
@@ -623,7 +623,7 @@ void SceneSkeleton::RenderProgressBar()
         Animation.Instance->T_progress,
         Animation.Instance->CurrentFrame->T_freeze+Animation.Instance->CurrentFrame->T_duration);
 }
-    
+
 /************************** SELECTIONS *************************************/
 xBYTE SceneSkeleton::GetBVH_Count (xBVHierarchy &bvhNode)
 {
@@ -631,7 +631,7 @@ xBYTE SceneSkeleton::GetBVH_Count (xBVHierarchy &bvhNode)
 
     for (int i = 0; i < bvhNode.I_items; ++i)
         res += GetBVH_Count(bvhNode.L_items[i]);
-    
+
     return res;
 }
 
@@ -661,7 +661,7 @@ xBVHierarchy *SceneSkeleton::GetBVH_byID (xBVHierarchy &bvhNode, xBYTE ID_select
 
 void SceneSkeleton::RenderSelect(const Math::Cameras::FieldOfView &FOV)
 {
-    xModel         &model         = *Model.ModelGr->xModel;
+    xModel         &model         = *Model.ModelGr->xModelP;
     xModelInstance &modelInstance = Model.ModelGr->instance;
     RendererGL      render;
 
@@ -684,8 +684,8 @@ void SceneSkeleton::RenderSelect(const Math::Cameras::FieldOfView &FOV)
 }
 unsigned int SceneSkeleton::CountSelectable()
 {
-    xModel &model = *Model.ModelGr->xModel;
-    
+    xModel &model = *Model.ModelGr->xModelP;
+
     if (EditMode == emCreateBone || EditMode == emCreateConstraint_Node ||
         EditMode == emSelectBone || EditMode == emAnimateBones ||
         EditMode == emSelectBVHBone)
@@ -715,13 +715,13 @@ std::vector<xDWORD> *SceneSkeleton::SelectCommon(int X, int Y, int W, int H)
 xBone *SceneSkeleton::SelectBone(int X, int Y)
 {
     std::vector<xDWORD> *sel = SelectCommon(X, Y);
-    
+
     if (sel)
     {
         if (sel->size()) {
             GLuint id = sel->back();
             delete sel;
-            return Model.ModelGr_Get().xModel->Spine.L_bones + id;
+            return Model.ModelGr_Get().xModelP->Spine.L_bones + id;
         }
         delete sel;
     }
@@ -731,16 +731,16 @@ xBone *SceneSkeleton::SelectBone(int X, int Y)
 xBVHierarchy *SceneSkeleton::SelectBVH(int X, int Y)
 {
     std::vector<xDWORD> *sel = SelectCommon(X, Y);
-    
+
     if (sel)
     {
         if (sel->size()) {
             GLuint id = sel->back();
             delete sel;
-            if (Model.ModelGr_Get().xModel->BVHierarchy)
+            if (Model.ModelGr_Get().xModelP->BVHierarchy)
             {
                 xBYTE cid = 0;
-                return GetBVH_byID(*Model.ModelGr_Get().xModel->BVHierarchy, id, cid);
+                return GetBVH_byID(*Model.ModelGr_Get().xModelP->BVHierarchy, id, cid);
             }
             return NULL;
         }
@@ -752,7 +752,7 @@ xBVHierarchy *SceneSkeleton::SelectBVH(int X, int Y)
 xWORD SceneSkeleton::SelectElement(int X, int Y)
 {
     std::vector<xDWORD> *sel = SelectCommon(X, Y);
-    
+
     if (sel)
     {
         if (sel->size()) {

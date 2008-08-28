@@ -2,16 +2,17 @@
 App Framework
 App Framework/Application.cpp
 App Framework/Application.h
-App Framework/GL
-App Framework/GL/GLWindow.cpp
-App Framework/GL/GLWindow.h
-App Framework/GL/GLWindowL.cpp
-App Framework/GL/GLWindowL.h
 App Framework/Input
 App Framework/Input/InputCodes.h
 App Framework/Input/InputMgr.cpp
 App Framework/Input/InputMgr.h
 App Framework/Input/VirtualKeys.h
+App Framework/OGL
+App Framework/OGL/GLWindow.cpp
+App Framework/OGL/GLWindow.h
+App Framework/OGL/GLWindowL.cpp
+App Framework/OGL/GLWindowL.h
+App Framework/Scene.cpp
 App Framework/Scene.h
 App Framework/System.h
 App Framework/Window.cpp
@@ -20,27 +21,69 @@ App Framework/WindowProc.cpp
 App Framework/WindowProcL.cpp
 Config.cpp
 Config.h
-GLExtensions
-GLExtensions/ARB_fragment_shader.cpp
-GLExtensions/ARB_fragment_shader.h
-GLExtensions/ARB_multisample.cpp
-GLExtensions/ARB_multitexture.cpp
-GLExtensions/ARB_multitexture.h
-GLExtensions/ARB_shader_objects.cpp
-GLExtensions/ARB_shader_objects.h
-GLExtensions/ARB_vertex_buffer_object.cpp
-GLExtensions/ARB_vertex_buffer_object.h
-GLExtensions/ARB_vertex_shader.cpp
-GLExtensions/ARB_vertex_shader.h
-GLExtensions/EXT_stencil_two_side.cpp
-GLExtensions/EXT_stencil_two_side.h
-GLExtensions/EXT_stencil_wrap.cpp
-GLExtensions/EXT_stencil_wrap.h
-GLExtensions/EXT_texture3D.cpp
-GLExtensions/EXT_texture3D.h
-GLExtensions/GLExtensions.cpp
-GLExtensions/GLExtensions.h
-GLExtensions/wglext.h
+Graphics
+Graphics/OGL
+Graphics/OGL/Extensions
+Graphics/OGL/Extensions/ARB_fragment_shader.cpp
+Graphics/OGL/Extensions/ARB_fragment_shader.h
+Graphics/OGL/Extensions/ARB_multisample.cpp
+Graphics/OGL/Extensions/ARB_multisample.h
+Graphics/OGL/Extensions/ARB_multitexture.cpp
+Graphics/OGL/Extensions/ARB_multitexture.h
+Graphics/OGL/Extensions/ARB_shader_objects.cpp
+Graphics/OGL/Extensions/ARB_shader_objects.h
+Graphics/OGL/Extensions/ARB_vertex_buffer_object.cpp
+Graphics/OGL/Extensions/ARB_vertex_buffer_object.h
+Graphics/OGL/Extensions/ARB_vertex_shader.cpp
+Graphics/OGL/Extensions/ARB_vertex_shader.h
+Graphics/OGL/Extensions/EXT_stencil_two_side.cpp
+Graphics/OGL/Extensions/EXT_stencil_two_side.h
+Graphics/OGL/Extensions/EXT_stencil_wrap.cpp
+Graphics/OGL/Extensions/EXT_stencil_wrap.h
+Graphics/OGL/Extensions/EXT_texture3D.cpp
+Graphics/OGL/Extensions/EXT_texture3D.h
+Graphics/OGL/Extensions/GLExtensions.cpp
+Graphics/OGL/Extensions/GLExtensions.h
+Graphics/OGL/Extensions/wglext.h
+Graphics/OGL/Fonts
+Graphics/OGL/Fonts/FontMgr.cpp
+Graphics/OGL/Fonts/FontMgr.h
+Graphics/OGL/Fonts/GLFont.cpp
+Graphics/OGL/Fonts/GLFont.h
+Graphics/OGL/GLAnimSkeletal.cpp
+Graphics/OGL/GLAnimSkeletal.h
+Graphics/OGL/GLButton.h
+Graphics/OGL/GLShader.cpp
+Graphics/OGL/GLShader.h
+Graphics/OGL/ISelectionProvider.cpp
+Graphics/OGL/ISelectionProvider.h
+Graphics/OGL/Render
+Graphics/OGL/Render/RendererGL.cpp
+Graphics/OGL/Render/RendererGL.h
+Graphics/OGL/Render/RendererGLAmbient.cpp
+Graphics/OGL/Render/RendererGLBVH.cpp
+Graphics/OGL/Render/RendererGLDepth.cpp
+Graphics/OGL/Render/RendererGLDiffuse.cpp
+Graphics/OGL/Render/RendererGLShadowM.cpp
+Graphics/OGL/Render/RendererGLShadowV.cpp
+Graphics/OGL/Render/RendererGLSkeleton.cpp
+Graphics/OGL/Textures
+Graphics/OGL/Textures/BMPFile.cpp
+Graphics/OGL/Textures/ImageFile.h
+Graphics/OGL/Textures/TGAFile.cpp
+Graphics/OGL/Textures/Texture.cpp
+Graphics/OGL/Textures/Texture.h
+Graphics/OGL/Textures/TextureMgr.cpp
+Graphics/OGL/Textures/TextureMgr.h
+Graphics/OGL/Utils.cpp
+Graphics/OGL/Utils.h
+Graphics/OGL/WorldRenderGL.cpp
+Graphics/OGL/WorldRenderGL.h
+Graphics/OGL/ogl.h
+Graphics/Renderer.cpp
+Graphics/Renderer.h
+Graphics/ShadowVolume.cpp
+Graphics/ShadowVolume.h
 Makefile
 Math
 Math/Cameras
@@ -50,17 +93,39 @@ Math/Cameras/CameraFree.cpp
 Math/Cameras/CameraFree.h
 Math/Cameras/CameraHuman.cpp
 Math/Cameras/CameraHuman.h
-Math/xFieldOfView.h
+Math/Cameras/CameraSet.cpp
+Math/Cameras/CameraSet.h
+Math/Cameras/FieldOfView.cpp
+Math/Cameras/FieldOfView.h
+Math/Figures
+Math/Figures/xBVHierarchy.h
+Math/Figures/xBoxA.h
+Math/Figures/xBoxO.cpp
+Math/Figures/xBoxO.h
+Math/Figures/xCapsule.h
+Math/Figures/xCylinder.cpp
+Math/Figures/xCylinder.h
+Math/Figures/xIFigure3d.cpp
+Math/Figures/xIFigure3d.h
+Math/Figures/xMesh.cpp
+Math/Figures/xMesh.h
+Math/Figures/xSegment.h
+Math/Figures/xSphere.h
+Math/Figures/xTriangle.h
+Math/Tracking
+Math/Tracking/ObjectTracker.cpp
+Math/Tracking/ObjectTracker.h
+Math/Tracking/TrackedObject.h
 Math/xLight.cpp
 Math/xLight.h
 Math/xMath.h
 Math/xMatrix.cpp
 Math/xMatrix.h
+Math/xPlane.h
 Math/xQuaternion.cpp
 Math/xQuaternion.h
 Math/xVector3.h
 Math/xVector4.h
-Math/xVerletConstraint.h
 Models
 Models/Model3dx.cpp
 Models/Model3dx.h
@@ -90,17 +155,8 @@ Models/lib3dx/xMaterial.cpp
 Models/lib3dx/xMaterial.h
 Models/lib3dx/xModel.cpp
 Models/lib3dx/xModel.h
-Models/lib3dx/xRender.cpp
-Models/lib3dx/xRender.h
-Models/lib3dx/xRenderGL.cpp
-Models/lib3dx/xRenderGL.h
-Models/lib3dx/xRenderGLAmbient.cpp
-Models/lib3dx/xRenderGLDepth.cpp
-Models/lib3dx/xRenderGLDiffuse.cpp
-Models/lib3dx/xRenderGLShadow.cpp
-Models/lib3dx/xRenderGLShadowV.cpp
-Models/lib3dx/xShadowVolume.cpp
-Models/lib3dx/xShadowVolume.h
+Models/lib3dx/xSkeleton.cpp
+Models/lib3dx/xSkeleton.h
 Models/lib3dx/xUtils.cpp
 Models/lib3dx/xUtils.h
 Models/lib3dx/xVertex.h
@@ -108,40 +164,59 @@ MotionCapture
 MotionCapture/CaptureInput.h
 Multiplayer
 Multiplayer/NetworkInput.h
-OpenGL
-OpenGL/Fonts
-OpenGL/Fonts/FontMgr.cpp
-OpenGL/Fonts/FontMgr.h
-OpenGL/Fonts/GLFont.cpp
-OpenGL/Fonts/GLFont.h
-OpenGL/GLAnimSkeletal.cpp
-OpenGL/GLAnimSkeletal.h
-OpenGL/GLButton.h
-OpenGL/GLShader.cpp
-OpenGL/GLShader.h
-OpenGL/ISelectionProvider.cpp
-OpenGL/ISelectionProvider.h
-OpenGL/Textures
-OpenGL/Textures/BMPFile.cpp
-OpenGL/Textures/ImageFile.h
-OpenGL/Textures/TGAFile.cpp
-OpenGL/Textures/Texture.cpp
-OpenGL/Textures/Texture.h
-OpenGL/Textures/TextureMgr.cpp
-OpenGL/Textures/TextureMgr.h
-OpenGL/Utils.cpp
-OpenGL/Utils.h
 Physics
-Physics/CD_MeshToMesh.cpp
-Physics/CD_MeshToMesh.h
-Physics/CD_RayToMesh.cpp
-Physics/CD_RayToMesh.h
-Physics/CollisionInfo.h
-Physics/IKEngine.cpp
-Physics/IKEngine.h
-Physics/RigidBody.cpp
-Physics/RigidBody.h
+Physics/Colliders
+Physics/Colliders/AxisSpans.h
+Physics/Colliders/BVHCollider.cpp
+Physics/Colliders/BVHCollider.h
+Physics/Colliders/BoxOBoxO.h
+Physics/Colliders/BoxOMesh.h
+Physics/Colliders/BoxOTriangle.h
+Physics/Colliders/CapsuleBoxO.h
+Physics/Colliders/CapsuleCapsule.h
+Physics/Colliders/CapsuleMesh.h
+Physics/Colliders/CapsuleTriangle.h
+Physics/Colliders/CollisionInfo.cpp
+Physics/Colliders/CollisionInfo.h
+Physics/Colliders/CylinderCylinder.h
+Physics/Colliders/FigureCollider.cpp
+Physics/Colliders/FigureCollider.h
+Physics/Colliders/MeshMesh.h
+Physics/Colliders/SegmentBoxO.h
+Physics/Colliders/SegmentCapsule.h
+Physics/Colliders/SphereBoxO.h
+Physics/Colliders/SphereCapsule.h
+Physics/Colliders/SphereCylinder.h
+Physics/Colliders/SphereMesh.h
+Physics/Colliders/SphereSphere.h
+Physics/Colliders/SphereTriangle.h
+Physics/Colliders/TriangleMesh.h
+Physics/Colliders/TriangleTriangle.h
+Physics/Constants.h
+Physics/IPhysicalBody.h
+Physics/PhysicalBody.cpp
+Physics/PhysicalBody.h
+Physics/PhysicalFigure.h
+Physics/PhysicalWorld.cpp
+Physics/PhysicalWorld.h
+Physics/Verlet
+Physics/Verlet/VConstraint.cpp
+Physics/Verlet/VConstraint.h
+Physics/Verlet/VConstraintAngular.cpp
+Physics/Verlet/VConstraintAngular.h
+Physics/Verlet/VConstraintCollision.cpp
+Physics/Verlet/VConstraintCollision.h
+Physics/Verlet/VConstraintLengthEql.cpp
+Physics/Verlet/VConstraintLengthEql.h
+Physics/Verlet/VConstraintLengthMax.cpp
+Physics/Verlet/VConstraintLengthMax.h
+Physics/Verlet/VConstraintLengthMin.cpp
+Physics/Verlet/VConstraintLengthMin.h
+Physics/Verlet/VerletSolver.cpp
+Physics/Verlet/VerletSolver.h
 Source Files
+Source Files/ComBoard.cpp
+Source Files/ComBoard.h
 Source Files/SceneConsole.cpp
 Source Files/SceneConsole.h
 Source Files/SceneGame.cpp
@@ -149,6 +224,8 @@ Source Files/SceneGame.h
 Source Files/SceneSkeleton.cpp
 Source Files/SceneSkeleton.h
 Source Files/SceneSkeletonUpd.cpp
+Source Files/SceneTest.cpp
+Source Files/SceneTest.h
 Source Files/main.cpp
 Utils
 Utils/Debug.cpp
@@ -164,13 +241,9 @@ Utils/Singleton.h
 Utils/Utils.cpp
 Utils/Utils.h
 World
-World/BuiltIn
-World/BuiltIn/Crate.h
-World/BuiltIn/Text3d.h
-World/ModelObj.cpp
-World/ModelObj.h
-World/Object3D.cpp
-World/Object3D.h
+World/ObjectTypes.h
+World/RigidObj.cpp
+World/RigidObj.h
 World/SkeletizedObj.cpp
 World/SkeletizedObj.h
 World/World.cpp

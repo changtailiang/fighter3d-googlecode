@@ -23,17 +23,17 @@ void ComBoard :: Init()
 
     L_mirror.clear();
     FL_mirror = false;
-	
+
     for (int i = 0; i < AutoHint::HINT_COUNT; ++i)
         L_hint[i].clear();
     StopAction.Init();
     AutoAction = AutoHint::HINT_NONE;
 }
-    
+
 xMatrix ComBoard :: GetActionRotation(Action &action)
 {
     if (!action.FL_pos_rotation) return xMatrix::Identity();
-    
+
     xDWORD T_progress = action.Anims.T_progress;
     xQuaternion bone1 = action.Anims.GetTransformation(1);
     if (action.FL_mirror)
@@ -49,13 +49,13 @@ xMatrix ComBoard :: GetActionRotation(Action &action)
     xPoint3 N_zero; N_zero.init(0.f, -1.f, 0.f);
     xPoint3 N_first = bone_f1.rotate(N_zero);
     xPoint3 N_last  = bone1.rotate(N_zero);
-    
+
     xFLOAT W_cos = xVector3::DotProduct(N_first, N_last);
     xFLOAT W_angle = acos(W_cos);
     xFLOAT W_rot_dir = Sign(N_first.x*N_last.y - N_first.y*N_last.x);
 
     if (FL_mirror) W_rot_dir = -W_rot_dir;
-    
+
     return xMatrixRotateRad(0.f,0.f,W_rot_dir*W_angle);
 }
 
@@ -63,7 +63,7 @@ void ComBoard :: PostActionTransformation(Action &action, bool FL_pos_shift)
 {
     if (FL_pos_shift)
     {
-        xVector3 &NW_shift = action.Anims.GetTransformation(0).vector3;
+        xVector3 NW_shift = action.Anims.GetTransformation(0).vector3;
         if (FL_mirror) NW_shift.x = -NW_shift.x;
         MX_shift.postTranslateT(NW_shift);
     }
@@ -72,16 +72,16 @@ void ComBoard :: PostActionTransformation(Action &action, bool FL_pos_shift)
     if (action.FL_mirror)
         FL_mirror = !FL_mirror;
 }
-    
+
 void ComBoard :: Update(xFLOAT T_delta, bool FL_keyboard_on)
 {
 	MX_shift.identity();
     if (L_actions.size() == 0) return;
 
 	Action *action = &L_actions[ID_action_cur];
-    
+
     T_progress += T_delta;
-    
+
     while (action->T_duration > 0.f && action->T_duration < T_progress)
     {
         action->Anims.T_progress = (xDWORD) action->T_duration;
@@ -95,10 +95,10 @@ void ComBoard :: Update(xFLOAT T_delta, bool FL_keyboard_on)
 
     if (!FL_keyboard_on) return;
 
-    for (int i = 0; i < action->L_combos.size(); ++i)
+    for (xBYTE i = 0; i < action->L_combos.size(); ++i)
     {
         Combo &combo = action->L_combos[i];
-        
+
         if (combo.Key == Combo::Keys::Undefined) continue;
         if (combo.T_first > T_progress) return;
         if (combo.T_last > 0.f && combo.T_last  < T_progress) continue;
@@ -123,7 +123,7 @@ void ComBoard :: Update(xFLOAT T_delta, bool FL_keyboard_on)
         }
     }
 }
-    
+
 xQuaternion *ComBoard :: GetTransformations(xBYTE I_bones)
 {
     if (L_actions.size() == 0) return NULL;
@@ -153,7 +153,7 @@ xQuaternion *ComBoard :: GetTransformations(xBYTE I_bones)
 
     return bones;
 }
-    
+
 bool ComBoard :: SetBestAction(AutoHint::Type ActionType, xFLOAT S_dest)
 {
     int    I_best = -1;
@@ -162,7 +162,7 @@ bool ComBoard :: SetBestAction(AutoHint::Type ActionType, xFLOAT S_dest)
     Vec_Hint &hints = L_hint[ActionType];
     Vec_Hint::iterator AH_curr = hints.begin(),
                        AH_last = hints.end();
-    for (int i = 0; AH_curr != AH_last; ++AH_curr, ++i)
+    for (xBYTE i = 0; AH_curr != AH_last; ++AH_curr, ++i)
     {
         xFLOAT S_curr = AH_curr->S_max_change - S_dest;
         if (S_curr <= 0.f || (AH_curr->FL_breakable && S_curr > 0.f))
@@ -217,7 +217,7 @@ bool ComBoard :: AutoMovement(const xVector3 &NW_aim, const xVector3 &NW_dst, xF
         L_actions[ID_action_cur].Anims.T_progress = 0;
         AutoAction = AutoHint::HINT_NONE;
     }
-    
+
     // small auto rotation
     if (W_angle > EPSILON3 && W_angle < DEGTORAD(5))
     {
@@ -230,7 +230,7 @@ bool ComBoard :: AutoMovement(const xVector3 &NW_aim, const xVector3 &NW_dst, xF
 
     // We cannot break other actions in progress
     if (ID_action_cur != StopAction.ID_action) return false;
-    
+
     // Try to auto rotate
     if (W_angle >= DEGTORAD(5))
     {
@@ -243,19 +243,19 @@ bool ComBoard :: AutoMovement(const xVector3 &NW_aim, const xVector3 &NW_dst, xF
     if (S_dist < 0.5f && S_dist > -0.5f) return false;
     return SetBestAction(S_dist > 0.f ? AutoHint::HINT_STEP : AutoHint::HINT_BACK, S_dist);
 }
-    
+
 void ComBoard :: UpdateIDs()
 {
     std::map<std::string, xBYTE> map;
     std::map<std::string, xBYTE>::iterator found;
 
-    for (int i = 0; i < L_actions.size(); ++i)
+    for (xBYTE i = 0; i < L_actions.size(); ++i)
     {
         L_actions[i].ID = i;
         map[L_actions[i].SN_name] = i;
     }
 
-    for (int i = 0; i < L_actions.size(); ++i)
+    for (xBYTE i = 0; i < L_actions.size(); ++i)
     {
         if (L_actions[i].SN_next.length())
         {
@@ -268,7 +268,7 @@ void ComBoard :: UpdateIDs()
         else
             L_actions[i].ID_next = 0;
 
-        for (int j = 0; j < L_actions[i].L_combos.size(); ++j)
+        for (xBYTE j = 0; j < L_actions[i].L_combos.size(); ++j)
         {
             found = map.find(L_actions[i].L_combos[j].SN_action);
             if (found != map.end())
@@ -278,8 +278,8 @@ void ComBoard :: UpdateIDs()
         }
     }
 
-    for (int i = 0; i < AutoHint::HINT_COUNT; ++i)
-        for (int j = 0; j < L_hint[i].size(); ++j)
+    for (xBYTE i = 0; i < AutoHint::HINT_COUNT; ++i)
+        for (xBYTE j = 0; j < L_hint[i].size(); ++j)
         {
             found = map.find(L_hint[i][j].SN_action);
             if (found != map.end())
@@ -294,7 +294,7 @@ void ComBoard :: UpdateIDs()
     else
         StopAction.ID_action = 0;
 }
-    
+
 void ComBoard :: Load(const char *fileName)
 {
     Init();

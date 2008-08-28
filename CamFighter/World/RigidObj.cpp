@@ -57,17 +57,17 @@ void RigidObj :: Initialize (const char *gr_filename, const char *ph_filename)
     MeshData = NULL;
     if (FL_customBVH)
     {
-        if (ModelGr->xModel->BVHierarchy)
-            ModelGr->xModel->BVHierarchy->Clone(BVHierarchy);
+        if (ModelGr->xModelP->BVHierarchy)
+            ModelGr->xModelP->BVHierarchy->Clone(BVHierarchy);
         else
-        if (ModelPh && ModelPh->xModel->BVHierarchy)
-            ModelPh->xModel->BVHierarchy->Clone(BVHierarchy);
+        if (ModelPh && ModelPh->xModelP->BVHierarchy)
+            ModelPh->xModelP->BVHierarchy->Clone(BVHierarchy);
         else
             FL_customBVH = false;
     }
     if (!FL_customBVH)
     {
-        ModelPh_Get().xModel->CreateBVH(BVHierarchy, MeshData);
+        ModelPh_Get().xModelP->CreateBVH(BVHierarchy, MeshData);
         P_center = BVHierarchy.Figure->P_center;
     }
 
@@ -97,7 +97,7 @@ void RigidObj :: Finalize ()
 }
 
 
-    
+
 void RigidObj :: UpdateCustomBVH()
 {
     if (!FL_customBVH || !BVHierarchy.Figure) return;
@@ -137,7 +137,7 @@ void RigidObj :: UpdateGeneratedBVH()
     BVHierarchy.invalidateTransformation();
 
     xModelInstance &minstance = ModelPh_Get().instance;
-    
+
     for (int i = minstance.I_elements-1; i >= 0 ; --i)
     {
         MeshData[i].MX_Bones = minstance.MX_bones;
@@ -145,13 +145,13 @@ void RigidObj :: UpdateGeneratedBVH()
         MeshData[i].Transform(MX_LocalToWorld_Get());
     }
 
-    ModelPh_Get().xModel->ReFillBVH(BVHierarchy, MeshData, MX_LocalToWorld_Get());
+    ModelPh_Get().xModelP->ReFillBVH(BVHierarchy, MeshData, MX_LocalToWorld_Get());
 
     S_radius      = ((xSphere*)BVHierarchy.GetTransformed())->S_radius;
     P_center_Trfm = BVHierarchy.GetTransformed()->P_center;
     P_center      = MX_WorldToLocal.preTransformP(P_center_Trfm);
 }
-    
+
 void RigidObj :: VerticesChanged(bool init, bool free)
 {
     if (free)
@@ -170,8 +170,8 @@ void RigidObj :: VerticesChanged(bool init, bool free)
     if (!init)
         InvalidateShadowData();
 
-    xBoneCalculateMatrices (ModelGr->xModel->Spine, ModelGr->instance);
-    xBoneCalculateQuats    (ModelGr->xModel->Spine, ModelGr->instance);
+    xBoneCalculateMatrices (ModelGr->xModelP->Spine, ModelGr->instance);
+    xBoneCalculateQuats    (ModelGr->xModelP->Spine, ModelGr->instance);
     if (ModelPh)
     {
         ModelPh->instance.MX_bones    = ModelGr->instance.MX_bones;
@@ -181,9 +181,9 @@ void RigidObj :: VerticesChanged(bool init, bool free)
     }
 
     // bounds used for rendering
-    if (ModelGr->xModel->Spine.I_bones) xModel_SkinElementInstance(*ModelGr->xModel, ModelGr->instance);
-    xModel_GetBounds(*ModelGr->xModel, ModelGr->instance);
-    
+    if (ModelGr->xModelP->Spine.I_bones) xModel_SkinElementInstance(*ModelGr->xModelP, ModelGr->instance);
+    xModel_GetBounds(*ModelGr->xModelP, ModelGr->instance);
+
     if (FL_customBVH)
         UpdateCustomBVH();
     else
@@ -192,8 +192,8 @@ void RigidObj :: VerticesChanged(bool init, bool free)
 
 void RigidObj :: CalculateSkeleton()
 {
-    if (!ModelGr->xModel->Spine.I_bones) return;
-    if (ModelGr->xModel->Spine.I_bones != ModelGr->instance.I_bones)
+    if (!ModelGr->xModelP->Spine.I_bones) return;
+    if (ModelGr->xModelP->Spine.I_bones != ModelGr->instance.I_bones)
     {
         if (!ModelGr->instance.I_bones) // skeleton has been added, so refresh VBO data
         {
@@ -207,9 +207,9 @@ void RigidObj :: CalculateSkeleton()
     FL_renderNeedsUpdateBones = true;
 }
 
-    
-    
-    
+
+
+
 void RigidObj :: GetShadowProjectionMatrix(xLight* light, xMatrix &mtxBlockerToLight, xMatrix &mtxReceiverUVMatrix, xWORD width)
 {
     xVector3 centerOfTheMassG = (xVector4::Create(P_center, 1.f)*MX_LocalToWorld_Get()).vector3;
@@ -234,9 +234,9 @@ void RigidObj :: GetShadowProjectionMatrix(xLight* light, xMatrix &mtxBlockerToL
     MX_WorldToView.postTranslate(-light->position).transpose();
 
     xModelInstance &instance =  ModelPh_Get().instance;
-    xModel         &model    = *ModelPh_Get().xModel;
+    xModel         &model    = *ModelPh_Get().xModelP;
     xMatrix MX_LocalToView = MX_LocalToWorld_Get() * MX_WorldToView;
-    
+
     // Find the horizontal and vertical angular spreads to find out FOV and aspect ratio
     float RxMax = 0.f, RyMax = 0.f;
     for (int ie = 0; ie < instance.I_elements; ++ie)
@@ -303,7 +303,7 @@ void RigidObj :: GetShadowProjectionMatrix(xLight* light, xMatrix &mtxBlockerToL
     mtxBlockerToLight.row2.init(0.f, 0.f, (ZFar+ZNear)/(ZNear-ZFar), -1.f);
     mtxBlockerToLight.row3.init(0.f, 0.f, 2.f*ZFar*ZNear/(ZNear-ZFar), 0.f);
     mtxBlockerToLight.preMultiply(MX_LocalToView);
-    
+
     // Projection matrix for computing UVs on the receiver object
     mtxReceiverUVMatrix.row0.init(XProj*0.5f, 0.f, 0.f, 0.f);
     mtxReceiverUVMatrix.row1.init(0.f, YProj*0.5f, 0.f, 0.f);

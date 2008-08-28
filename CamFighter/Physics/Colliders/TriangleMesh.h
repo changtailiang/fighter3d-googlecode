@@ -49,7 +49,7 @@ xDWORD CollideTriangleMesh (const xPoint3 &P_A, const xPoint3 &P_B, const xPoint
                                               ms2.MeshData->GetVertexTransf(Face[0]),
                                               ms2.MeshData->GetVertexTransf(Face[1]),
                                               ms2.MeshData->GetVertexTransf(Face[2]),
-                                              body1, body2, 
+                                              body1, body2,
                                               figure1, ID_tri_1, ms2, *L_FaceIndex_Itr, cset);
         }
     else
@@ -60,7 +60,7 @@ xDWORD CollideTriangleMesh (const xPoint3 &P_A, const xPoint3 &P_B, const xPoint
                                               ms2.MeshData->GetVertex(Face[0]),
                                               ms2.MeshData->GetVertex(Face[1]),
                                               ms2.MeshData->GetVertex(Face[2]),
-                                              body1, body2, 
+                                              body1, body2,
                                               figure1, ID_tri_1, ms2, *L_FaceIndex_Itr, cset);
         }
     return I_cols;

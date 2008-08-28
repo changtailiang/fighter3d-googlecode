@@ -65,7 +65,7 @@ namespace Math { namespace Figures {
         {
             return MX_RawToWorld;
         }
-        
+
         xBYTE         I_items;
         xBVHierarchy *L_items;
 
@@ -98,7 +98,7 @@ namespace Math { namespace Figures {
                 FigureTransformed->free(true);
                 delete FigureTransformed;
                 FigureTransformed = NULL;
-                
+
                 if (I_items)
                 {
                     xBVHierarchy *iter = L_items;
@@ -178,7 +178,7 @@ namespace Math { namespace Figures {
 
         void remove (xBYTE I_idx)
         {
-            if (I_idx < 0 || I_idx >= I_items) return;
+            if (I_idx >= I_items) return;
 
             L_items[I_idx].free();
 
@@ -215,14 +215,14 @@ namespace Math { namespace Figures {
         xBoxA childBounds()
         {
             xBoxA box;
-            
+
             if (I_items)
             {
                 xIFigure3d *figure = L_items[0].FL_RawToLocal_Get()
                     ? L_items[0].GetTransformed()
                     : L_items[0].Figure;
                 figure->P_MinMax_Get(box.P_min, box.P_max);
-                
+
                 xPoint3 P_min, P_max;
                 for (int i = 1; i < I_items; ++i)
                 {
@@ -230,7 +230,7 @@ namespace Math { namespace Figures {
                         ? L_items[i].GetTransformed()
                         : L_items[i].Figure;
                     figure->P_MinMax_Get(P_min, P_max);
-                    
+
                     if (P_min.x < box.P_min.x) { box.P_min.x = P_min.x; }
                     if (P_max.x > box.P_max.x) { box.P_max.x = P_max.x; }
                     if (P_min.y < box.P_min.y) { box.P_min.y = P_min.y; }
@@ -250,18 +250,18 @@ namespace Math { namespace Figures {
         xBoxA childBounds(const xMatrix &matrix)
         {
             xBoxA box;
-            
+
             if (I_items)
             {
                 xIFigure3d *figure = L_items[0].GetTransformed(matrix);
                 figure->P_MinMax_Get(box.P_min, box.P_max);
-                
+
                 xPoint3 P_min, P_max;
                 for (int i = 1; i < I_items; ++i)
                 {
                     figure = L_items[i].GetTransformed(matrix);
                     figure->P_MinMax_Get(P_min, P_max);
-                    
+
                     if (P_min.x < box.P_min.x) { box.P_min.x = P_min.x; }
                     if (P_max.x > box.P_max.x) { box.P_max.x = P_max.x; }
                     if (P_min.y < box.P_min.y) { box.P_min.y = P_min.y; }

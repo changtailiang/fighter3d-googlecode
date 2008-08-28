@@ -42,7 +42,7 @@ void RenderElementDiffuseLST(bool transparent, const Math::Cameras::FieldOfView 
 
     if (!listID)
     {
-        elem->renderData.mode = xGPURender::LIST;
+        mode = xGPURender::LIST;
         glNewList(listID = glGenLists(1), GL_COMPILE);
 
         if (elem->FL_skeletized) {
@@ -83,7 +83,7 @@ void RenderElementDiffuseLST(bool transparent, const Math::Cameras::FieldOfView 
         if (!textured && elem->renderData.L_normals) glDisableClientState(GL_NORMAL_ARRAY);
         if (!textured && elem->FL_skeletized)
             g_AnimSkeletal.EndAnimation();
-        
+
         glEndList();
     }
 
@@ -119,7 +119,7 @@ void RenderElementDiffuseLST(bool transparent, const Math::Cameras::FieldOfView 
         if (elem->renderData.L_normals) glDisableClientState(GL_NORMAL_ARRAY);
         if (elem->FL_skeletized)
             g_AnimSkeletal.EndAnimation();
-        
+
         glEndList();
     }
 
@@ -141,7 +141,7 @@ void RenderElementDiffuseLST(bool transparent, const Math::Cameras::FieldOfView 
         }
         glPopMatrix();
     }
-    
+
     GLShader::EnableSkeleton(xState_Off);
 }
 

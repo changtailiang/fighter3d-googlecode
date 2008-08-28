@@ -13,16 +13,16 @@
 struct ModelInstance
 {
     HModel         hModel;
-    xModel        *xModel;
+    xModel        *xModelP;
     xModelInstance instance;
 
     ModelInstance(HModel hModel)
     {
         this->hModel = hModel;
-        xModel = g_ModelMgr.GetModel(hModel)->model;
+        xModelP = g_ModelMgr.GetModel(hModel)->model;
         instance.Zero();
-        instance.I_elements = xModel->I_elements;
-        instance.L_elements = new xElementInstance[xModel->I_elements];
+        instance.I_elements = xModelP->I_elements;
+        instance.L_elements = new xElementInstance[xModelP->I_elements];
         instance.ZeroElements();
     }
 
@@ -30,7 +30,7 @@ struct ModelInstance
     { g_ModelMgr.DeleteModel(hModel); instance.Clear(); }
 
     void Update()
-    { xModel = g_ModelMgr.GetModel(hModel)->model; }
+    { xModelP = g_ModelMgr.GetModel(hModel)->model; }
 
     int GetReferences()
     { return g_ModelMgr.GetModel(hModel)->m_References; }
@@ -44,10 +44,10 @@ public:
 
     bool FL_renderNeedsUpdate;
     bool FL_renderNeedsUpdateBones;
-    
+
     VConstraintCollisionVector  collisionConstraints;
     Math::Figures::xMeshData   *MeshData;
-    
+
     xMatrix        MX_WorldToLocal;
 
 protected:
@@ -58,10 +58,10 @@ public:
     virtual void ApplyDefaults();
     virtual void Initialize ();
     virtual void Finalize   ();
-    
+
     virtual void Initialize (const char *gr_filename, const char *ph_filename = NULL);
     /********* LIFETIME : END *********/
-    
+
     /******** PHYSICS : BEGIN ********/
 public:
     void UpdateMatrices()

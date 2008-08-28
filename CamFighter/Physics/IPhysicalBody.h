@@ -7,7 +7,7 @@
 #include "Colliders/CollisionInfo.h"
 #include <vector>
 
-namespace Physics { 
+namespace Physics {
     using namespace Math::Figures;
     using namespace Math::Tracking;
     using namespace Physics::Colliders;
@@ -18,7 +18,7 @@ namespace Physics {
         bool         FL_defaults_applied;
         bool         FL_initialized;
         bool         FL_modified;
-        
+
     protected:
         bool         IsDefaultsApplied() const { return FL_defaults_applied; }
         bool         IsInitialized()     const { return FL_initialized; }
@@ -44,7 +44,7 @@ namespace Physics {
         virtual void     Stop() = 0;
 
         virtual xFLOAT   GetMass() const = 0;
-        
+
         virtual xVector3 GetVelocity() const = 0;
         virtual xVector3 GetVelocity(const CollisionPoint &CP_point) const = 0;
 
@@ -58,11 +58,11 @@ namespace Physics {
         virtual void     ApplyForce(const xVector3 &NW_force, xFLOAT T_time) = 0;
         virtual void     ApplyForce(const xVector3 &NW_force, xFLOAT T_time, const CollisionPoint &CP_point) = 0;
 
-        IPhysicalBody() : FL_initialized(false), FL_defaults_applied(false) { BVHierarchy.zero(); }
+        IPhysicalBody() : FL_defaults_applied(false), FL_initialized(false) { BVHierarchy.zero(); }
 
         virtual void     ApplyDefaults() {
             FL_defaults_applied = true;
-            FL_stationary       = false; 
+            FL_stationary       = false;
             FL_phantom          = false;
             FL_physical         = true;
             FL_modified         = true;

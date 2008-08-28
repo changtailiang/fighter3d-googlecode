@@ -63,7 +63,7 @@ bool SceneTest::Initialize(int left, int top, unsigned int width, unsigned int h
         figures[9].push_back(&pf_mesh2);
 
         Camera.Init(0.0f, 5.0f, 2.2f, 0.0f, 0.0f, 2.2f, 0.0f, 0.0f, 1.0f);
-        
+
         DefaultCamera = &Camera;
         InitObjects();
         Config::TestCase = 0;
@@ -152,7 +152,7 @@ void SceneTest::InitObjects()
 
         mesh1.MeshData = new xMeshData();
         mesh1.MeshData->MX_MeshToLocal.identity();
-        
+
         xPoint3 *P_vertices = new xPoint3[4];
         P_vertices[0].init(-3,-5,2);
         P_vertices[1].init(-3,-2,1);
@@ -201,7 +201,7 @@ void SceneTest::InitObjects()
 
         mesh2.MeshData = new xMeshData();
         mesh2.MeshData->MX_MeshToLocal.identity();
-        
+
         xPoint3 *P_vertices = new xPoint3[4];
         P_vertices[0].init(3,-3,2);
         P_vertices[1].init(5,-2,1);
@@ -323,8 +323,8 @@ void SceneTest::Terminate()
     Scene::Terminate();
 }
 
-    
-bool SceneTest :: ShellCommand (std::string &cmd, std::string &output) 
+
+bool SceneTest :: ShellCommand (std::string &cmd, std::string &output)
 {
     if (cmd == "?" || cmd == "help")
     {
@@ -362,7 +362,7 @@ bool SceneTest :: ShellCommand (std::string &cmd, std::string &output)
 bool SceneTest::FrameUpdate(float deltaTime)
 {
     InputMgr &im = g_InputMgr;
-    
+
     if (im.GetInputStateAndClear(IC_Reject))
     {
         g_Application.MainWindow().Terminate();
@@ -509,7 +509,7 @@ bool SceneTest::FrameUpdate(float deltaTime)
         {
             selected = Select(g_InputMgr.mouseX, g_InputMgr.mouseY);
 
-            if (selected != -1)
+            if (selected != xDWORD_MAX)
             {
                 FL_mouse_down = true;
                 Physics::PhysicalFigure &p_figure = *(Physics::PhysicalFigure*)figures[Config::TestCase][selected];
@@ -560,7 +560,7 @@ bool SceneTest::FrameUpdate(float deltaTime)
                         selectedSub = 3;
                         P_prevMouse = P_mouse2;
                     }
-                    
+
                     P_topCap = object_T.P_center + object_T.S_side * object_T.N_side;
                     P_mouse2 = DefaultCamera->FOV.Get3dPos(g_InputMgr.mouseX, Height-g_InputMgr.mouseY, P_topCap);
                     S_dist2  = (P_mouse2 - P_topCap).lengthSqr();
@@ -588,11 +588,11 @@ bool SceneTest::FrameUpdate(float deltaTime)
         figures[Config::TestCase][0]->FrameUpdate(0);
         figures[Config::TestCase][1]->FrameUpdate(0);
     }
-    
+
     T_total += deltaTime;
     if (!FL_mouse_down && !FL_pause && deltaTime*Config::Speed < 2.f)
         Physics::PhysicalWorld().Interact(deltaTime*Config::Speed, figures[Config::TestCase]);
-    
+
     if (!im.GetInputState(IC_LClick) && FL_mouse_down)
     {
         FL_mouse_down = false;
@@ -638,7 +638,7 @@ bool SceneTest::FrameUpdate(float deltaTime)
 
 
 
-    
+
 bool SceneTest::FrameRender()
 {
     glDisable (GL_LINE_SMOOTH);
@@ -652,7 +652,7 @@ bool SceneTest::FrameRender()
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     glShadeModel(GL_SMOOTH);
     glDisable(GL_DEPTH_TEST);
-    
+
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glDepthMask(1);
     glColorMask(1,1,1,1);
@@ -661,12 +661,12 @@ bool SceneTest::FrameRender()
     ::Physics::Colliders::CollisionSet cset;
     RendererGL renderer;
 
-    for (int i = 0; i < 2; ++i)
+    for (xDWORD i = 0; i < 2; ++i)
     {
         if (i == selected)
             glColor3f(1.f, 1.f, 0.f);
         else
-        if (selected != -1 && FigureCollider().Collide( NULL, NULL,
+        if (selected != xDWORD_MAX && FigureCollider().Collide( NULL, NULL,
                                                         figures[Config::TestCase][0]->BVHierarchy.GetTransformed(),
                                                         figures[Config::TestCase][1]->BVHierarchy.GetTransformed(), cset) )
             glColor3f(1.f, 0.f, 0.f);
@@ -721,7 +721,7 @@ bool SceneTest::FrameRender()
     //glFinish();
     return true;
 }
-    
+
 ////// ISelectionProvider
 
 void SceneTest :: RenderSelect(const Math::Cameras::FieldOfView &FOV)
@@ -736,7 +736,7 @@ void SceneTest :: RenderSelect(const Math::Cameras::FieldOfView &FOV)
 xDWORD SceneTest :: Select(int X, int Y)
 {
     std::vector<xDWORD> *objectIDs = ISelectionProvider::Select(*DefaultCamera, X, Y);
-    if (objectIDs == NULL) return -1;
+    if (objectIDs == NULL) return xDWORD_MAX;
     xDWORD res = objectIDs->back();
     delete objectIDs;
     return res;

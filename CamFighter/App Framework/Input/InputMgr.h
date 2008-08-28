@@ -21,7 +21,7 @@ class InputMgr : public Singleton<InputMgr>
     TInputMap*  _InputMap;
     TScenesMap  _ScenesMap;
     bool        _KeysState[IC_LAST_CODE+1];
-    
+
 public:
     std::string Buffer;
 
@@ -53,7 +53,7 @@ public:
         return state;
     }
 
-    void SetScene(char *scene)
+    void SetScene(const char *scene)
     {
         _InputMap = &_ScenesMap[scene];
         memset(_KeysState, 0, IC_LAST_CODE+1);
@@ -94,29 +94,29 @@ public:
         _ScenesMap.clear();
         _KeyCodeMap.clear();
     }
-    void LoadMap(char *fileName);
-    void SaveMap(char *fileName);
+    void LoadMap(const char *fileName);
+    void SaveMap(const char *fileName);
 
     std::string GetKeyName(int keyCode)
     {
         std::map<int, std::string>::iterator iter = _KeyCodeMap.find(keyCode);
         if (iter != _KeyCodeMap.end())
             return iter->second;
-        
+
         std::string res;
         res += keyCode;
         res += '\0';
         return res;
     }
-    void LoadKeyCodeMap(char *fileName);
+    void LoadKeyCodeMap(const char *fileName);
 
     InputMgr()
     {
         enable = true;
         _InputMap = NULL;
         Buffer.reserve(BUFFER_LENGTH);
-        LoadMap("Data\\keyboard.txt");
-        LoadKeyCodeMap("Data\\keys.txt");
+        LoadMap("Data/keyboard.txt");
+        LoadKeyCodeMap("Data/keys.txt");
     }
 };
 

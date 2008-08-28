@@ -78,7 +78,7 @@ bool SceneGame :: InitWorld()
 
     Cameras.Free();
     InitCameras();
-    
+
     world.InitialUpdate();
 
     return true;
@@ -96,7 +96,7 @@ void SceneGame :: InitCameras()
     if (Cameras.L_cameras.size() == 0)
     {
         Cameras.Load("Data/cameras.txt");
-     
+
         if (Cameras.L_cameras.size() == 0)
         {
             Cameras.L_cameras.push_back( new Math::Cameras::CameraFree() );
@@ -177,7 +177,7 @@ void SceneGame :: InitInputMgr()
 
     im.SetInputCodeIfKeyIsFree(VK_F11, IC_FullScreen);
 }
-    
+
 bool SceneGame :: Invalidate()
 {
     Vec_xLight::iterator LT_curr = world.lights.begin(),
@@ -189,7 +189,7 @@ bool SceneGame :: Invalidate()
     renderer.Invalidate(world);
     return true;
 }
-    
+
 void SceneGame :: Terminate()
 {
     DefaultCamera = NULL;
@@ -199,9 +199,9 @@ void SceneGame :: Terminate()
 
     Cameras.Free();
 }
-    
 
-bool SceneGame :: ShellCommand (std::string &cmd, std::string &output) 
+
+bool SceneGame :: ShellCommand (std::string &cmd, std::string &output)
 {
     if (cmd == "?" || cmd == "help")
     {
@@ -298,7 +298,7 @@ bool SceneGame :: ShellCommand (std::string &cmd, std::string &output)
 bool SceneGame :: FrameUpdate(float deltaTime)
 {
     InputMgr &im = g_InputMgr;
-    
+
     if (im.GetInputStateAndClear(IC_Reject))
     {
         g_Application.MainWindow().Terminate();
@@ -370,19 +370,19 @@ bool SceneGame :: FrameUpdate(float deltaTime)
         if (obj)
             if (obj->ModelPh)
                 g_Application.SetCurrentScene(new SceneSkeleton(this,
-                    obj->ModelGr->xModel->FileName, obj->ModelPh->xModel->FileName), false);
+                    obj->ModelGr->xModelP->FileName, obj->ModelPh->xModelP->FileName), false);
             else
                 g_Application.SetCurrentScene(new SceneSkeleton(this,
-                    obj->ModelGr->xModel->FileName, NULL), false);
+                    obj->ModelGr->xModelP->FileName, NULL), false);
         return true;
     }
 
     world.FrameUpdate(deltaTime);
     Cameras.Update(deltaTime);
-    
+
     return true;
 }
-    
+
 bool SceneGame :: FrameRender()
 {
     world.FrameRender();
@@ -464,7 +464,7 @@ bool SceneGame :: FrameRender()
     glFlush(); //glFinish();
     return true;
 }
-    
+
 ////// ISelectionProvider
 
 void SceneGame :: RenderSelect(const Math::Cameras::FieldOfView &FOV)
@@ -475,7 +475,7 @@ void SceneGame :: RenderSelect(const Math::Cameras::FieldOfView &FOV)
     for ( ; iter != end ; ++iter ) {
         glLoadName(++objectID);
         RigidObj &mdl = *(RigidObj*)*iter;
-        renderer.RenderVertices(*mdl.ModelGr->xModel, mdl.ModelGr->instance, Renderer::smModel);
+        renderer.RenderVertices(*mdl.ModelGr->xModelP, mdl.ModelGr->instance, Renderer::smModel);
     }
 }
 RigidObj *SceneGame :: Select(int X, int Y)

@@ -26,7 +26,7 @@ void SkeletizedObj :: Initialize ()
     T_verlet_Max = 0.f; // 0.002f;
 	postHit = 0.f;
 
-    I_bones =  ModelGr->xModel->Spine.I_bones;
+    I_bones =  ModelGr->xModelP->Spine.I_bones;
     if (NW_VerletVelocity)
     {
         delete[] NW_VerletVelocity;
@@ -55,7 +55,7 @@ void SkeletizedObj :: Initialize (const char *gr_filename, const char *ph_filena
 void SkeletizedObj :: Finalize ()
 {
     RigidObj::Finalize();
-    
+
     DestroyVerletSystem();
     delete[] QT_verlet;
 
@@ -72,10 +72,10 @@ void SkeletizedObj :: Finalize ()
 }
 
 
-    
+
 void SkeletizedObj :: CreateVerletSystem()
 {
-    xModel &model = *ModelGr->xModel;
+    xModel &model = *ModelGr->xModelP;
     verletSystem.Free();
     verletSystem.Init(model.Spine.I_bones);
     verletSystem.C_collisions = &collisionConstraints;
@@ -117,7 +117,7 @@ void SkeletizedObj :: DestroyVerletSystem()
 
 void SkeletizedObj :: UpdateVerletSystem()
 {
-    xModel      &model   = *ModelGr->xModel;
+    xModel      &model   = *ModelGr->xModelP;
     xBone       *bone    = model.Spine.L_bones;
     xPoint3     *P_old   = verletSystem.P_current;
     xQuaternion *QT_skew = verletSystem.QT_boneSkew;
@@ -129,7 +129,7 @@ void SkeletizedObj :: UpdateVerletSystem()
         *QT_skew = bone->getSkew(*QT_bone);
     }
 }
-    
+
 xVector3 SkeletizedObj :: GetVelocity(const Physics::Colliders::CollisionPoint &CP_point) const
 {
     if (CP_point.Figure && CP_point.Figure->Type == xIFigure3d::Mesh)
@@ -162,7 +162,7 @@ void SkeletizedObj :: ApplyAcceleration(const xVector3 &NW_accel, xFLOAT T_time,
             NW_VerletVelocity_new[CP_point.W_Bones[i].I_bone] += CP_point.W_Bones[i].W_bone * NW_vel;
     }
 }
-    
+
 void SkeletizedObj :: FrameStart()
 {
     RigidObj::FrameStart();
@@ -184,7 +184,7 @@ xVector3 SkeletizedObj :: MergeCollisions()
     xDWORD   I_MinZ = 0;
     xFLOAT   S_minLen = xFLOAT_HUGE_POSITIVE;
     xFLOAT   S_maxLen = xFLOAT_HUGE_NEGATIVE;
-    
+
     xVector3 NW_fix; NW_fix.zero();
     xVector3 V_reaction; V_reaction.zero();
     xVector3 V_action;   V_action.zero();
@@ -201,7 +201,7 @@ xVector3 SkeletizedObj :: MergeCollisions()
         V_reaction += iter_cur->V_reaction;
         if (iter_cur->Offender && iter_cur->Offender->Type == AI::ObjectType::Human)
             Offender = ((SkeletizedObj*)iter_cur->Offender);
-        
+
         xVector3 NW_tmp = iter_cur->NW_fix;// * iter_cur->W_fix;
         NW_fix += NW_tmp;
         xFLOAT S_len = NW_tmp.lengthSqr();
@@ -281,7 +281,7 @@ xVector3 SkeletizedObj :: MergeCollisions()
 void SkeletizedObj :: FrameUpdate(float T_time)
 {
     float delta = GetTick();
-    
+
     //RigidObj::FrameUpdate(T_time);
 
     //////////////////////////////////////////////////////// Update Verlets
@@ -294,7 +294,7 @@ void SkeletizedObj :: FrameUpdate(float T_time)
             if (Collisions.size())
             {
                 xVector3 NW_dump; NW_dump.zero();
-                
+
                 std::vector<Physics::Colliders::CollisionPoint>::iterator
                             iter_cur, iter_end = Collisions.end();
 
@@ -370,7 +370,7 @@ void SkeletizedObj :: FrameUpdate(float T_time)
     MX_LocalToWorld_Set().postTranslateT(NW_translation);
     UpdateMatrices();
 
-    xSkeleton &spine = ModelGr->xModel->Spine;
+    xSkeleton &spine = ModelGr->xModelP->Spine;
     verletSystem.C_constraints = spine.C_constraints;
     verletSystem.I_constraints = spine.I_constraints;
     verletSystem.C_lengthConst = spine.C_boneLength;
@@ -428,19 +428,19 @@ void SkeletizedObj :: FrameUpdate(float T_time)
     spine.CalcQuats(verletSystem.P_current, verletSystem.QT_boneSkew,
         0, verletSystem.MX_WorldToModel_T, xVector3::Create(0.f,0.f,0.f));
     spine.QuatsToArray(QT_verlet);
-    
+
     if (postHit != 0.f)
         postHit = max(0.f, postHit-T_time);
     if (T_verlet != 0.f)
         T_verlet = max(0.f, T_verlet-T_time);
     W_verlet = (T_verlet <= 2.f) ? T_verlet * 0.5f : 1.f;
-    
+
     spine.L_bones->QT_rotation.zeroQ();
     QT_verlet[0].zeroQ();
 
     //////////////////////////////////////////////////////// Track enemy movement
 
-    if (FL_auto_movement && Tracker.Mode != ObjectTracker::TRACK_NOTHING &&
+    if (FL_auto_movement && Tracker.Mode != Math::Tracking::ObjectTracker::TRACK_NOTHING &&
         W_verlet == 0.f && T_time > 0.f)
     {
         xVector3 NW_aim = MX_LocalToWorld_Get().preTransformV(
@@ -457,7 +457,7 @@ void SkeletizedObj :: FrameUpdate(float T_time)
     bool FL_auto_movement_needed = comBoard.AutoAction != ComBoard::AutoHint::HINT_NONE;
 
     //////////////////////////////////////////////////////// Update Animation
-    
+
 	xQuaternion *bones = NULL;
 
     if (actions.L_actions.size())
@@ -494,13 +494,13 @@ void SkeletizedObj :: FrameUpdate(float T_time)
 
     if (bones)
     {
-        ModelGr->xModel->Spine.QuatsFromArray(bones);
+        ModelGr->xModelP->Spine.QuatsFromArray(bones);
         delete[] bones;
         CalculateSkeleton();
     }
     else
     {
-        ModelGr->xModel->Spine.QuatsFromArray(QT_verlet);
+        ModelGr->xModelP->Spine.QuatsFromArray(QT_verlet);
         CalculateSkeleton();
     }
 

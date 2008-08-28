@@ -104,7 +104,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                                  std::vector<xCollisionHierarchy> &cHierarchy);
 void CreateHierarchyFromVertices(const xElement                   &elem,
                                  xCollisionHierarchy              *baseHierarchy,
-                                 std::vector<std::vector<xWORD>>  &bVertices,
+                                 std::vector<std::vector<xWORD> > &bVertices,
                                  std::vector<xCollisionHierarchy> &cHierarchy);
 
 void xCollisionData :: Fill (xModel &xmodel, xElement &elem)
@@ -129,12 +129,12 @@ void xCollisionData :: Fill (xModel &xmodel, xElement &elem)
             this->L_kids->L_vertices = new xWORD[elem.I_vertices];
             this->L_kids->I_kids = 0;
             this->L_kids->L_kids = NULL;
-            
+
             xFace **iterHF = this->L_kids->L_faces;
             xFace  *iterF  = elem.L_faces;
             for (int i = elem.I_faces; i; --i, ++iterHF, ++iterF)
                 *iterHF = iterF;
-            
+
             xWORD *iterHV = this->L_kids->L_vertices;
             for (xWORD i = 0; i < elem.I_vertices; ++i, ++iterHV)
                 *iterHV = i;
@@ -155,7 +155,7 @@ void xCollisionData :: Fill (xModel &xmodel, xElement &elem)
             xFace **iterHF = hierarchy.L_faces    = new xFace*[elem.I_faces];
             xWORD  *iterHV = hierarchy.L_vertices = new xWORD[elem.I_vertices];
             xFace  *iterF  = elem.L_faces;
-            
+
             // copy all faces, and calculate maximal bounding box
             xFLOAT minV, maxV;
             xBoxA bounding;
@@ -193,7 +193,7 @@ void xCollisionData :: Fill (xModel &xmodel, xElement &elem)
             std::vector<xBoxA> cBoundings;
             cBoundings.resize(this->I_kids);
 
-            std::vector<std::vector<xWORD>> bVertices;
+            std::vector<std::vector<xWORD> > bVertices;
             bVertices.resize(this->I_kids);
 
             xBYTE *iterV = src;
@@ -229,7 +229,7 @@ void xCollisionData :: Fill (xModel &xmodel, xElement &elem)
 
             //CreateHierarchyFromVertices(elem, NULL, cBoundings, cHierarchy);
             CreateHierarchyFromVertices(elem, NULL, bVertices, cHierarchy);
-            
+
             for (size_t i = 0; i<cHierarchy.size(); ++i)
                 if (cHierarchy[i].I_faces > 20 && cHierarchy[i].I_kids == 0)
                 {
@@ -306,7 +306,7 @@ void xCollisionHierarchy :: Subdivide(const xElement &elem, float scale, int dep
             cHierarchy[i--] = *cHierarchy.rbegin();
             cHierarchy.resize(cHierarchy.size()-1);
         }
-    
+
     // return if no children
     if (cHierarchy.empty())
         return;
@@ -357,13 +357,13 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                 const xVector3 *vert1 = (xVector3*) &((xVertex*) (src + stride*(**iterF)[0]))->pos;
                 const xVector3 *vert2 = (xVector3*) &((xVertex*) (src + stride*(**iterF)[1]))->pos;
                 const xVector3 *vert3 = (xVector3*) &((xVertex*) (src + stride*(**iterF)[2]))->pos;
-                
+
                 if (bounding.Contains(*vert1) ||
                     bounding.Contains(*vert2) ||
                     bounding.Contains(*vert3))
                 {
                     cFaces[j].push_back(*iterF);
-                    
+
                     found = std::find<std::vector<xWORD>::iterator, xWORD>
                                         (cVerts[j].begin(), cVerts[j].end(), (**iterF)[0]);
                     if (found == cVerts[j].end()) cVerts[j].push_back((**iterF)[0]);
@@ -375,7 +375,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                     if (found == cVerts[j].end()) cVerts[j].push_back((**iterF)[2]);
                     break;
                 }
-            }   
+            }
     }
     else
     {
@@ -387,7 +387,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                 const xVector3 *vert1 = (xVector3*) &((xVertex*) (src + stride*(*iterF)[0]))->pos;
                 const xVector3 *vert2 = (xVector3*) &((xVertex*) (src + stride*(*iterF)[1]))->pos;
                 const xVector3 *vert3 = (xVector3*) &((xVertex*) (src + stride*(*iterF)[2]))->pos;
-                
+
                 if (bounding.Contains(*vert1) ||
                     bounding.Contains(*vert2) ||
                     bounding.Contains(*vert3))
@@ -416,7 +416,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
         hierarchy.L_kids = NULL;
         hierarchy.I_faces = cFaces[j].size();
         hierarchy.I_vertices = cVerts[j].size();
-        
+
         if (hierarchy.I_vertices)
         {
             xWORD *iterHV = hierarchy.L_vertices = new xWORD[hierarchy.I_vertices];
@@ -445,7 +445,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
 
 void CreateHierarchyFromVertices(const xElement                   &elem,
                                  xCollisionHierarchy              *baseHierarchy,
-                                 std::vector<std::vector<xWORD>>  &bVertices,
+                                 std::vector<std::vector<xWORD> > &bVertices,
                                  std::vector<xCollisionHierarchy> &cHierarchy)
 {
     std::vector<std::vector<xFace*> > cFaces;
@@ -453,9 +453,6 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
     std::vector<xWORD>::iterator     found;
     cFaces.resize(bVertices.size());
     cVerts.resize(bVertices.size());
-
-    xBYTE *src    = (xBYTE *) elem.L_vertices;
-    xDWORD stride = elem.GetVertexStride();
 
     if (baseHierarchy)
     {
@@ -471,11 +468,11 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                 if (found == bVertices[j].end())
                     std::find<std::vector<xWORD>::iterator, xWORD>
                                     (bVertices[j].begin(), bVertices[j].end(), (**iterF)[2]);
-                
+
                 if ( found != bVertices[j].end() )
                 {
                     cFaces[j].push_back(*iterF);
-                    
+
                     found = std::find<std::vector<xWORD>::iterator, xWORD>
                                         (cVerts[j].begin(), cVerts[j].end(), (**iterF)[0]);
                     if (found == cVerts[j].end()) cVerts[j].push_back((**iterF)[0]);
@@ -487,7 +484,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                     if (found == cVerts[j].end()) cVerts[j].push_back((**iterF)[2]);
                     break;
                 }
-            }   
+            }
     }
     else
     {
@@ -503,7 +500,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
                 if (found == bVertices[j].end())
                     std::find<std::vector<xWORD>::iterator, xWORD>
                                     (bVertices[j].begin(), bVertices[j].end(), (*iterF)[2]);
-                
+
                 if ( found != bVertices[j].end() )
                 {
                     cFaces[j].push_back(iterF);
@@ -530,7 +527,7 @@ void CreateHierarchyFromVertices(const xElement                   &elem,
         hierarchy.L_kids = NULL;
         hierarchy.I_faces = cFaces[j].size();
         hierarchy.I_vertices = cVerts[j].size();
-        
+
         if (hierarchy.I_vertices)
         {
             xWORD *iterHV = hierarchy.L_vertices = new xWORD[hierarchy.I_vertices];

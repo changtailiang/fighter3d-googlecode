@@ -29,7 +29,7 @@ bool TestCapsuleTriangle (const xCapsule &cp1, const xPoint3 &P_A,
         return false;
 
     xVector3 NW_CA = P_A - P_C;
-    
+
     if (AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[12].init(NW_CA)) ||
         AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[13].init(xVector3::CrossProduct(N_tri, spans[12].N_axis)) ) ||
         AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[14].init(xVector3::CrossProduct(cp1.N_top, spans[12].N_axis)) ) )
@@ -67,7 +67,7 @@ void HitPointsCapsuleTriangle(const xCapsule &cp2, const xPoint3 P_closest[3],
 {
     int I_touch = 0;
     xPoint3 P_min, P_max;
-    
+
     for (int I_A = 0; I_A < 2; ++I_A)
     {
         int I_B = (I_A + 1 % 3);
@@ -88,7 +88,7 @@ void HitPointsCapsuleTriangle(const xCapsule &cp2, const xPoint3 P_closest[3],
     }
     /*
     if (I_touch) return;
-    
+
     I_max = PPosition == POINT_NearEdge ? 2 : 4;
     for (int I_A = 0; I_A < I_max; ++I_A)
     {
@@ -128,7 +128,7 @@ xDWORD CollideCapsuleTriangle (const xCapsule &cp1, const xPoint3 &P_A,
         return false;
 
     xVector3 NW_CA = P_A - P_C;
-    
+
     if (AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[12].init(NW_CA)) ||
         AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[13].init(xVector3::CrossProduct(N_tri, spans[12].N_axis)) ) ||
         AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[14].init(xVector3::CrossProduct(cp1.N_top, spans[12].N_axis)) ) )
@@ -153,7 +153,7 @@ xDWORD CollideCapsuleTriangle (const xCapsule &cp1, const xPoint3 &P_A,
     if (AxisSpans::AxisNotOverlap(cp1, P_A, P_B, P_C, spans[15]))
         return false;
 
-    int I_bestSpan;
+    int I_bestSpan = 0;
     xVector3 NW_fix = AxisSpans::GetMinimalFix(spans, 16, I_bestSpan);
     if (I_bestSpan == 1)
         NW_fix.invert();
@@ -168,7 +168,7 @@ xDWORD CollideCapsuleTriangle (const xCapsule &cp1, const xPoint3 &P_A,
     HitPointsCapsuleTriangle(cp1, P_closest, P_hits, I_hits);
     for (int i = 0; i < I_hits; ++i)
         cset.Add(CollisionInfo(body1, body2, cp1, figure2, 0, ID_tri, NW_fix, P_hits[i], P_hits[i]+NW_fix));
-    
+
     //tr2.PointRelation(P_collision, xFLOAT_HUGE_POSITIVE, N_tri, P_closest, NW_closest, ID_edge);
     return I_hits;
 }

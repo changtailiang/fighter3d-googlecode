@@ -13,7 +13,7 @@ void World:: FrameUpdate(float T_delta)
     T_delta *= Config::Speed;
 
     bool FL_firstStep = true;
-    
+
     float T_step = TIME_STEP;
     while (T_delta > EPSILON)
     {
@@ -34,13 +34,13 @@ void World:: FrameUpdate(float T_delta)
             FrameEnd();
     }
 
-        
+
     Vec_xLight::iterator LT_curr = lights.begin(),
                          LT_last = lights.end();
     for (; LT_curr != LT_last ; ++LT_curr)
         LT_curr->update();
 }
-    
+
 void World:: Initialize()
 {
     g_CaptureInput.Finalize();
@@ -67,7 +67,7 @@ void World:: Finalize()
     objects.clear();
     lights.clear();
 }
-    
+
 void World:: Load(const char *mapFileName)
 {
     std::ifstream in;
@@ -317,7 +317,7 @@ void World:: Load(const char *mapFileName)
                 {
                     char name[255];
                     sscanf(buffer+7, "%s", name);
-                    
+
                     if (StartsWith(name, "camera"))
                         camera_controled = (SkeletizedObj*)model;
                     else
@@ -449,7 +449,7 @@ void World:: Load(const char *mapFileName)
         if (camera_controled)
         {
             g_CaptureInput.Finalize();
-            bool captureOK = g_CaptureInput.Initialize(camera_controled->ModelGr_Get().xModel->Spine);
+            bool captureOK = g_CaptureInput.Initialize(camera_controled->ModelGr_Get().xModelP->Spine);
             camera_controled->ControlType = (captureOK)
                 ? SkeletizedObj::Control_CaptureInput
                 : SkeletizedObj::Control_ComBoardInput;
@@ -458,7 +458,7 @@ void World:: Load(const char *mapFileName)
         if (network_controled)
         {
             g_NetworkInput.Finalize();
-            bool networkOK = g_NetworkInput.Initialize(model->ModelGr_Get().xModel->Spine);
+            bool networkOK = g_NetworkInput.Initialize(model->ModelGr_Get().xModelP->Spine);
             network_controled->ControlType = (networkOK)
                 ? SkeletizedObj::Control_NetworkInput
                 : SkeletizedObj::Control_AI;

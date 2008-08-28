@@ -39,9 +39,9 @@ public:
     SkeletizedObj ()
         : RigidObj()
         , ControlType(Control_AI)
-        , I_bones(0)
         , NW_VerletVelocity(NULL)
         , NW_VerletVelocity_new(NULL)
+        , I_bones(0)
     {}
 
     virtual void Stop()
@@ -56,7 +56,7 @@ public:
                 NW_VerletVelocity_total[i].zero();
             }
     }
-    
+
     virtual void ApplyDefaults();
     virtual void Initialize ();
     virtual void Finalize ();
@@ -89,7 +89,7 @@ public:
         }
         Modify();
     }
-    
+
     virtual void LocationChanged() {
         RigidObj::LocationChanged();
         // verlets
@@ -102,18 +102,18 @@ public:
 
     virtual Math::Tracking::TrackedObject &GetSubObject(xBYTE ID_sub)
     {
-        xBone  &bone = ModelGr->xModel->Spine.L_bones[ID_sub];
+        xBone  &bone = ModelGr->xModelP->Spine.L_bones[ID_sub];
         xMatrix MX_SubObjectToWorld;
         if (ModelGr->instance.MX_bones)
             MX_SubObjectToWorld = xMatrix::Transpose(ModelGr->instance.MX_bones[ID_sub]);
         else
             MX_SubObjectToWorld.identity();
-        
+
         LastTO = Math::Tracking::TrackedObject(
             MX_SubObjectToWorld, bone.P_end, bone.S_length * 0.5f);
         return LastTO;
     }
-    
+
 protected:
     virtual void CreateVerletSystem();
     virtual void DestroyVerletSystem();

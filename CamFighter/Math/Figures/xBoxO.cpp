@@ -5,7 +5,6 @@ using namespace Math::Figures;
 // 0 = inside, 1 = near face, 2 = near edge, 3 = near vertex
 PointPosition xBoxO :: PointRelation(const xVector3 &P_test, xVector3 &NW_closest) const
 {
-    xFLOAT   S_tmp, S_distance = 0.f;
     xVector3 P_center_rel = P_test - P_center;
     int      I_position   = POINT_Inside;
     NW_closest.zero();
@@ -36,11 +35,11 @@ PointPosition xBoxO :: PointRelation(const xVector3 &P_test, xVector3 &NW_closes
 PointPosition xBoxO :: PointsClosestToPlane(const xVector3 &NW_plane, xPoint3 P_points[4]) const
 {
     memset(P_points, 0, sizeof(xPoint3)*4);
-    
+
     bool first_perpendicular = true;
     int  I_position = POINT_Inside;
     xFLOAT FL_axis_dir[3];
-    
+
     for (int i = 0; i < 3; ++i)
     {
         FL_axis_dir[i] = Sign(xVector3::DotProduct(NW_plane, N_axis[i]));
@@ -92,6 +91,6 @@ PointPosition xBoxO :: PointsClosestToPlane(const xVector3 &NW_plane, xPoint3 P_
         P_points[2] += P_center;
         P_points[3] += P_center;
     }
-    
+
     return (PointPosition) I_position;
 }

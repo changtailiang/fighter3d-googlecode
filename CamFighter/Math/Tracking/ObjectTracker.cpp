@@ -50,7 +50,7 @@ void ObjectTracker :: UpdateDestination()
         return;
     }
 }
-    
+
 void ObjectTracker :: InterpolatePosition(xPoint3 &P_current,
                                           const xPoint3 &P_center,
                                           xFLOAT W_progress)

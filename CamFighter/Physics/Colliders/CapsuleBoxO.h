@@ -12,7 +12,7 @@ bool   TestCapsuleBoxO (const xCapsule &cp1, const xBoxO &bo2)
         AxisSpans::AxisNotOverlap(bo2, cp1, spans.init(bo2.N_axis[1]), 1) ||
         AxisSpans::AxisNotOverlap(bo2, cp1, spans.init(bo2.N_axis[2]), 2) ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans.init(cp1.N_top), 0)     ||
-        
+
         AxisSpans::AxisNotOverlap(cp1, bo2, spans.init(xVector3::CrossProduct(cp1.N_top, bo2.N_front)) ) ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans.init(xVector3::CrossProduct(cp1.N_top, bo2.N_side)) )  ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans.init(xVector3::CrossProduct(cp1.N_top, bo2.N_top)) ) )
@@ -38,12 +38,12 @@ bool   TestCapsuleBoxO (const xCapsule &cp1, const xBoxO &bo2)
 }
 
 void HitPointsCapsuleBoxO(const xCapsule &cp2,
-                          const xPoint3   P_closest[4], PointPosition PPosition, 
+                          const xPoint3   P_closest[4], PointPosition PPosition,
                           xPoint3         P_hits[8],    xBYTE &I_hits)
 {
     int I_touch = 0;
     xPoint3 P_min, P_max;
-    
+
     if (PPosition == POINT_NearCorner)
     {
         for (int I_A = 1; I_A < 4; ++I_A)
@@ -74,7 +74,7 @@ void HitPointsCapsuleBoxO(const xCapsule &cp2,
         if (SegmentCapsuleMinMax(P_closest[I_A], P_closest[I_B], cp2, P_min, P_max))
         {
             ++I_touch;
-        
+
             bool FL_found = false;
             for (int i = 0; i < I_hits; ++i)
                 if (P_min == P_hits[i]) { FL_found = true; break; }
@@ -89,7 +89,7 @@ void HitPointsCapsuleBoxO(const xCapsule &cp2,
     }
     /*
     if (I_touch) return;
-    
+
     I_max = PPosition == POINT_NearEdge ? 2 : 4;
     for (int I_A = 0; I_A < I_max; ++I_A)
     {
@@ -103,7 +103,7 @@ void HitPointsCapsuleBoxO(const xCapsule &cp2,
 }
 
 void HitPointsCapsuleBoxO(const xBoxO    &bo2,
-                          const xPoint3   P_closest[2], PointPosition PPosition, 
+                          const xPoint3   P_closest[2], PointPosition PPosition,
                           xPoint3         P_hits[8],    xBYTE &I_hits)
 {
     if (PPosition == POINT_NearCorner)
@@ -120,9 +120,8 @@ void HitPointsCapsuleBoxO(const xBoxO    &bo2,
         return;
     }
 
-    int I_touch = 0;
     xPoint3 P_min, P_max;
-    
+
     if (SegmentBoxOMinMax(P_closest[0], P_closest[1], bo2, P_min, P_max))
     {
         bool FL_found = false;
@@ -157,7 +156,7 @@ xDWORD CollideCapsuleBoxO(const xCapsule &cp1, const xBoxO &bo2,
         AxisSpans::AxisNotOverlap(bo2, cp1, spans[1].init(bo2.N_axis[1]), 1) ||
         AxisSpans::AxisNotOverlap(bo2, cp1, spans[2].init(bo2.N_axis[2]), 2) ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans[3].init(cp1.N_top), 0)     ||
-        
+
         AxisSpans::AxisNotOverlap(cp1, bo2, spans[4].init(xVector3::CrossProduct(cp1.N_top, bo2.N_front)) ) ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans[5].init(xVector3::CrossProduct(cp1.N_top, bo2.N_side)) )  ||
         AxisSpans::AxisNotOverlap(cp1, bo2, spans[6].init(xVector3::CrossProduct(cp1.N_top, bo2.N_top)) ) )
@@ -176,8 +175,8 @@ xDWORD CollideCapsuleBoxO(const xCapsule &cp1, const xBoxO &bo2,
     }
     if (!spans[7].wrong && AxisSpans::AxisNotOverlap(cp1, bo2, spans[7]))
         return false;
-    
-    int I_bestSpan;
+
+    int I_bestSpan = 0;
     xVector3 NW_fix = AxisSpans::GetMinimalFix(spans, 8, I_bestSpan);
     if (I_bestSpan >= 0 && I_bestSpan <= 2)
         NW_fix.invert();

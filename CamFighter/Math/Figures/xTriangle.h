@@ -61,7 +61,7 @@ namespace Math { namespace Figures {
             }
         }
 
-        
+
         virtual void ComputeSpan(const xVector3 &N_axis, xFLOAT &P_min, xFLOAT &P_max, int axis = -1) const
         {
             xTriangle::ComputeSpan(P_A, P_B, P_C, N_axis, P_min, P_max, axis);
@@ -217,7 +217,7 @@ namespace Math { namespace Figures {
             xVector3 NW_AB = P_B - P_A;
             xVector3 NW_AC = P_C - P_A;
             xVector3 NW_tri_normal = xVector3::CrossProduct(NW_AB, NW_AC);
-            
+
             // Should be on the right of the AB vector
             xVector3 NW_AP = P_test - P_A;
             xVector3 NW_side = xVector3::CrossProduct(NW_AB, NW_AP);
@@ -239,6 +239,7 @@ namespace Math { namespace Figures {
 
         // Based on http://www.peroxide.dk/papers/collision/collision.pdf
         // Some reference on http://www.blackpawn.com/texts/pointinpoly/default.html
+        /*
         #define INSIDE(a) ((xDWORD&) a)
         static bool PointInsideTheTriangleEx(const xPoint3& P_test,
                                              const xPoint3& P_A,const xPoint3& P_B, const xPoint3& P_C)
@@ -254,13 +255,14 @@ namespace Math { namespace Figures {
 
             xFLOAT W_D = xVector3::DotProduct(NW_C, NW_P);
             xFLOAT W_E = xVector3::DotProduct(NW_B, NW_P);
-            
+
             xFLOAT x = (W_D * W_B) - (W_E * W_A);
             xFLOAT y = (W_E * W_C) - (W_D * W_A);
             xFLOAT z = x + y - bc_aa;
 
             return (( INSIDE(z) & ~(INSIDE(x) | INSIDE(y)) ) & 0x80000000);
         }
+        */
     };
 
 } } // namespace Math.Figures

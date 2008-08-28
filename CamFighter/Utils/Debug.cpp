@@ -28,7 +28,7 @@ void log(int level, const char *fmt, ...)
     va_start(ap, fmt);                 // Parses The String For Variables
     vfprintf(log_file, fmt, ap);            // And Converts Symbols To Actual Numbers
     va_end(ap);                        // Results Are Stored In Text
-    
+
     fprintf(log_file, "\n");
 
     //fclose(log_file);
@@ -61,7 +61,7 @@ void logEx(int level, bool withtime, const char *fmt, ...)
     va_start(ap, fmt);                 // Parses The String For Variables
     vfprintf(log_file, fmt, ap);            // And Converts Symbols To Actual Numbers
     va_end(ap);                        // Results Are Stored In Text
-    
+
     fprintf(log_file, "\n");
 
     //fclose(log_file);
@@ -81,7 +81,7 @@ char *log_read()
     long size = ftell(log_file);
     char *buffer = new char[size+1];
     rewind(log_file);
-    
+
     size = fread(buffer, 1, size, log_file);
     buffer[size] = 0;
 
@@ -118,7 +118,7 @@ void log_clear()
     remove(Filesystem::GetFullPath("Data/log.txt").c_str());
 }
 
-bool _CheckForGLError(char *file, int line)
+bool _CheckForGLError(const char *file, int line)
 {
     int error;
     bool wasE = false;

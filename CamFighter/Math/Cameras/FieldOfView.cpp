@@ -2,7 +2,7 @@
 #include "Camera.h"
 
 using namespace Math::Cameras;
-    
+
 void FieldOfView :: InitPerspective( xFLOAT angleDeg, xFLOAT frontClip, xFLOAT backClip )
 {
     Empty      = false;
@@ -91,7 +91,7 @@ void FieldOfView :: InitViewport   ( xDWORD left, xDWORD top, xDWORD width, xDWO
 {
     if (windowWidth == 0)  windowWidth  = left + width;
     if (windowHeight == 0) windowHeight = top + height;
-        
+
     ViewportLeftPercent   = ((xFLOAT)left) / windowWidth;
     ViewportWidthPercent  = ((xFLOAT)width) / windowWidth;
     ViewportTopPercent    = ((xFLOAT)top) / windowHeight;
@@ -124,7 +124,7 @@ void FieldOfView :: ResizeViewport ( xDWORD windowWidth, xDWORD windowHeight )
     if (Projection == PROJECT_ORTHOGONAL)
         InitOrthogonal(FrontClip, BackClip);
 }
-    
+
 void FieldOfView :: Update()
 {
     const xMatrix &MX_ViewToWorld = camera->MX_ViewToWorld_Get();
@@ -159,7 +159,6 @@ void FieldOfView :: Update()
     }
     else
     {
-        xVector3 p0;
         Corners3D[0].init(-OrthoScale * Aspect, -OrthoScale, -FrontClip);
         Corners3D[1].init(-Corners3D[0].x,  Corners3D[0].y, -FrontClip);
         Corners3D[2].init(-Corners3D[0].x, -Corners3D[0].y, -FrontClip);
@@ -177,7 +176,7 @@ void FieldOfView :: Update()
         Planes[4].init(MX_ViewToWorld.preTransformV(xVector3::Create(0.f,1.f,0.f)), Corners3D[2]);
     }
 }
-    
+
 xPoint3 FieldOfView :: Get3dPos(xLONG ScreenX, xLONG ScreenY, xPoint3 P_onPlane)
 {
     if (!ViewportContains(ScreenX, ScreenY))
@@ -185,7 +184,7 @@ xPoint3 FieldOfView :: Get3dPos(xLONG ScreenX, xLONG ScreenY, xPoint3 P_onPlane)
 
     xFLOAT norm_x = 1.f - ScreenX / (ViewportWidth * 0.5f);
     xFLOAT norm_y = 1.f - ScreenY / (ViewportHeight * 0.5f);
-    
+
     // get ray of the mouse
     xVector3 N_ray;
     xPoint3  P_ray;
@@ -202,12 +201,12 @@ xPoint3 FieldOfView :: Get3dPos(xLONG ScreenX, xLONG ScreenY, xPoint3 P_onPlane)
         N_ray.init(0.f, 0.f, 0.1f);
     }
     N_ray = camera->MX_ViewToWorld_Get().preTransformV(N_ray);
-    
+
     // get plane of ray intersection
     xPlane PN_plane; PN_plane.init((camera->P_eye - camera->P_center).normalize(), P_onPlane);
     return PN_plane.intersectRay(P_ray, N_ray);
 }
-    
+
 bool FieldOfView :: CheckSphere(const xPoint3 &P_center, xFLOAT S_radius) const
 {
     if (Empty || S_radius == 0.f) return true;
@@ -215,7 +214,7 @@ bool FieldOfView :: CheckSphere(const xPoint3 &P_center, xFLOAT S_radius) const
     for (int ip = 0; ip < 5; ++ip)
         if (Planes[ip].distanceToPoint(P_center) > S_radius)
             return false;
-    
+
     return true;
 /*
     const xMatrix &MX_WorldToView = camera->MX_WorldToView_Get();
@@ -306,7 +305,7 @@ bool FieldOfView :: CheckBox(const xPoint3 P_corners[8]) const
             culled = Planes[ip].distanceToPoint(P_corners[iv]) > 0;
         if (culled) return false;
     }
-    
+
     return true;
 /*
     const xMatrix &MX_WorldToView = camera->MX_WorldToView_Get();

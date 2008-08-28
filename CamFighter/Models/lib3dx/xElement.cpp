@@ -21,7 +21,7 @@ xBYTE      xElement :: CountAll ()
         res += 1 + ( elem->L_kids ? elem->L_kids->CountAll() : 0);
     return res;
 }
-    
+
 void      xElement :: Free()
 {
     if (this->renderData.L_faces && this->renderData.L_faces != this->L_faces)
@@ -66,12 +66,11 @@ void      xElement :: Free()
 
     delete this;
 }
-    
+
 #include "xModel.h"
 
 void xElement :: FillCollisionInfo (xModel &xmodel)
 {
-    xElement *relem;
     for (xElement *elem = this; elem; elem = elem->Next)
     {
         elem->collisionData.Fill(xmodel, *elem);
@@ -79,7 +78,7 @@ void xElement :: FillCollisionInfo (xModel &xmodel)
             elem->L_kids->FillCollisionInfo(xmodel);
     }
 }
-    
+
 xElement *xElement :: Load (FILE *file, xModel *xmodel, bool FL_create_CollisionInfo)
 {
     xElement *elem = new xElement();
@@ -101,7 +100,7 @@ xElement *xElement :: Load (FILE *file, xModel *xmodel, bool FL_create_Collision
 
     memset(&(elem->renderData),    0, sizeof(elem->renderData));
     memset(&(elem->collisionData), 0, sizeof(elem->collisionData));
-        
+
     elem->L_vertices = NULL;
     elem->L_smooth   = NULL;
     elem->L_faces    = NULL;
@@ -170,7 +169,7 @@ xElement *xElement :: Load (FILE *file, xModel *xmodel, bool FL_create_Collision
             elem->Free();
             return NULL;
         }
-        
+
         xFaceList *faceL = elem->L_faceLists;
         for (int fL=elem->I_faceLists; fL; --fL, ++faceL)
         {
@@ -219,7 +218,7 @@ void      xElement :: Save(FILE *file, const xModel *xmodel)
     char *name = this->Name;
     if (this->Name)
         this->Name = (char *) strlen(name)+1;
-    
+
     fwrite(&this->ID,            sizeof(xBYTE), 1, file);
     fwrite(&this->Name,          sizeof(char*), 1, file);
     fwrite(&this->Color,         sizeof(xColor), 1, file);
@@ -265,7 +264,7 @@ void      xElement :: Save(FILE *file, const xModel *xmodel)
     if (xmodel->FL_save_cinfo)
         this->collisionData.Save(file, this);
 }
-    
+
 /////// SKIN VERTICES
 
 xSkinnedData xElement :: GetSkinnedVertices(const xMatrix *bones) const

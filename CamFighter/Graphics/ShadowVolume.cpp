@@ -31,7 +31,7 @@ namespace ShadowVolume
         xVector4  *extrVerticesP = shadowData.L_vertices + elem->I_vertices;
         xFaceList *iterL         = elem->L_faceLists;
         xWORD      maxOffset     = iterL->I_offset + iterL->I_count - 1;
-            
+
         if (infiniteL)
         {
             xVector3 lightDir = extrVerticesP->vector3;
@@ -94,7 +94,7 @@ namespace ShadowVolume
             }
         }
     }
-    
+
     xBYTE *buffer = NULL;
     xDWORD buffSize = 0;
 
@@ -110,14 +110,14 @@ namespace ShadowVolume
         if (shadowData.zDataLevel == xShadowData::ZFAIL_PASS)
             frontCapP = new xWORD3[elem->I_faces];
         xWORD3 *frontDest = frontCapP;
-        
+
         xEdge  *edgeIter = elem->L_edges;
         xEdge  *edgeEnd  = edgeIter + elem->I_edges;
 
         if (!infiniteL)
         {
             xWORD  backFirst = elem->I_vertices + edgeIter->ID_vert_1;
-            
+
             if (buffSize < elem->I_edges*sizeof(xWORD4))
             {
                 if (buffer) delete[] buffer;
@@ -127,7 +127,7 @@ namespace ShadowVolume
             xWORD4 *sideQadsP = (xWORD4*)buffer;
             xWORD4 *sideDest  = sideQadsP;
             xWORD3 *backCapP  = NULL;
-            
+
             if (shadowData.zDataLevel == xShadowData::ZFAIL_PASS)
                 if (optimizeBackCap)
                     backCapP = new xWORD3[elem->I_edges];

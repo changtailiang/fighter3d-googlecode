@@ -285,7 +285,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
 
     const xPoint3 *a1 = &P_a1, *a2 = &P_a2, *a3 = &P_a3;
     const xPoint3 *b1 = &P_b1, *b2 = &P_b2, *b3 = &P_b3;
-    
+
     const xPoint3 *swp;
     if (r > 0)
     {
@@ -429,7 +429,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
             }
         }
     }
-    
+
     if (r == 2) { swp = a1; a1 = a2; a2 = a3; a3 = swp; }
     else
     if (r == 3) { swp = a1; a1 = a3; a3 = a2; a2 = swp; }
@@ -469,7 +469,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
     if (!p2a) p2a = -1;
     if (!p1b) p1b = -1;
     if (!p2b) p2b = -1;
-    xPoint3 p, p1, p2;
+    xPoint3 p1, p2;
     bool    FL_p1_used = false;
 
     if (p1a*p2b < 0.f || p2a*p1b < 0.f)
@@ -504,7 +504,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
         X2 = p1y*p2z - p1z*p2y, Y2 = p1z*p2x - p1x*p2z, Z2 = p1x*p2y - p1y*p2x;
         W2 = -(b1->x*X2 + b1->y*Y2 + b1->z*Z2);
         W2 = a1->x * X2 + a1->y * Y2 + a1->z * Z2 + W2;
-        
+
         if (p1a*p1b < 0.f)
         {
             X1 = a2->x - a1->x; Y1 = a2->y - a1->y; Z1 = a2->z - a1->z;
@@ -530,7 +530,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
 
     xVector3 NW_velocity1 = body1->GetVelocity(cp1);
     xVector3 NW_velocity2 = body2->GetVelocity(cp2);
-    
+
     if (!NW_velocity1.isZero() || !NW_velocity2.isZero())
     {
         if (!NW_velocity1.isZero())
@@ -560,11 +560,11 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
 
         return 1;
     }
-    
+
     xVector3 N_fix_min;
     xFLOAT   S_minmax = xFLOAT_HUGE_POSITIVE;
     xFLOAT   S_a_min, S_b_min;
-    const xPoint3 *P_fix_min_a, *P_fix_min_b;
+    const xPoint3 *P_fix_min_a, *P_fix_min_b = NULL;
 
     xVector3 NW_12   = P_a2 - P_a1;
     xVector3 NW_23   = P_a3 - P_a2;
@@ -602,7 +602,7 @@ xDWORD CollideTriangleTriangle(const xPoint3 &P_a1, const xPoint3 &P_a2, const x
     NW_31 = P_b1 - P_b3;
     N_tri = xVector3::CrossProduct(NW_12, NW_23).normalize();
 
-    PN_tri; PN_tri.init(N_tri, P_b1);
+    PN_tri.init(N_tri, P_b1);
     S_1 = PN_tri.distanceToPoint(*a1);
     S_1a = fabs(S_1);
     S_2 = PN_tri.distanceToPoint(*a2);

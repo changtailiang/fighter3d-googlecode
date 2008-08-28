@@ -32,11 +32,11 @@ namespace Math { namespace Cameras {
         xFLOAT  BackClip;
         xMatrix MX_Projection;
 
-        xDWORD  ViewportLeft;
-        xDWORD  ViewportTop;
-        xDWORD  ViewportWidth;
-        xDWORD  ViewportHeight;
-        
+        xLONG   ViewportLeft;
+        xLONG   ViewportTop;
+        xLONG   ViewportWidth;
+        xLONG   ViewportHeight;
+
         xFLOAT  ViewportLeftPercent;
         xFLOAT  ViewportTopPercent;
         xFLOAT  ViewportWidthPercent;
@@ -46,7 +46,7 @@ namespace Math { namespace Cameras {
         xPlane  RightPlane;
         xPlane  TopPlane;
         xPlane  BottomPlane;
-        
+
         xPoint3 Corners3D[4];
         xPlane  Planes[5];
 
@@ -64,7 +64,7 @@ namespace Math { namespace Cameras {
         void InitPerspective( xFLOAT angle = 45.f, xFLOAT frontClip = 0.1f,
                               xFLOAT backClip = xFLOAT_HUGE_POSITIVE );
         void InitOrthogonal ( xFLOAT frontClip = 0.1f, xFLOAT backClip = 1000.f );
-        
+
         void Update();
 
         const xMatrix &MX_Projection_Get() const
@@ -81,7 +81,7 @@ namespace Math { namespace Cameras {
         bool CheckSphere(const xPoint3 &P_center, xFLOAT S_radius) const;
         bool CheckSphere(const Math::Figures::xSphere &sphere) const
         { return CheckSphere(sphere.P_center, sphere.S_radius); }
-        
+
         bool CheckBox(const xPoint3 P_corners[8]) const;
         bool CheckBox(Math::Figures::xBoxA &box, const xMatrix &MX_LocaltoWorld) const
         {
@@ -93,7 +93,7 @@ namespace Math { namespace Cameras {
             if (Empty || box.S_top == 0.f) return true;
             return CheckBox(box.P_corners);
         }
-        
+
         bool CheckPoints(const xPoint4 *P_points, xWORD I_count) const;
         bool CheckPoints(const xPoint3 *P_points, xWORD I_count) const;
     };

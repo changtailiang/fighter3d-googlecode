@@ -86,12 +86,12 @@ namespace Math { namespace Figures {
         virtual void Transform(const xMatrix  &MX_LocalToWorld);
 
         xMeshData()
-            : L_VertexData_Transf(NULL)
+            : MX_Bones(NULL)
+            , MX_BonesToWorld(NULL)
+            , L_BoneData(NULL)
+            , L_VertexData_Transf(NULL)
             , FL_VertexIsTransf(NULL)
             , FL_MeshIsTransf(false)
-            , L_BoneData(NULL)
-            , MX_Bones(NULL)
-            , MX_BonesToWorld(NULL)
         { MX_LocalToWorld.identity(); }
     };
 
@@ -133,10 +133,10 @@ namespace Math { namespace Figures {
 
             xFLOAT P_tmp;
             xDWORD *L_VertexIndex_Itr = L_VertexIndices;
-            
+
             P_min = P_max = xVector3::DotProduct(N_axis, MeshData->L_VertexData_Transf[*L_VertexIndex_Itr]);
             ++L_VertexIndex_Itr;
-            
+
             for (int i = I_VertexIndices-1; i; --i, ++L_VertexIndex_Itr)
             {
                 P_tmp = xVector3::DotProduct(N_axis, MeshData->L_VertexData_Transf[*L_VertexIndex_Itr]);
@@ -153,10 +153,10 @@ namespace Math { namespace Figures {
             assert ( MeshData->L_VertexData_Transf );
 
             xDWORD *L_VertexIndex_Itr = L_VertexIndices;
-            
+
             P_min = P_max = MeshData->L_VertexData_Transf[*L_VertexIndex_Itr];
             ++L_VertexIndex_Itr;
-            
+
             for (int i = I_VertexIndices-1; i; --i, ++L_VertexIndex_Itr)
             {
                 xPoint3 &P_a = MeshData->L_VertexData_Transf[*L_VertexIndex_Itr];

@@ -26,8 +26,8 @@ namespace Physics { namespace Colliders {
         static xVector3 GetMinimalFix(const AxisSpans *spans, int I_spans, int &I_bestSpan)
         {
             xFLOAT   W_dist_min = xFLOAT_HUGE_POSITIVE;
-            xFLOAT   S_dist_min;
-            
+            xFLOAT   S_dist_min = 0.f;
+
             for (int i=I_spans; i; --i, ++spans)
             {
                 if (spans->wrong) continue;
@@ -68,7 +68,7 @@ namespace Physics { namespace Colliders {
             return spans.P_min1 > spans.P_max2 + EPSILON2 || spans.P_max1 + EPSILON2 < spans.P_min2;
         }
 
-        static bool AxisNotOverlap(const xIFigure3d &figure1, const xPoint3 &P_A, 
+        static bool AxisNotOverlap(const xIFigure3d &figure1, const xPoint3 &P_A,
                                    const xPoint3 &P_B, const xPoint3 &P_C,
                                    AxisSpans &spans, int axis = -1)
         {

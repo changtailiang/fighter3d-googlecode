@@ -15,7 +15,6 @@ void RenderBoneCore ( const xBone &bone )
     xVector3 P_fifth  = bone.P_begin + NW_fifth;
     xVector3 P_third  = P_fifth + xVector3::Orthogonal(NW_fifth).normalize() * 0.1f;
 
-    float W_sin = sin(PI * 0.25f);
     xQuaternion QT_rot; QT_rot.init(NW_fifth.normalize() * sin(PI * 0.25f), cos(PI * 0.25f));
 
     W_bone[0] = bone.ID + 0.1f;
@@ -98,7 +97,7 @@ void RenderConstraintAngular(const xSkeleton &spine, const xMatrix *MX_bones,
     xVector3 P_rootB, P_rootE, P_current;
     P_rootB = MX_bones[boneRB.ID].postTransformP(boneRB.P_end);
     P_rootE = MX_bones[boneRE.ID].postTransformP(boneRE.P_end);
-    
+
     xVector3 N_front;
     xVector3 N_up = (bone.P_end - bone.P_begin).normalize();
     if (C_angular.particleRootE)
@@ -111,7 +110,7 @@ void RenderConstraintAngular(const xSkeleton &spine, const xMatrix *MX_bones,
         N_up    = QT_bones[boneRB.ID*2].rotate(N_up);
         N_front = QT_bones[boneRB.ID*2].rotate(bone.getFront());
     }
-    
+
     xMatrix MX_BoneToWorld = xMatrixFromVectors(N_front, N_up).transpose();
 
     glBegin(GL_LINES);
@@ -122,7 +121,7 @@ void RenderConstraintAngular(const xSkeleton &spine, const xMatrix *MX_bones,
         P_current = P_rootE + N_side * 0.1f;
         glVertex3fv(P_rootE.xyz);
         glVertex3fv(P_current.xyz);
-    
+
         // up axis - green
         glColor4f(0.0f,0.6f,0.0f,1.0f);
         P_current = P_rootE + N_up * 0.1f;
@@ -220,7 +219,7 @@ void RenderConstraint ( const xSkeleton &spine, const xMatrix *MX_bones, const x
 
     glPushAttrib(GL_LINE_BIT);
     glLineWidth(3.f);
-    
+
     VConstraint **C_iter = spine.C_constraints;
     VConstraint **C_end  = C_iter + spine.I_constraints;
     for (; C_iter != C_end; ++C_iter)
@@ -354,14 +353,14 @@ void RenderConstraintSelection ( const xSkeleton &spine, const xMatrix *MX_bones
 
     glPushAttrib(GL_LINE_BIT);
     glLineWidth(3.f);
-    
+
     VConstraint **C_iter = spine.C_constraints;
     VConstraint **C_end  = C_iter + spine.I_constraints;
     xBYTE id = 0;
     for (; C_iter != C_end; ++C_iter, ++id)
     {
         glLoadName(id);
-        
+
         if ((**C_iter).Type == VConstraint::Constraint_Angular)
         {
             RenderConstraintAngular(spine, MX_bones, QT_bones, *(VConstraintAngular *) *C_iter);

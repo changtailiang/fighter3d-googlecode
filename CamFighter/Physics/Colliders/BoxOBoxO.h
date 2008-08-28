@@ -31,12 +31,12 @@ bool   TestBoxOBoxO (const xBoxO &bo1, const xBoxO &bo2)
 }
 
 void HitPointsBoxOBoxO(const xBoxO  &bo2,
-                       const xPoint3 P_closest[4], PointPosition PPosition, 
+                       const xPoint3 P_closest[4], PointPosition PPosition,
                        xPoint3       P_hits[16],   xBYTE &I_hits)
 {
     int I_touch = 0;
     xPoint3 P_min, P_max;
-    
+
     if (PPosition == POINT_NearCorner)
     {
         for (int I_A = 1; I_A < 4; ++I_A)
@@ -67,7 +67,7 @@ void HitPointsBoxOBoxO(const xBoxO  &bo2,
         if (SegmentBoxOMinMax(P_closest[I_A], P_closest[I_B], bo2, P_min, P_max))
         {
             ++I_touch;
-        
+
             bool FL_found = false;
             for (int i = 0; i < I_hits; ++i)
                 if (P_min == P_hits[i]) { FL_found = true; break; }
@@ -82,7 +82,7 @@ void HitPointsBoxOBoxO(const xBoxO  &bo2,
     }
     /*
     if (I_touch) return;
-    
+
     I_max = PPosition == POINT_NearEdge ? 2 : 4;
     for (int I_A = 0; I_A < I_max; ++I_A)
     {
@@ -120,7 +120,7 @@ xDWORD CollideBoxOBoxO (const xBoxO &bo1, const xBoxO &bo2,
         AxisSpans::AxisNotOverlap(bo1, bo2, spans[14].init(xVector3::CrossProduct(bo1.N_axis[2], bo2.N_axis[2])) ))
         return false;
 
-    int I_bestSpan;
+    int I_bestSpan = 0;
     xVector3 NW_fix = AxisSpans::GetMinimalFix(spans, 15, I_bestSpan);
     if (I_bestSpan >= 3 && I_bestSpan <= 5)
         NW_fix.invert();

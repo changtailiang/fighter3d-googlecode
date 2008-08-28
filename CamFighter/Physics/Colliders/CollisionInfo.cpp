@@ -9,11 +9,11 @@ void CollisionPoint :: SetBoneWeights()
     I_Bones = 0;
     if (Figure->Type != xIFigure3d::Mesh)
         return;
-    
+
     xMesh &mesh = *(xMesh*) Figure;
     if (! mesh.MeshData->L_BoneData)
         return;
-    
+
     xWORD3 &face = mesh.MeshData->GetFace(ID_subobj);
     xFLOAT3 W_vert;
     W_vert[0] = (mesh.MeshData->GetVertexTransf( face[0] ) - P_collision).lengthSqr();
@@ -27,11 +27,11 @@ void CollisionPoint :: SetBoneWeights()
     W_vert[0] *= W_scale;
     W_vert[1] *= W_scale;
     W_vert[2] *= W_scale;
-    
+
     for (int i = 0; i < 3; ++i)
     {
         xFLOAT4 &boneIdxWgh = mesh.MeshData->GetBone(face[i]);
-        
+
         int   I_bone[4];
         I_bone[0] = (int) floor(boneIdxWgh[0]);
         I_bone[1] = (int) floor(boneIdxWgh[1]);

@@ -57,7 +57,7 @@ class SceneSkeleton : public Scene, public ISelectionProvider
 
     HFont       Font;
     RigidObj    Model;
-    
+
     VerletSystem vSystem;
     VerletSolver vEngine;
 
@@ -67,7 +67,7 @@ class SceneSkeleton : public Scene, public ISelectionProvider
     std::vector<GLButton>               Directories;
     std::string                         CurrentDirectory;
     std::string                         AnimationName;
-    
+
     // Input states and key buffer
     struct _InputState {
         int         LastX, LastY;
@@ -86,7 +86,9 @@ class SceneSkeleton : public Scene, public ISelectionProvider
     } State;
 
     // Specific Edit Mode properties
-    union {
+#ifdef WIN32
+    union { // Save some memory... not much, but always :)
+#endif
         // Constraint
         struct _Constraint {
             xBYTE  boneA;
@@ -133,8 +135,10 @@ class SceneSkeleton : public Scene, public ISelectionProvider
             };
             xAnimation * Instance;
         } Animation;
+#ifdef WIN32
     };
-    
+#endif
+
     // Selected objects
     struct _Selection {
         xBone             * Bone;
@@ -187,7 +191,7 @@ class SceneSkeleton : public Scene, public ISelectionProvider
     xBone               *SelectBone    (int X, int Y);
     xBVHierarchy        *SelectBVH     (int X, int Y);
     xWORD                SelectElement (int X, int Y);
-    
+
 };
 
 #endif

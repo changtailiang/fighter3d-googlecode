@@ -23,7 +23,7 @@ bool  Config::DisplayShadowVolumes = false;
 bool  Config::DisplaySkeleton      = false;
 bool  Config::DisplayBVH           = false;
 bool  Config::DisplayCameras       = false;
-    
+
 
 int   Config::TestCase           = 0;
 float Config::Speed              = 1.f;
@@ -47,10 +47,10 @@ void _Performance :: NextFrame(float ticks)
 {
     if (ticks == 0.f)
         ticks = 1.f;
-    
+
     FPS = 1000.f / ticks;
     _timeCounter += ticks;
-    
+
     if (_timeCounter > 500.f)
     {
         _timeCounter -= 500.f;
@@ -76,7 +76,7 @@ void _Performance :: NextFrame(float ticks)
     CollidedTriangles      = 0;
 
     memset(&Shadows, 0, sizeof(_Shadows));
-    
+
     CollisionDataFillMS_max      = CollisionDataFillMS > CollisionDataFillMS_max ? CollisionDataFillMS : CollisionDataFillMS_max;
     CollisionDeterminationMS_max = CollisionDeterminationMS > CollisionDeterminationMS_max ? CollisionDeterminationMS : CollisionDeterminationMS_max;
     CollisionDataFillMS      = 0.f;
@@ -84,14 +84,14 @@ void _Performance :: NextFrame(float ticks)
 
     FPSmeanAccum += ticks*FPS;
     FPSmeanCount += ticks;
-        
+
     if (FPS > FPSmax)
         FPSmax = FPS;
     if (FPS > 0.f && FPS < FPSmin)
         FPSmin = FPS;
 }
-    
-void Config :: Load(char *fileName)
+
+void Config :: Load(const char *fileName)
 {
     std::ifstream in;
     in.open(Filesystem::GetFullPath(fileName).c_str());

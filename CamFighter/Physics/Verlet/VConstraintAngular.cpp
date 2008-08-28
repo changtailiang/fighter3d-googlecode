@@ -20,7 +20,6 @@ xFLOAT FindGammaMax(xFLOAT a, xFLOAT b, xFLOAT tanAlpha, xFLOAT cosAlpha)
 
 bool VConstraintAngular :: Satisfy(VerletSystem *system)
 {
-    xVector3 &P_rootB = system->P_current[particleRootB];
     xVector3 &P_rootE = system->P_current[particleRootE];
     xVector3 &P_curr  = system->P_current[particle];
 
@@ -30,7 +29,7 @@ bool VConstraintAngular :: Satisfy(VerletSystem *system)
                              0, system->MX_WorldToModel_T, xVector3::Create(0.f,0.f,0.f));
     xBoneCalculateQuatForVerlet(*system->Spine, particle, QT_parent, QT_current);
     QT_current = xQuaternion::Product(QT_parent, QT_current);
-    
+
     xBone   &bone    = system->Spine->L_bones[particle];
     xVector3 N_up    = system->MX_ModelToWorld.preTransformV(QT_parent.rotate(bone.P_end-bone.P_begin)).normalize();
     xVector3 N_front = system->MX_ModelToWorld.preTransformV(QT_current.rotate(bone.getFront()));
@@ -40,7 +39,7 @@ bool VConstraintAngular :: Satisfy(VerletSystem *system)
     xVector3 N_curr_Local   = xVector3::Normalize( P_curr_Local );
 
     if (N_curr_Local.z > 0.99f) return false;
-    
+
     xFLOAT r_Inv = 1.f / sqrt(N_curr_Local.x*N_curr_Local.x+N_curr_Local.y*N_curr_Local.y);
     xFLOAT cosAlpha = fabs(N_curr_Local.x)*r_Inv,
            sinAlpha = fabs(N_curr_Local.y)*r_Inv,
@@ -92,7 +91,7 @@ bool VConstraintAngular :: Satisfy(VerletSystem *system)
     if (w1 == 0.f && w2 == 0.f) return false;
     w1 /= (w1+w2);
     w2 = 1.f - w1;
-    
+
     xQuaternion QT_curr = xQuaternion::Interpolate(QT_minFix, w1);
     xQuaternion QT_root = xQuaternion::Interpolate(QT_minFix, w2);
     xMatrix &MX_BoneToWorld = MX_WorldToBone.invert();
@@ -113,14 +112,13 @@ bool VConstraintAngular :: Test(const xVector3 &P_rootB, const xVector3 &P_rootE
 
     xFLOAT r_Inv = 1.f / sqrt(N_curr_Local.x*N_curr_Local.x+N_curr_Local.y*N_curr_Local.y);
     xFLOAT cosAlpha = fabs(N_curr_Local.x)*r_Inv,
-           sinAlpha = fabs(N_curr_Local.y)*r_Inv,
            tanAlpha;
     if (cosAlpha > EPSILON)
         tanAlpha = N_curr_Local.y / N_curr_Local.x;
     else
         tanAlpha = 0.f; // infinity, but don't care
     xFLOAT gammaMax;
-    
+
     if (P_curr_Local.x >= 0 && P_curr_Local.y >= 0)
         gammaMax = FindGammaMax(angleMaxX, angleMaxY, tanAlpha, cosAlpha);
     else if (P_curr_Local.x < 0 && P_curr_Local.y >= 0)
@@ -132,7 +130,7 @@ bool VConstraintAngular :: Test(const xVector3 &P_rootB, const xVector3 &P_rootE
 
     xFLOAT cosMax = cos(gammaMax);
     if (N_curr_Local.z >= cosMax) return false;
-    
+
     return true;
 }
 

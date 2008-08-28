@@ -14,8 +14,8 @@ Scene * SceneConsole :: SetCurrentScene(Scene* scene, bool destroyPrev)
  {
     if (!scene)
         throw "The scene cannot be null";
-    
-    bool res = scene->Initialize(0,0,g_Application.MainWindow().Width(), g_Application.MainWindow().Height());
+
+    scene->Initialize(0,0,g_Application.MainWindow().Width(), g_Application.MainWindow().Height());
 
     if (PrevScene && destroyPrev)
     {
@@ -103,7 +103,7 @@ void SceneConsole::Terminate()
 	Scene::Terminate();
 }
 
-    
+
 void SceneConsole::AppendConsole(std::string text)
 {
     history += text;
@@ -163,7 +163,7 @@ bool SceneConsole :: FrameUpdate(float deltaTime)
             PrevScene->FrameUpdate(0.f);
         }
         else
-            g_Application.MainWindow().Terminate();         
+            g_Application.MainWindow().Terminate();
         /*
 		if (PrevScene)
 		{
@@ -417,7 +417,7 @@ test  = ";
     }
     return false;
 }
-    
+
 bool SceneConsole::FrameRender()
 {
     if (PrevScene) PrevScene->FrameRender();

@@ -10,9 +10,9 @@
 class Application : public Singleton<Application>
 {
   public:
-    // Initializes application with given scene... the scene should be a dynamical object 
+    // Initializes application with given scene... the scene should be a dynamical object
     // (it will be deleted by this class automaticaly on application termination)
-    bool Initialize(char* title, unsigned int width, unsigned int height,
+    bool Initialize(const char* title, unsigned int width, unsigned int height,
                     bool fullscreen, Scene* scene = NULL);
     bool Invalidate();
     void Terminate();
@@ -45,15 +45,16 @@ class Application : public Singleton<Application>
     void (*OnApplicationTerminate) (Application* sender);
 
   private:
-     // copy constructor 
+     // copy constructor
     Application(const Application&) {}
-     // assignment operator 
+     // assignment operator
     Application& operator=(const Application&) { return *this; }
 
     IWindow *m_window;
     Scene   *m_scene;
     char    *m_title;
     bool     m_OpenGL;
+    bool     m_Terminating;
 };
 
 #endif

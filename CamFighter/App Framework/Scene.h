@@ -9,9 +9,9 @@
 
 class Scene
 {
-public:    
+public:
     Scene * PrevScene;
-    char  * sceneName;
+    const char  * sceneName;
 
     virtual bool Initialize(int left, int top, unsigned int width, unsigned int height)
     {

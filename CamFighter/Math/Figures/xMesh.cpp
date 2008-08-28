@@ -32,7 +32,7 @@ xBoxA xMeshData :: BoundingBox() const
 
     return res;
 }
-    
+
 void  xMeshData :: Transform(const xMatrix  &MX_LocalToWorld)
 {
     if ( ! L_VertexData_Transf )
@@ -43,7 +43,7 @@ void  xMeshData :: Transform(const xMatrix  &MX_LocalToWorld)
     }
     CalculateLocalBones(MX_LocalToWorld);
     FL_MeshIsTransf = true;
-    
+
     xBYTE   *L_VertexSource_Itr = L_VertexData;
     xPoint3 *L_VertexDest_Itr   = L_VertexData_Transf;
     bool    *L_FLTransf_Itr     = FL_VertexIsTransf;
@@ -62,8 +62,6 @@ void  xMeshData :: Transform(const xMatrix  &MX_LocalToWorld)
         for (int i = I_VertexCount; i; --i, ++L_VertexDest_Itr, L_VertexSource_Itr += I_VertexStride,
                                            L_Bone_Itr += I_BoneStride, ++L_FLTransf_Itr)
         {
-            const xPoint3 &point = *(xPoint3*)L_VertexSource_Itr;
-            
             xFLOAT4 &boneIdxWgh = *(xFLOAT4*)L_Bone_Itr;
 
             int   idx[4];
@@ -79,7 +77,7 @@ void  xMeshData :: Transform(const xMatrix  &MX_LocalToWorld)
 
             xPoint3 &P_vert = *L_VertexDest_Itr;
             xPoint3 &P_src  = *(xPoint3*)L_VertexSource_Itr;
-            
+
             P_vert.zero();
             for (int b=0; b<4; ++b)
             {
@@ -91,7 +89,7 @@ void  xMeshData :: Transform(const xMatrix  &MX_LocalToWorld)
         }
     }
 }
-    
+
 xIFigure3d * xMesh :: Transform(const xMatrix  &MX_LocalToWorld)
 {
     if ( ! MeshData->L_VertexData_Transf )
@@ -148,7 +146,7 @@ xIFigure3d * xMesh :: Transform(const xMatrix  &MX_LocalToWorld)
 
             xPoint3 &P_vert = MeshData->L_VertexData_Transf[index];
             xPoint3 &P_src  = MeshData->GetVertex(index);
-            
+
             P_vert.zero();
             for (int b=0; b<4; ++b)
             {
