@@ -1,12 +1,12 @@
 #include "GLFont.h"
 #include "../../../App Framework/Application.h"
 #include <cstdio>
+#include "../../../Utils/Utils.h"
 
 #ifdef WIN32
 #pragma warning(disable : 4996) // deprecated
 #else
 #include <stdarg.h>
-#include "../../../Utils/Utils.h"
 #endif
 
 const float GLFont::INTERLINE = 0.2f;
@@ -14,7 +14,8 @@ const float GLFont::INTERLINE = 0.2f;
 bool GLFont::Load(const std::string& name, int size)
 {
     assert (m_GLFontBase == -1);
-    
+
+    m_Id   = name + "|" + itos(size);
     m_Name = name;
     m_Size = size;
     

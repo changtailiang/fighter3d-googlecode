@@ -74,7 +74,8 @@ class Filesystem
 {
 public:
 
-	static std::string WorkingDirectory;
+	// WorkingDirectory should be initialized on application start (in main)
+    static std::string WorkingDirectory;
 
     typedef std::vector<std::string> Vec_string;
 
