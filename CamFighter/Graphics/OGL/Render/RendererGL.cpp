@@ -530,6 +530,9 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
 
     if (!listID)
     {
+        GLShader::EnableTexturing(xState_Off);
+        GLShader::Start();
+            
         mode = xGPUPointers::LIST;
         glNewList(listID = glGenLists(1), GL_COMPILE);
 
@@ -580,6 +583,9 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
     {
         glNewList(listIDTex = glGenLists(1), GL_COMPILE);
 
+        GLShader::EnableTexturing(xState_On);
+        GLShader::Start();
+        
         if (elem->FL_skeletized) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer (2, GL_FLOAT, sizeof(xVertexTexSkel), &(elem->renderData.L_verticesTS->tex.u));
