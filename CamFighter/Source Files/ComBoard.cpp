@@ -21,7 +21,7 @@ void ComBoard :: Destroy()
     ID_action_cur = 0;
     T_progress    = 0.f;
     MX_shift.identity();
-
+    
     L_mirror.clear();
     FL_mirror = false;
 
@@ -127,7 +127,7 @@ void ComBoard :: Update(xFLOAT T_delta, bool FL_keyboard_on)
     }
 }
 
-xQuaternion *ComBoard :: GetTransformations(xBYTE I_bones)
+xQuaternion *ComBoard :: GetTransformations()
 {
     if (L_actions.size() == 0) return NULL;
 
@@ -298,9 +298,10 @@ void ComBoard :: UpdateIDs()
         StopAction.ID_action = 0;
 }
 
-void ComBoard :: Load(const char *fileName)
+void ComBoard :: Load(const char *fileName, xBYTE I_bones)
 {
     Destroy();
+    this->I_bones = I_bones;
     FileName = Filesystem::GetFullPath(fileName);
 
     std::ifstream in;
