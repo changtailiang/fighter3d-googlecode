@@ -3,7 +3,7 @@
 
 #include "../App Framework/IScene.h"
 #include "../Math/Cameras/CameraSet.h"
-#include "../Graphics/OGL/Fonts/FontMgr.h"
+#include "../Graphics/FontMgr.h"
 #include "../Graphics/OGL/ISelectionProvider.h"
 #include "../World/World.h"
 #include "../World/SkeletizedObj.h"

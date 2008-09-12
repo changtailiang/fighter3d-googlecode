@@ -12,7 +12,7 @@ HFont FontMgr :: GetFont( const char* name, int size )
     if ( rc.second )
     {
         // this is a new insertion
-        GLFont* fnt = m_HandleMgr.Acquire( rc.first->second );
+        Graphics::OGL::Font* fnt = m_HandleMgr.Acquire( rc.first->second );
         if ( !fnt->Create( name, size ) )
         {
             m_HandleMgr.Release( rc.first->second );
