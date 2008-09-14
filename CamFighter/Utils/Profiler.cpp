@@ -9,7 +9,7 @@ void Profiler :: ProfileBegin (const char* name)
             ++Samples[iSample].I_OpenProfiles;
             ++Samples[iSample].I_ProfileInstances;
             Samples[iSample].T_Start = GetTick();
-            
+
             assert(Samples[iSample].I_OpenProfiles && "Profiler::ProfileBegin : Recurention is not supported");
             return;
         }
@@ -51,7 +51,7 @@ void Profiler :: ProfileEnd (const char* name)
                 if ( Samples[iParent].I_OpenProfiles > 0 )
                 {
                     ++I_CountParents;
-                    
+
                     if (ID_parent < 0)
                         ID_parent = iParent;
                     else
@@ -95,7 +95,7 @@ void Profiler :: FrameEnd()
 
     char buff1[256], buff2[256];
     lines.push_back("  Mean :   Min :   Max :   # : Name");
-    
+
     while ( iSample < I_MaxSamples && Samples[iSample].FL_valid )
     {
         ProfileSample &sample  = Samples[iSample];
@@ -105,9 +105,9 @@ void Profiler :: FrameEnd()
 
         uint iHistory = GetHistory( sample.Name );
         if (iHistory == I_MaxSamples) continue;
-        
+
         ProfileSampleHistory &history = History[iHistory];
-        
+
         float T_Prcnt      = (sample.T_Samples - sample.T_ChildrenSamples) * T_delta_Inv * 100.f;
         if (history.FL_valid)
         {
@@ -127,22 +127,22 @@ void Profiler :: FrameEnd()
         else
             history.T_AvgPrcnt = history.T_MinPrcnt = history.T_MaxPrcnt = T_Prcnt;
         history.FL_valid           = true;
-        
+
         char *name  = buff1;
         char *nameT = buff2;
 
         strcpy (name, history.Name);
-        for (int indent=0; indent < sample.I_NumParents; ++indent)
+        for (size_t indent=0; indent < sample.I_NumParents; ++indent)
         {
             sprintf( nameT, "    %s", name );
             char* swp = name; name = nameT; nameT = swp;
         }
-        
+
         sprintf(nameT, " %5.1f : %5.1f : %5.1f : %3d : %s",
             history.T_AvgPrcnt, history.T_MinPrcnt, history.T_MaxPrcnt,
             sample.I_ProfileInstances, name);
         lines.push_back(nameT);
-        
+
         sample.FL_valid = false;
         ++iSample;
     }

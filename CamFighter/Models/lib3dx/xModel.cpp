@@ -92,15 +92,15 @@ void  _xBoneDelete_CorrectElementIds(xElement *elem, xWORD ID_delete, xWORD ID_p
                 if (i0 == ID_delete) vert->b0 += -i0 + ID_parent; // vertices from deleted bone are reassigned to parent
                 else
                 if (i0 == ID_top)    vert->b0 += -i0 + ID_delete; // vertices from top bone are reassigned to its new id
-                
+
                 if (i1 == ID_delete) vert->b1 += -i1 + ID_parent; // vertices from deleted bone are reassigned to parent
                 else
                 if (i1 == ID_top)    vert->b1 += -i1 + ID_delete; // vertices from top bone are reassigned to its new id
-                
+
                 if (i2 == ID_delete) vert->b2 += -i2 + ID_parent; // vertices from deleted bone are reassigned to parent
                 else
                 if (i2 == ID_top)    vert->b2 += -i2 + ID_delete; // vertices from top bone are reassigned to its new id
-                
+
                 if (i3 == ID_delete) vert->b3 += -i3 + ID_parent; // vertices from deleted bone are reassigned to parent
                 else
                 if (i3 == ID_top)    vert->b3 += -i3 + ID_delete; // vertices from top bone are reassigned to its new id
@@ -180,7 +180,7 @@ void   xModel :: BoneDelete(xBYTE ID_bone)
             for (int i = bone.I_kids; i; --i, ++ID_iter)
                 Spine.L_bones[*ID_iter].ID_parent = ID_bone;
         }
-        
+
         --(Spine.I_bones);
         xBone *bones = new xBone[Spine.I_bones];
         memcpy(bones, Spine.L_bones, sizeof(xBone)*Spine.I_bones);
@@ -279,7 +279,7 @@ xModel *xModel :: Load(const char *fileName, bool FL_create_CollisionInfo)
                     xmodel->FL_opaque      |= !transparent;
                 }
             }
-    
+
             fread(&xmodel->I_kids, sizeof(xBYTE), 1, file);
             if (xmodel->I_kids)
             {
@@ -327,9 +327,9 @@ void   xModel :: Save()
     if (file)
     {
         bool   FL_save_bvh = BVHierarchy != NULL;
-        bool   FL_save_smooth = true;
+        //bool   FL_save_smooth = true;
         this->FL_save_rdata = true;
-        
+
         xDWORD len = 3;
         fwrite(&len, sizeof(len), 1, file);
         fwrite(&this->FL_save_binfo, sizeof(this->FL_save_binfo), 1, file);
@@ -351,9 +351,9 @@ void   xModel :: Save()
             for (; last; last = last->Next)
                 last->Save(file, this);
         }
-        
+
         // are the bones defined?
-        bool skeletized = this->Spine.I_bones; 
+        bool skeletized = this->Spine.I_bones;
         fwrite(&skeletized, sizeof(bool), 1, file);
         if (skeletized)
             this->Spine.Save(file);
@@ -371,10 +371,10 @@ using namespace Math::Figures;
 void xModel::ReFillBVH(xBVHierarchy &BVH_node, xMeshData *&MeshData, const xMatrix &MX_LocalToWorld)
 {
     xSphere &sphere = *(xSphere*) BVH_node.GetTransformed(MX_LocalToWorld);
-    
+
     if (!this->I_kids)
         return;
-    
+
     xBoxA boxA, boxAc;
     boxA.P_min.init(xFLOAT_HUGE_POSITIVE, xFLOAT_HUGE_POSITIVE, xFLOAT_HUGE_POSITIVE);
     boxA.P_max.init(xFLOAT_HUGE_NEGATIVE, xFLOAT_HUGE_NEGATIVE, xFLOAT_HUGE_NEGATIVE);
@@ -400,14 +400,14 @@ void xModel::CreateBVH(xBVHierarchy &BVH_node, xMeshData *&MeshData)
 {
     BVH_node.init(*new xSphere());
     xSphere &sphere = *(xSphere*) BVH_node.Figure;
-    
+
     if (!this->I_kids)
     {
         sphere.S_radius = 0.f;
         sphere.P_center.init(xFLOAT_HUGE_POSITIVE,xFLOAT_HUGE_POSITIVE,xFLOAT_HUGE_POSITIVE);
         return;
     }
-    
+
     MeshData         = new xMeshData[I_elements];
     BVH_node.L_items = new xBVHierarchy[I_elements];
     BVH_node.I_items = I_elements;

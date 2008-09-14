@@ -15,8 +15,8 @@ inline void FreeData(FILE *file, Image *texture)
 
 /*
 BYTE    ITEM         SIZE    DESCRIPTION
-****    ****         ****    *********** 
- 0      Offset         1     Usually 0, 
+****    ****         ****    ***********
+ 0      Offset         1     Usually 0,
                              add 18 to this value to find the start of the palette/image data.
  1      ColorType      1     Image type. 0 = RGB, 1 = Indexed.
  2      ImageType      1     0 = None, 1 = Indexed, 2 = RGB, 3 = Greyscale,
@@ -59,7 +59,7 @@ Image *LoadTGA(const char *filename)
     texture->sizeX = (unsigned int)(header[1] << 8) + header[0]; // Determine The TGA Width  (highbyte*256+lowbyte)
     texture->sizeY = (unsigned int)(header[3] << 8) + header[2]; // Determine The TGA Height (highbyte*256+lowbyte)
     texture->bpp = header[4];                                    // Grab The TGA's Bits Per Pixel (24 or 32)
-    
+
      if( texture->sizeX == 0 ||                                // Is The Width Less Than Or Equal To Zero
          texture->sizeY == 0 ||                                // Is The Height Less Than Or Equal To Zero
          (texture->bpp!=24 && texture->bpp!=32))               // Is The TGA 24 or 32 Bit?
@@ -75,7 +75,7 @@ Image *LoadTGA(const char *filename)
     texture->data = new unsigned char[imageSize];              // Reserve Memory To Hold The TGA Data
 
     fseek(file, 0, SEEK_END);
-    long size = ftell(file);
+    //long size = ftell(file);
     fseek(file, 18+TGAcompare[0], SEEK_SET);
 
     if( texture->data == NULL ||                               // Does The Storage Memory Exist?

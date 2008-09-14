@@ -19,12 +19,12 @@ protected:
 
 public:
     Stat_Float3Ptr() { Float3 = NULL; }
-    
+
     void Create(const std::string &Name, float *Float3)
     {
         assert (Name.size() && "Stat_Float3Ptr::Create : Name is empty");
         assert (Float3 && "Stat_Float3Ptr::Create : Float3 is NULL");
-        
+
         this->Name   = Name;
         this->Float3 = Float3;
     }
@@ -58,13 +58,13 @@ protected:
 
 public:
     Stat_BoolPtr() { BoolP = NULL; }
-    
-    void Create(const std::string &Name, bool &Bool)
+
+    void Create(const std::string &Name, bool &pBool)
     {
         assert (Name.size() && "Stat_BoolPtr::Create : Name is empty");
-        
+
         this->Name   = Name;
-        this->BoolP = &Bool;
+        this->BoolP = &pBool;
     }
 
     virtual const char* Print()
@@ -84,11 +84,11 @@ protected:
 
 public:
     Stat_FloatPtr() { FloatP = NULL; }
-    
+
     void Create(const std::string &Name, float &Float)
     {
         assert (Name.size() && "Stat_FloatPtr::Create : Name is empty");
-        
+
         this->Name   = Name;
         this->FloatP = &Float;
     }
@@ -102,7 +102,7 @@ public:
         return buff;
     }
 };
-    
+
 #define g_StatMgr   StatMgr::GetSingleton()
 
 struct StatPage_Base

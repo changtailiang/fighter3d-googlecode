@@ -22,7 +22,7 @@ class Profiler : public Singleton<Profiler>
     struct ProfileSample {
         const char *Name;
         bool        FL_valid;
-        
+
         uint        I_ProfileInstances;
         uint        I_OpenProfiles;
 
@@ -50,7 +50,7 @@ class Profiler : public Singleton<Profiler>
 public:
     static void CreateS(uint i_MaxSamples)
     {
-        Singleton::CreateS();
+        new Profiler();
         g_Profiler.Create(i_MaxSamples);
     }
 
@@ -85,7 +85,7 @@ public:
         }
         lines.clear();
     }
-    
+
     void ClearSamples()
     {
         assert (I_MaxSamples && "Profiler::ClearSamples() : Profiler hasn't been created");
@@ -98,7 +98,7 @@ public:
         }
     }
     void FrameEnd();
-    
+
     friend struct ProfileInstance;
 
     const Vec_string &GetLines()
@@ -111,13 +111,13 @@ private:
     uint GetHistory(const char* name)
     {
         uint iSample = 0;
-        
+
         while ( iSample < I_MaxSamples && History[iSample].FL_valid ) {
             if ( strcmp( name, History[iSample].Name ) == 0 )
                 return iSample;
             ++iSample;
         }
-        
+
         if ( iSample >= I_MaxSamples ) {
             assert( !"Profiler::ProfileBegin : Number of samples exceeded I_MaxSamples" );
             return I_MaxSamples;
@@ -133,7 +133,7 @@ struct ProfileInstance
     const char* Name;
 
     ProfileInstance(const char *name)
-    { if (Profiler::GetSingletonPtr()) g_Profiler.ProfileBegin(Name = name); }
+    { Name = name; if (Profiler::GetSingletonPtr()) g_Profiler.ProfileBegin(Name); }
 
     ~ProfileInstance()
     { if (Profiler::GetSingletonPtr()) g_Profiler.ProfileEnd(Name); }

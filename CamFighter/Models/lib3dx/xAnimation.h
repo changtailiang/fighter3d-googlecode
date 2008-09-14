@@ -3,6 +3,7 @@
 
 #include "../../Math/xMath.h"
 #include "xModel.h"
+#include <string>
 
 struct xKeyFrame
 {
@@ -28,7 +29,7 @@ struct xAnimation
     std::string Name;
     xWORD       I_bones;      // no of bones per frame
     xBYTE       I_priority;   // higher priority matrices replace matrices of lower priority
-    
+
     xKeyFrame  *L_frames;     // key frame list or cycle
     xWORD       I_frames;     // no of key frames
 
@@ -66,12 +67,12 @@ struct xAnimation
         }
         Clear();
     }
-    
+
     xAnimationInfo GetInfo();
-    
+
     xKeyFrame   * InsertKeyFrame();
     void          DeleteKeyFrame();
-    
+
     void          UpdatePosition();
     xQuaternion   GetTransformation(xBYTE ID_bone);
     xQuaternion * GetTransformations();

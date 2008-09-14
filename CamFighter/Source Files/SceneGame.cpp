@@ -46,7 +46,7 @@ bool SceneGame :: InitMap()
         OB_curr = Map.objects.begin(),
         OB_last = Map.objects.end();
 
-    int i = 0;
+    size_t i = 0;
 
     for (; OB_curr != OB_last; ++OB_curr)
         if ( (**OB_curr).Type == AI::ObjectType::Human )
@@ -212,7 +212,7 @@ void SceneGame :: InitInputMgr()
         im.Key2InputCode_SetIfKeyFree(VK_RIGHT,   IC_CB_Right2);
     }
 }
-    
+
 bool SceneGame :: Invalidate()
 {
     Vec_xLight::iterator LT_curr = Map.lights.begin(),
@@ -222,11 +222,11 @@ bool SceneGame :: Invalidate()
     WorldRenderGL().Invalidate(Map);
     return true;
 }
-    
+
 void SceneGame :: Destroy()
 {
 	IScene::Destroy();
-    
+
     g_FontMgr.Release(font);
     font = HFont();
 
@@ -237,7 +237,7 @@ void SceneGame :: Destroy()
     Clear();
 }
 
-    
+
 bool SceneGame :: ShellCommand (std::string &cmd, std::string &output)
 {
     if (cmd == "?" || cmd == "help")
@@ -369,7 +369,7 @@ bool SceneGame :: ShellCommand (std::string &cmd, std::string &output)
     }
     return false;
 }
-    
+
 bool SceneGame :: Update(float T_delta)
 {
     InputMgr &im = g_InputMgr;
@@ -469,12 +469,12 @@ bool SceneGame :: Update(float T_delta)
 }
 
 #include "../Graphics/OGL/Shader.h"
-    
+
 bool SceneGame :: Render()
 {
     Profile("Render game");
     Map.Render();
-    
+
     static xLight dayLight;
     static xColor skyColor;
     if (dayLight.id == 0)
@@ -619,7 +619,7 @@ bool SceneGame :: Render()
     glFlush(); //glFinish();
     return true;
 }
-    
+
 ////// ISelectionProvider
 
 void SceneGame :: RenderSelect(const Math::Cameras::FieldOfView &FOV)

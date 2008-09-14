@@ -62,7 +62,7 @@ int Application::Create(IWindow &window, IScene &scene)
 int Application::Invalidate()
 {
 	if (!MainWindow || MainWindow->IsDestroyed()) return SUCCESS;
-	
+
     int result = SUCCESS;
 
     bool res = true; OnApplicationInvalidate(res);
@@ -71,7 +71,7 @@ int Application::Invalidate()
 
     if (! SceneCur->Invalidate() )
         result |= SCENE_ERROR;
-    
+
     return result;
 }
 
@@ -102,7 +102,7 @@ int Application::Run()
             T_prev     = T_currrent;
             T_currrent = GetTick();
             float T_total  = T_currrent - T_prev;
-            float T_render = T_currrent - T_preRender;
+            //float T_render = T_currrent - T_preRender;
 
             SceneCur->FrameStart();
 
@@ -110,7 +110,7 @@ int Application::Run()
 
             T_preRender = GetTick();
             Render();
-            
+
             if (!MainWindow || MainWindow->IsDestroyed()) return 0;
             SceneCur->FrameEnd();
         }

@@ -13,7 +13,7 @@
 #include "../Utils/GraphicsModes.h"
 
 using namespace Scenes;
-    
+
 bool SceneConsole :: Create(int left, int top, unsigned int width, unsigned int height, IScene *prevScene)
 {
     IScene::Create(left, top, width, height, prevScene);
@@ -67,14 +67,14 @@ void SceneConsole :: InitInputMgr()
     im.Key2InputCode_SetIfKeyFree('`',       IC_Console);
 #endif
 }
-    
+
 void SceneConsole :: Destroy()
 {
 	IScene::Destroy();
     g_FontMgr.Release(font);
     font = HFont();
 }
-   
+
 void SceneConsole :: Enter()
 {
     IScene::Enter();
@@ -100,7 +100,7 @@ void SceneConsole :: Exit()
 {
     if (PrevScene) PrevScene->Exit();
 }
-    
+
 void SceneConsole :: Resize(int left, int top, unsigned int width, unsigned int height)
 {
 	//if (PrevScene) PrevScene->Resize(left, top, width, height);
@@ -110,7 +110,7 @@ void SceneConsole :: Resize(int left, int top, unsigned int width, unsigned int 
 	pageSize = (int)(height/2.0f/pFont->LineH()) - 3;
 	if (scroll_v > histLines-1-pageSize) scroll_v = histLines-1-pageSize;
 }
-    
+
 IScene & SceneConsole :: Scene_Set(IScene& scene, bool fl_destroyPrevious)
 {
     if (PrevScene && fl_destroyPrevious)
@@ -133,7 +133,7 @@ IScene & SceneConsole :: Scene_Set(IScene& scene, bool fl_destroyPrevious)
      }
 
     if (PrevScene)
-    {        
+    {
         g_InputMgr.SetScene(PrevScene->Name);
 #ifdef WIN32
         g_InputMgr.Key2InputCode_SetIfKeyFree(VK_OEM_3, IC_Console);
@@ -144,8 +144,8 @@ IScene & SceneConsole :: Scene_Set(IScene& scene, bool fl_destroyPrevious)
 
     return *this;
 }
-    
-    
+
+
 void SceneConsole :: AppendConsole(std::string text)
 {
     history += text;
@@ -237,7 +237,7 @@ bool SceneConsole :: Update(float T_delta)
     if (im.InputDown_GetAndRaise(IC_Con_StatNextPage))
     {
         ++curStatPage;
-        if (curStatPage >= g_StatMgr.pages.size())
+        if (curStatPage >= (int)g_StatMgr.pages.size())
             curStatPage = -1;
     }
 
@@ -474,7 +474,7 @@ test  = ";
     }
     return false;
 }
-    
+
 bool SceneConsole::Render()
 {
     if (PrevScene) PrevScene->Render();
@@ -565,7 +565,7 @@ bool SceneConsole::Render()
 
         glViewport(Left, Top, Width, cHeight); // Set viewport
 
-        if (curStatPage >= 0 && curStatPage >= g_StatMgr.pages.size())
+        if (curStatPage >= 0 && curStatPage >= (int)g_StatMgr.pages.size())
             curStatPage = g_StatMgr.pages.size() - 1;
         if (curStatPage >= 0)
         {
@@ -600,7 +600,7 @@ bool SceneConsole::Render()
             xFLOAT x = 0.f;
             xFLOAT y = cHeight-lineHeight*2;
             xFLOAT w = 0.f;
-            
+
             for (; LN_curr != LN_last; ++LN_curr)
             {
                 const char *text = LN_curr->c_str();
