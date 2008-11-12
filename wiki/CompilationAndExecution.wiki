@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Project is written in C++ and uses OpenGL instructions for rendering. This design potentially allow for running the game on any modern operating system made for the PC. 
+Project is written in C++ and uses OpenGL instructions for rendering. This design potentially allows for running the game on any modern operating system made for the PC. 
 
 = Compilation =
 
