@@ -35,15 +35,26 @@ int main( int argc, char **argv )
         scene = new Scenes::SceneConsole();
         scene->PrevScene = prev;
     }
+    int width, height;
+    if (Config::FullScreen)
+    {
+        width  = Config::FullScreenX;
+        height = Config::FullScreenY;
+    }
+    else
+    {
+        width  = Config::WindowX;
+        height = Config::WindowY;
+    }
 
     Application game;
     game.OnApplicationCreate.Set     ( Application_OnCreate     );
     game.OnApplicationInvalidate.Set ( Application_OnInvalidate );
     game.OnApplicationDestroy.Set    ( Application_OnDestroy    );
 #ifndef NDEBUG
-    int cres = game.Create("Camera Fighter - Debug", Config::WindowX, Config::WindowY, Config::FullScreen, *scene);
+    int cres = game.Create("Camera Fighter - Debug", width, height, true, Config::FullScreen, *scene);
 #else
-    int cres = game.Create("Camera Fighter", Config::WindowX, Config::WindowY, Config::FullScreen, *scene);
+    int cres = game.Create("Camera Fighter", width, height, true, Config::FullScreen, *scene);
 #endif
     if (cres != Application::SUCCESS) return cres;
 
@@ -103,13 +114,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 #include "../Graphics/OGL/AnimSkeletal.h"
 #include "../Models/ModelMgr.h"
 #include "../Models/lib3dx/xAnimationMgr.h"
+#include "../Lua/LuaMgr.h"
 
 using namespace Graphics::OGL;
 
 void Application_OnCreate(Application& sender, void *receiver, bool &res)
 {
-    GLExtensions   ::Initialize();
     Profiler       ::CreateS(100);
+    LuaMgr         ::CreateS();
     StatMgr        ::CreateS();
     g_StatMgr.Add(*new ProfilerPage());
     InputMgr       ::CreateS();
@@ -120,7 +132,7 @@ void Application_OnCreate(Application& sender, void *receiver, bool &res)
     CaptureInput   ::CreateS();
     FontMgr        ::CreateS();
     TextureMgr     ::CreateS();
-    Shader         ::CreateS();
+    //Shader         ::CreateS(); // Lazy load
     AnimSkeletal   ::CreateS();
     xAnimationMgr  ::CreateS();
     ModelMgr       ::CreateS();
@@ -161,5 +173,6 @@ void Application_OnDestroy(Application& sender, void *receiver, bool &res)
     InputMgr       ::DestroyS();
     StatMgr        ::DestroyS();
     Profiler       ::DestroyS();
+    LuaMgr         ::DestroyS();
     res = true;
 }

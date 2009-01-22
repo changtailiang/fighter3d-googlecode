@@ -17,7 +17,7 @@ struct xLight
 {
     xBYTE       id;
     char*       name;
-    char*       prefix;			// Light prefix
+    char*       prefix;            // Light prefix
 
     bool        turned_on;
 

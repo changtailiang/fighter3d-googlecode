@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "OGL/GLWindow.h"
+#include "D3D/DXWindow.h"
 #include "../Utils/Profiler.h"
 
 void MainWindow_OnCreate(IWindow &window, void* receiver)
@@ -8,14 +9,18 @@ void MainWindow_OnResize(IWindow &window, void* receiver, unsigned int &width, u
 { g_Application.MainWindow_OnResize(window, width, height); }
 
 int Application::Create(const char *title, unsigned int width, unsigned int height,
-                                           bool fl_fullscreen, IScene &scene)
+                        bool fl_openGL,    bool fl_fullscreen, IScene &scene)
 {
     assert( !MainWindow );
 
-    if (FL_OpenGL)
+    if (fl_openGL)
         MainWindow = new GLWindow();
-    //else
-    //  MainWindow = new DXWindow();
+    else
+#ifdef USE_D3D
+        MainWindow = new DXWindow();
+#else
+        return WINDOW_ERROR;
+#endif
 
     MainWindow->PreCreate(title, width, height, fl_fullscreen);
 
@@ -61,7 +66,7 @@ int Application::Create(IWindow &window, IScene &scene)
 
 int Application::Invalidate()
 {
-	if (!MainWindow || MainWindow->IsDestroyed()) return SUCCESS;
+    if (!MainWindow || MainWindow->IsDestroyed()) return SUCCESS;
 
     int result = SUCCESS;
 

@@ -2,12 +2,25 @@
 #define __incl_Utils_h
 
 #ifdef WIN32
-#pragma warning(disable : 4996) // deprecated
-#define strcasecmp  stricmp
+#   define strcasecmp  stricmp
 #endif
 
+#define SAFE_DELETE(obj)          { delete   obj; obj = 0; }
+#define SAFE_DELETE_ARRAY(obj)    { delete[] obj; obj = 0; }
+#define SAFE_DELETE_IF(obj)       if (obj) { delete   obj; obj = 0; }
+#define SAFE_DELETE_ARRAY_IF(obj) if (obj) { delete[] obj; obj = 0; }
+#define SAFE_begin   do
+#define SAFE_return      return
+#define SAFE_catch   while (false);
+
+#define SAFE_fread(variable, count, file) \
+    if (fread(&variable, sizeof(variable), count, file) != count) break;
+#define SAFE_fwrite(variable, count, file) \
+    if (fread(&variable, sizeof(variable), count, file) != count) break;
+  
 #include <sstream>
 #include <string>
+#include <cstring>
 
 // case-insensitive string comparison predicate
 struct istring_less

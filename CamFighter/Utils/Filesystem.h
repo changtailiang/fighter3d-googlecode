@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include <vector>
 #include <string>
+#include <cstring>
 
 #ifdef WIN32
 #include <windows.h>
@@ -74,30 +75,35 @@ class Filesystem
 {
 public:
 
-	// WorkingDirectory should be initialized on application start (in main)
+    // WorkingDirectory should be initialized on application start (in main)
     static std::string WorkingDirectory;
 
     typedef std::vector<std::string> Vec_string;
 
-	static std::string GetSystemWorkingDirectory()
-	{
-		char buff[255];
+    static std::string GetSystemWorkingDirectory()
+    {
+        char buff[512];
 #ifdef WIN32
-        _getcwd(buff, 255);
+        if ( !_getcwd(buff, 512) )
 #else
-        getcwd(buff, 255);
+        if ( !getcwd(buff, 512) )
 #endif
-		return buff;
-	}
+        {
+            LOG(0, "GetSystemWorkingDirectory() cannot fit 512 characters :/");
+            return NULL;
+        }
+        return buff;
+    }
 
-	static void SetSystemWorkingDirectory(const std::string &path)
-	{
+    static void SetSystemWorkingDirectory(const std::string &path)
+    {
 #ifdef WIN32
-		_chdir(path.c_str());
+        if ( _chdir( path.c_str() ) )
 #else
-        chdir(path.c_str());
+        if ( chdir( path.c_str() ) )
 #endif
-	}
+            LOG(0, "SetSystemWorkingDirectory() returned errorcode: %d", errno);
+    }
 
     static std::string  GetParentDir(const std::string &path)
     {
@@ -108,7 +114,7 @@ public:
     static std::string  GetFullPath(const std::string &path)
     {
         if (path[1] != ':' && path[0] != '/')
-			return WorkingDirectory + "/" + path;
+            return WorkingDirectory + "/" + path;
         return path;
     }
 

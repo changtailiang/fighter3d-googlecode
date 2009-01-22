@@ -48,18 +48,18 @@ namespace Math { namespace Figures {
         bool culledBy(const xPlane *PN_planes, int I_count)
         {
             fillCorners();
-	        // See if there is one plane for which all of the
-	        // vertices are in the negative half space.
+            // See if there is one plane for which all of the
+            // vertices are in the negative half space.
             for (int p = 0; p < I_count; ++p) {
 
-		        bool FL_culled = true;
+                bool FL_culled = true;
                 int v;
-		        // Assume this plane culls all points.  See if there is a point
-		        // not culled by the plane... early out when at least one point
+                // Assume this plane culls all points.  See if there is a point
+                // not culled by the plane... early out when at least one point
                 // is in the positive half space.
-		        for (v = 0; (v < 8) && FL_culled; ++v)
+                for (v = 0; (v < 8) && FL_culled; ++v)
                     FL_culled = PN_planes[p].distanceToPoint(P_corners[v]) > 0;
-		        if (FL_culled) return true;
+                if (FL_culled) return true;
             }
             // None of the planes could cull this box
             return false;

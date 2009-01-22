@@ -41,7 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="NOMINMAX;WIN32;_DEBUG;_CONSOLE;_WIN32_WINNT=0x0400;WINVER=0x0400"
+				AdditionalIncludeDirectories="$(SolutionDir)\..\Lua\libLua"
+				PreprocessorDefinitions="DEBUG;NOMINMAX;WIN32;_DEBUG;_CONSOLE;_WIN32_WINNT=0x0400;WINVER=0x0400;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -49,6 +50,7 @@
 				WarningLevel="2"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,9 +63,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib"
 				OutputFile="$(SolutionDir)..\fighter_dbg.exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\Graphics\OGL\glew\lib"
 				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -120,12 +122,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="NOMINMAX;WIN32;NDEBUG;_CONSOLE;_WIN32_WINNT=0x0400;WINVER=0x0400"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Lua\libLua&quot;"
+				PreprocessorDefinitions="NOMINMAX;WIN32;NDEBUG;_CONSOLE;_WIN32_WINNT=0x0400;WINVER=0x0400;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="2"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="0"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,9 +142,89 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib"
 				OutputFile="$(SolutionDir)\..\fighter.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\Graphics\OGL\glew\lib"
+				IgnoreDefaultLibraryNames="libcmt"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Check|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="$(SolutionDir)\..\Lua\libLua"
+				PreprocessorDefinitions="NOMINMAX;WIN32;NDEBUG;_CONSOLE;_WIN32_WINNT=0x0400;WINVER=0x0400;_CRT_SECURE_NO_DEPRECATE"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="2"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(SolutionDir)\..\fighter.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\Graphics\OGL\glew\lib"
 				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -408,162 +492,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="lib3ds"
-				>
-				<File
-					RelativePath="..\Models\lib3ds\atmosphere.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\atmosphere.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\background.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\background.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\camera.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\camera.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\chunk.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\chunk.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\chunktable.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\ease.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\ease.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\file.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\file.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\io.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\io.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\light.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\light.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\material.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\material.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\matrix.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\matrix.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\mesh.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\mesh.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\node.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\node.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\quat.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\quat.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\shadow.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\shadow.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\tcb.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\tcb.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\tracks.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\tracks.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\types.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\vector.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\vector.h"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\viewport.c"
-					>
-				</File>
-				<File
-					RelativePath="..\Models\lib3ds\viewport.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Utils"
@@ -705,6 +633,18 @@
 				</File>
 				<File
 					RelativePath="..\App Framework\OGL\GLWindowL.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="D3D"
+				>
+				<File
+					RelativePath="..\App Framework\D3D\DXWindow.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\App Framework\D3D\DXWindow.h"
 					>
 				</File>
 			</Filter>
@@ -1137,6 +1077,10 @@
 			Name="Math"
 			>
 			<File
+				RelativePath="..\Math\xColor3b.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Math\xLight.cpp"
 				>
 			</File>
@@ -1197,6 +1141,15 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Check|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1434,6 +1387,15 @@
 							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
 						/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="Check|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\Graphics\OGL\Utils.h"
@@ -1447,94 +1409,6 @@
 					RelativePath="..\Graphics\OGL\WorldRenderGL.h"
 					>
 				</File>
-				<Filter
-					Name="Extensions"
-					>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_fragment_shader.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_fragment_shader.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_multisample.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_multisample.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_multitexture.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_multitexture.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_shader_objects.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_shader_objects.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_vertex_buffer_object.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_vertex_buffer_object.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_vertex_shader.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\ARB_vertex_shader.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_stencil_two_side.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_stencil_two_side.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_stencil_wrap.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_stencil_wrap.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_texture3D.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\EXT_texture3D.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\GLExtensions.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\GLExtensions.h"
-						>
-					</File>
-					<File
-						RelativePath="..\Graphics\OGL\Extensions\wglext.h"
-						>
-					</File>
-				</Filter>
 				<Filter
 					Name="Render"
 					>
@@ -1588,6 +1462,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\Graphics\Textures\TexResource.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\Textures\Texture.h"
+					>
+				</File>
+				<File
 					RelativePath="..\Graphics\Textures\TextureMgr.cpp"
 					>
 				</File>
@@ -1600,10 +1482,171 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="D3D"
+				>
+				<File
+					RelativePath="..\Graphics\D3D\d3d.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\d3d.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\dxObject.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Font.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Check|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Font.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Texture.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Check|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)1.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Utils.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)2.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)2.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)2.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)2.xdc"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Check|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\$(InputName)2.obj"
+							XMLDocumentationFileName="$(IntDir)\$(InputName)2.xdc"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Graphics\D3D\Utils.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="AI"
 			>
+		</Filter>
+		<Filter
+			Name="Lua"
+			>
+			<File
+				RelativePath="..\Lua\LuaDebugger.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaDebugger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaMgr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaRestoreStack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaScript.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaScript.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaThis.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaVirtualMachine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Lua\LuaVirtualMachine.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\Config.cpp"

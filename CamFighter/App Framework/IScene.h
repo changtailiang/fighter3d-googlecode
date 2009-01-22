@@ -45,7 +45,7 @@ protected:
     signed   int Top;
     unsigned int Width;
     unsigned int Height;
-	bool         FL_destroyed;
+    bool         FL_destroyed;
 };
 
 #endif

@@ -115,9 +115,14 @@ void CameraSet :: Load(const char *fileName)
                     sscanf(buffer+2, "%f\t%f\t%f", &camera->NW_up.x, &camera->NW_up.y, &camera->NW_up.z);
                     continue;
                 }
-                if (StartsWith(buffer, "speed"))
+                if (StartsWith(buffer, "speedE"))
                 {
-                    sscanf(buffer+5, "%f", &camera->W_TrackingSpeed);
+                    sscanf(buffer+5, "%f", &camera->W_TrackingSpeedEye);
+                    continue;
+                }
+                if (StartsWith(buffer, "speedC"))
+                {
+                    sscanf(buffer+5, "%f", &camera->W_TrackingSpeedCtr);
                     continue;
                 }
             }
@@ -145,6 +150,10 @@ void CameraSet :: Load(const char *fileName)
                         else
                         if (StartsWith(name, "EyeSeeAll_Radius"))
                             tracker->Script = Camera::SCRIPT_EyeSeeAll_Radius;
+                        else
+                            tracker->InitScript(name, Filesystem::GetFullPath(
+                                    "Data/scripts/cameras/" + tracker->ScriptName + ".lua"));
+
                         
                     }
                     continue;

@@ -60,18 +60,18 @@ namespace Math { namespace Figures {
 
         bool CulledBy(const xPlane *PN_planes, int I_count)
         {
-	        // See if there is one plane for which all of the
-	        // vertices are in the negative half space.
+            // See if there is one plane for which all of the
+            // vertices are in the negative half space.
             for (int p = 0; p < I_count; ++p) {
 
-		        bool FL_culled = true;
+                bool FL_culled = true;
                 int v;
-		        // Assume this plane culls all points.  See if there is a point
-		        // not culled by the plane... early out when at least one point
+                // Assume this plane culls all points.  See if there is a point
+                // not culled by the plane... early out when at least one point
                 // is in the positive half space.
-		        for (v = 0; (v < 8) && FL_culled; ++v)
+                for (v = 0; (v < 8) && FL_culled; ++v)
                     FL_culled = PN_planes[p].distanceToPoint(P_corners[v]) > 0.2f;
-		        if (FL_culled) return true;
+                if (FL_culled) return true;
             }
             // None of the planes could cull this box
             return false;
@@ -124,21 +124,33 @@ namespace Math { namespace Figures {
     protected:
         virtual void loadInstance( FILE *file )
         {
-            fread(&S_top,   sizeof(S_top), 1, file);
-            fread(&N_top,   sizeof(N_top), 1, file);
-            fread(&S_front, sizeof(S_front), 1, file);
-            fread(&N_front, sizeof(N_front), 1, file);
-            fread(&S_side,  sizeof(S_side), 1, file);
-            fread(&N_side,  sizeof(N_side), 1, file);
+            SAFE_begin
+            {
+                SAFE_fread(S_top,   1, file);
+                SAFE_fread(N_top,   1, file);
+                SAFE_fread(S_front, 1, file);
+                SAFE_fread(N_front, 1, file);
+                SAFE_fread(S_side,  1, file);
+                SAFE_fread(N_side,  1, file);
+                SAFE_return;
+            }
+            SAFE_catch;
+                LOG(1, "Error reading xBoxO");
         }
         virtual void saveInstance( FILE *file )
         {
-            fwrite(&S_top, sizeof(S_top), 1, file);
-            fwrite(&N_top, sizeof(N_top), 1, file);
-            fwrite(&S_front, sizeof(S_front), 1, file);
-            fwrite(&N_front, sizeof(N_front), 1, file);
-            fwrite(&S_side,  sizeof(S_side), 1, file);
-            fwrite(&N_side,  sizeof(N_side), 1, file);
+            SAFE_begin
+            {
+                SAFE_fwrite(S_top,   1, file);
+                SAFE_fwrite(N_top,   1, file);
+                SAFE_fwrite(S_front, 1, file);
+                SAFE_fwrite(N_front, 1, file);
+                SAFE_fwrite(S_side,  1, file);
+                SAFE_fwrite(N_side,  1, file);
+                SAFE_return;
+            }
+            SAFE_catch;
+                LOG(1, "Error writing xBoxO");
         }
     };
 

@@ -3,7 +3,7 @@
 bool IScene :: Create(int left, int top, unsigned int width, unsigned int height, IScene *prevScene)
 {
     assert ( FL_destroyed );
-	FL_destroyed = false;
+    FL_destroyed = false;
     Left          = left;
     Top           = top;
     Width         = width;

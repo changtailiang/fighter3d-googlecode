@@ -4,9 +4,57 @@
 
 #ifdef WIN32
 
-#pragma warning(disable : 4996) // deprecated
+void BrowseSupportedPixelFormats(HDC hDC)
+{
+	int attributes[12];
+	int results   [12];
 
-#include "../../Graphics/OGL/Extensions/wglext.h"
+	//Find out how many PFDs there are
+	attributes[0]  = WGL_NUMBER_PIXEL_FORMATS_ARB;
+	wglGetPixelFormatAttribivARB(hDC, 1, 0, 1, attributes, results);
+	int numPfds = results[0];
+
+	//A list of attributes to check for each pixel format
+	attributes[0]  = WGL_RED_BITS_ARB;       //bits
+	attributes[1]  = WGL_GREEN_BITS_ARB;
+	attributes[2]  = WGL_BLUE_BITS_ARB;
+	attributes[3]  = WGL_ALPHA_BITS_ARB;
+	attributes[4]  = WGL_DEPTH_BITS_ARB;
+	attributes[5]  = WGL_STENCIL_BITS_ARB;
+	
+	attributes[6]  = WGL_DRAW_TO_WINDOW_ARB; //required to be true
+	attributes[7]  = WGL_SUPPORT_OPENGL_ARB;
+	attributes[8]  = WGL_DOUBLE_BUFFER_ARB;
+	
+	attributes[9]  = WGL_ACCELERATION_ARB;   //required to be FULL_ACCELERATION_ARB
+
+	attributes[10] = WGL_SAMPLE_BUFFERS_ARB; //Multisample
+	attributes[11] = WGL_SAMPLES_ARB;
+
+	//Loop through all the pixel formats
+	for(int i=0; i < numPfds; ++i)
+	{
+		//Get the attributes
+		wglGetPixelFormatAttribivARB(hDC, i+1, 0, 12, attributes, results);
+
+		//See if this format supports the bits required
+		if(	results[0]!=8/*redBits*/    || results[1]!=8/*greenBits*/ ||
+			results[2]!=8/*blueBits*/   || results[3]!=8/*alphaBits*/ ||
+			results[4]!=24/*depthBits*/ || results[5]!=8/*stencilBits*/)
+			continue;
+
+		//Ensure required attributes are true
+		if(	results[6]==false	|| results[7]==false		||
+			results[8]==false	|| results[9]!=WGL_FULL_ACCELERATION_ARB)
+			continue;
+
+		//Save the number of samples in this pixel format
+		//if(	results[10]==false)
+		//	samplesSupported[0]=true;
+		//else if(results[11]<=16)						//don't support >16x AA
+		//	samplesSupported[results[11]]=true;
+	}
+}
 
 bool GLWindow::Create()
 {
@@ -100,7 +148,7 @@ bool GLWindow::Create()
     }
 
     SetLastError(0);
-    SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)this);
+    SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
     if (GetLastError())
     {
         this->Destroy();
@@ -143,7 +191,7 @@ bool GLWindow::Create()
         return false;
     }
 
-	if(!(hRC = wglCreateContext(hDC)))
+    if(!(hRC = wglCreateContext(hDC)))
     {
         this->Destroy();
         MessageBox(hWnd, "Failed to create the OpenGL rendering context.", "ERROR", MB_OK|MB_ICONEXCLAMATION);
@@ -157,28 +205,35 @@ bool GLWindow::Create()
         return false;
     }
     CheckForGLError("wglMakeCurrent");
-    
+
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+    {
+      /* Problem: glewInit failed, something is seriously wrong. */
+      MessageBox(hWnd, (LPCSTR) glewGetErrorString(err), "ERROR", MB_OK|MB_ICONEXCLAMATION);
+    }
+
     if (FL_queryForMultisample && Config::MultisamplingLevel > 0)
     {
-	    PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB =
-		    (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
+        //PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB =
+        //    (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
         FL_multisampleAviable = false;
         if (wglChoosePixelFormatARB)
         {
             FL_multisampleAviable = true;
             int iAttributes[] = { WGL_DRAW_TO_WINDOW_ARB,GL_TRUE,
-		        WGL_SUPPORT_OPENGL_ARB,GL_TRUE,
-		        WGL_ACCELERATION_ARB,WGL_FULL_ACCELERATION_ARB,
-		        WGL_COLOR_BITS_ARB,24,
-		        WGL_ALPHA_BITS_ARB,8,
-		        WGL_DEPTH_BITS_ARB,24,
-		        WGL_STENCIL_BITS_ARB,8,
-		        WGL_DOUBLE_BUFFER_ARB,GL_TRUE,
-		        WGL_SAMPLE_BUFFERS_ARB,GL_TRUE,
-		        WGL_SAMPLES_ARB, 4 ,						// Check For 4x Multisampling
-		        0,0};
+                WGL_SUPPORT_OPENGL_ARB,GL_TRUE,
+                WGL_ACCELERATION_ARB,WGL_FULL_ACCELERATION_ARB,
+                WGL_COLOR_BITS_ARB,24,
+                WGL_ALPHA_BITS_ARB,8,
+                WGL_DEPTH_BITS_ARB,24,
+                WGL_STENCIL_BITS_ARB,8,
+                WGL_DOUBLE_BUFFER_ARB,GL_TRUE,
+                WGL_SAMPLE_BUFFERS_ARB,GL_TRUE,
+                WGL_SAMPLES_ARB, 4 ,                        // Check For 4x Multisampling
+                0,0};
             float fAttributes[] = {0,0};
-	        unsigned int NumFormats;
+            unsigned int NumFormats;
 
             
             // First We Check To See If We Can Get A Pixel Format For 4 Samples
