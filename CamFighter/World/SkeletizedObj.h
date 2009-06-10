@@ -3,7 +3,7 @@
 
 #include "RigidObj.h"
 #include "../Models/lib3dx/xAction.h"
-#include "../Source Files/ComBoard.h"
+#include "../SourceFiles/ComBoard.h"
 #include "../Math/Tracking/ObjectTracker.h"
 #include "../Utils/Stat.h"
 

@@ -1,6 +1,6 @@
 #include "RigidObj.h"
 #include "../Models/lib3dx/xUtils.h"
-#include "../App Framework/System.h"
+#include "../AppFramework/System.h"
 #include "../Math/Figures/xCapsule.h"
 #include "ObjectTypes.h"
 #include "../Utils/Filesystem.h"

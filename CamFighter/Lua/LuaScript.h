@@ -15,8 +15,8 @@
 #ifndef __LUA_SCRIPT_BASE_H__
 #define __LUA_SCRIPT_BASE_H__
 
-#include <luainc.h>
-#include "luavirtualmachine.h"
+#include "luainc.h"
+#include "LuaVirtualMachine.h"
 
 class CLuaScript
 {

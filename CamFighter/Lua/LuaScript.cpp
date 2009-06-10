@@ -12,10 +12,10 @@
 // ---------------------------------------------------------------------------
 // LIBRARY INCLUDE FILES
 #include <assert.h>
-#include <luainc.h>
-#include "luascript.h"
-#include "luarestorestack.h"
-#include "luathis.h"
+#include "luainc.h"
+#include "LuaScript.h"
+#include "LuaRestoreStack.h"
+#include "LuaThis.h"
 // ---------------------------------------------------------------------------
 
 #define BEGIN_LUA_CHECK(vm)   lua_State *state = (lua_State *) vm; \

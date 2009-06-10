@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cassert>
 #include <ctime>
-#include "../App Framework/System.h"
+#include "../AppFramework/System.h"
 #include "Filesystem.h"
 #include <GL/gl.h>
 

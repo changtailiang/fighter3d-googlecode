@@ -2,7 +2,7 @@
 #define __incl_Graphics_TexResource_h
 
 #include <string>
-#include "../../App Framework/Application.h"
+#include "../../AppFramework/Application.h"
 
 #include "../OGL/Texture.h"
 #ifdef WIN32

@@ -3,10 +3,10 @@
 
 #include "../Utils/Singleton.h"
 
-#include "luavirtualmachine.h"
-#include "luascript.h"
-#include "luadebugger.h"
-#include <luainc.h>
+#include "LuaVirtualMachine.h"
+#include "LuaScript.h"
+#include "LuaDebugger.h"
+#include "luainc.h"
 
 #define g_LuaMgr LuaMgr::GetSingleton()
 

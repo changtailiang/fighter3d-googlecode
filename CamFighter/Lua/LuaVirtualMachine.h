@@ -14,8 +14,8 @@
 #ifndef __LUA_VIRTUAL_MACHINE_H__
 #define __LUA_VIRTUAL_MACHINE_H__
 
-#include <luainc.h>
-#include "luadebugger.h"
+#include "luainc.h"
+#include "LuaDebugger.h"
 
 class CLuaDebugger;
 

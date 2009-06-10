@@ -44,7 +44,7 @@ bool _CheckForGLError(const char *file, int line);
 
 #ifndef NDEBUG
 
-#include "../App Framework/System.h" // GetTickCount
+#include "../AppFramework/System.h" // GetTickCount
 #include <cstdio>
 
 #define PROFILER_START(opt)                                 \

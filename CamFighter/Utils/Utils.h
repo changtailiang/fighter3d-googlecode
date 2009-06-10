@@ -16,7 +16,9 @@
 #define SAFE_fread(variable, count, file) \
     if (fread(&variable, sizeof(variable), count, file) != count) break;
 #define SAFE_fwrite(variable, count, file) \
-    if (fread(&variable, sizeof(variable), count, file) != count) break;
+    if (fwrite(&variable, sizeof(variable), count, file) != count) break;
+#define SAFE_fwrite_ex(variable_ptr, size, count, file) \
+    if (fwrite(variable_ptr, size, count, file) != count) break;
   
 #include <sstream>
 #include <string>

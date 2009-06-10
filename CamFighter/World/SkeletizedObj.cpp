@@ -1,11 +1,11 @@
 #include "SkeletizedObj.h"
-#include "../App Framework/System.h"
+#include "../AppFramework/System.h"
 #include "../Config.h"
 #include "../MotionCapture/CaptureInput.h"
 #include "../Multiplayer/NetworkInput.h"
 #include "ObjectTypes.h"
 #include "../Utils/Filesystem.h"
-#include "../Source Files/InputCodes.h"
+#include "../SourceFiles/InputCodes.h"
 
 SkeletizedObj *SkeletizedObj::camera_controled  = NULL;
 SkeletizedObj *SkeletizedObj::network_controled = NULL;

@@ -11,7 +11,7 @@
 // AUTHOR               : Richard Shephard
 // ---------------------------------------------------------------------------
 // LIBRARY INCLUDE FILES
-#include "luadebugger.h"
+#include "LuaDebugger.h"
 // ---------------------------------------------------------------------------
 
 // typedef void (*lua_Hook) (lua_State *L, lua_Debug *ar);

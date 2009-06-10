@@ -44,7 +44,7 @@ namespace Math { namespace Tracking {
 
         xPoint3       P_destination;
 
-        ObjectTracker() : CLuaCall(g_LuaMgr.vm) {}
+        ObjectTracker() : CLuaCall<ObjectTracker>(g_LuaMgr.vm) {}
 
         void Init(bool FL_init_empty = true)
         {
@@ -128,7 +128,7 @@ namespace Math { namespace Tracking {
         {
             lua_State *state = (lua_State *) vm;
                 
-            if (Iter > -1 && Iter < Targets->L_objects.size())
+            if (Iter > -1 && Iter < int(Targets->L_objects.size()))
             {
                 TrackedObject &target = *Targets->L_objects[Iter];
 
@@ -156,12 +156,12 @@ namespace Math { namespace Tracking {
         {
             lua_State *state = (lua_State *) vm;
             
-            if (Iter > -1 && Iter < Targets->L_objects.size())
+            if (Iter > -1 && Iter < int(Targets->L_objects.size()))
             {
                 int subObject = (int)lua_tointeger((lua_State *) vm, 1);
             
                 TrackedObject &target = *Targets->L_objects[Iter];
-                TrackedObject &subTarget = target;//target->GetSubobject(subObject);
+                TrackedObject &subTarget = /*target;//*/target.GetSubObject(subObject);
 
                 lua_createtable(state, 2, 0);
                 

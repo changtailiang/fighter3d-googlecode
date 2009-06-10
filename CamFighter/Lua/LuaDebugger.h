@@ -14,8 +14,8 @@
 #ifndef __LUA_DEBUGGER_H__
 #define __LUA_DEBUGGER_H__
 
-#include <luainc.h>
-#include "luavirtualmachine.h"
+#include "luainc.h"
+#include "LuaVirtualMachine.h"
 
 enum
 {

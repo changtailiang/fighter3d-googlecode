@@ -14,8 +14,8 @@
 #ifndef __LUA_THIS_H__
 #define __LUA_THIS_H__
 
-#include <luainc.h>
-#include "luavirtualmachine.h"
+#include "luainc.h"
+#include "LuaVirtualMachine.h"
 
 // Sets the "this" global table that scripts use
 

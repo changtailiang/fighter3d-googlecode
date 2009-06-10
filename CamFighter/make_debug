@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mkdir Debug
+cd    Debug
+
+../configure CPPFLAGS='-ggdb'
+make
+mv fighter ../fighter_dbg
+cd ..
