@@ -45,8 +45,8 @@ int Application::Create(IWindow &window, IScene &scene)
 
     // Init window events
     SceneCur = &scene;
-    window.OnCreate.Set(this, ::MainWindow_OnCreate);
-    window.OnResize.Set(this, ::MainWindow_OnResize);
+    window.OnCreate.Set(this, MainWindow_OnCreate);
+    window.OnResize.Set(this, MainWindow_OnResize);
 
     // Create scene
     if (! SceneCur->Create(0, 0, window.Width_Get(), window.Height_Get()) )
