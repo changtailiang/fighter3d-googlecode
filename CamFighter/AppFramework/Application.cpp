@@ -3,11 +3,6 @@
 #include "D3D/DXWindow.h"
 #include "../Utils/Profiler.h"
 
-void MainWindow_OnCreate(IWindow &window, void* receiver)
-{ g_Application.MainWindow_OnCreate(window); }
-void MainWindow_OnResize(IWindow &window, void* receiver, unsigned int &width, unsigned int &height)
-{ g_Application.MainWindow_OnResize(window, width, height); }
-
 int Application::Create(const char *title, unsigned int width, unsigned int height,
                         bool fl_openGL,    bool fl_fullscreen, IScene &scene)
 {

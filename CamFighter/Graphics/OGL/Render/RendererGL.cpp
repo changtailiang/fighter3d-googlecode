@@ -27,6 +27,14 @@ void RendererGL :: InitVBO (xElement *elem)
             glBindBufferARB( GL_ARRAY_BUFFER_ARB, elem->renderData.gpuMain.normalB );
             glBufferDataARB( GL_ARRAY_BUFFER_ARB, sizeof(xVector3)*elem->renderData.I_vertices, elem->renderData.L_normals, GL_STATIC_DRAW_ARB);
         }
+
+        if (elem->renderData.L_colors)
+        {
+            glGenBuffersARB(1, &p); elem->renderData.gpuMain.colorB = p;
+            glBindBufferARB( GL_ARRAY_BUFFER_ARB, elem->renderData.gpuMain.colorB );
+            glBufferDataARB( GL_ARRAY_BUFFER_ARB, sizeof(xBYTE3)*elem->renderData.I_vertices, elem->renderData.L_colors, GL_STATIC_DRAW_ARB);
+        }
+
         glBindBufferARB( GL_ARRAY_BUFFER_ARB, 0 );
     }
 }
@@ -48,7 +56,7 @@ void RendererGL :: InitTextures(xModel &model)
     model.FL_textures_loaded = true;
 }
 
-void RendererGL::SetMaterial(xColor color, xMaterial *mat, bool toggleShader)
+void RendererGL::SetMaterial(xMaterial *mat, bool toggleShader)
 {
     if (mat)
     {
@@ -78,18 +86,18 @@ void RendererGL::SetMaterial(xColor color, xMaterial *mat, bool toggleShader)
             if (mat->transparency > 0.f)
             {   
                 xColor t_mat; t_mat.init(mat->ambient.vector3, 1.f-mat->transparency);
-                glMaterialfv(GL_FRONT, GL_AMBIENT, t_mat.col);
+                glMaterialfv(GL_FRONT, GL_AMBIENT, t_mat.rgba);
                 t_mat.vector3 = mat->diffuse.vector3;
-                glMaterialfv(GL_FRONT, GL_DIFFUSE, t_mat.col);
+                glMaterialfv(GL_FRONT, GL_DIFFUSE, t_mat.rgba);
                 t_mat.vector3 = mat->specular.vector3 * mat->shininess_level;
-                glMaterialfv(GL_FRONT, GL_SPECULAR, t_mat.col);
+                glMaterialfv(GL_FRONT, GL_SPECULAR, t_mat.rgba);
             }
             else
             {
-                glMaterialfv(GL_FRONT, GL_AMBIENT, mat->ambient.col);
-                glMaterialfv(GL_FRONT, GL_DIFFUSE, mat->diffuse.col);
+                glMaterialfv(GL_FRONT, GL_AMBIENT, mat->ambient.rgba);
+                glMaterialfv(GL_FRONT, GL_DIFFUSE, mat->diffuse.rgba);
                 xColor spec = mat->specular * mat->shininess_level;
-                glMaterialfv(GL_FRONT, GL_SPECULAR, spec.col);
+                glMaterialfv(GL_FRONT, GL_SPECULAR, spec.rgba);
             }
         }
         else
@@ -97,10 +105,10 @@ void RendererGL::SetMaterial(xColor color, xMaterial *mat, bool toggleShader)
             if (mat->transparency > 0.f)
             {
                 xColor t_mat; t_mat.init(mat->diffuse.vector3, 1.f-mat->transparency);
-                glColor4fv(t_mat.col);
+                glColor4fv(t_mat.rgba);
             }
             else
-                glColor4fv(mat->diffuse.col);
+                glColor4fv(mat->diffuse.rgba);
 
         }
         if (mat->two_sided)
@@ -111,7 +119,6 @@ void RendererGL::SetMaterial(xColor color, xMaterial *mat, bool toggleShader)
     else
     {
         glEnable(GL_CULL_FACE);
-        glColor4fv(color.col);
         
         glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
         glEnable(GL_COLOR_MATERIAL);
@@ -538,6 +545,8 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
         mode = xGPUPointers::LIST;
         glNewList(listID = glGenLists(1), GL_COMPILE);
 
+        RendererGL::SetColors(elem, false);
+
         if (elem->FL_skeletized) {
             g_AnimSkeletal.BeginAnimation();
             g_AnimSkeletal.SetBones(modelInstance.I_bones, modelInstance.MX_bones, modelInstance.QT_bones,
@@ -571,10 +580,11 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
                 continue;
             }
             if (faceL->Material != m_currentMaterial)
-                RendererGL::SetMaterial(elem->Color, m_currentMaterial = faceL->Material, false);
+                RendererGL::SetMaterial(m_currentMaterial = faceL->Material, false);
             glDrawElements(GL_TRIANGLES, 3*faceL->I_count, GL_UNSIGNED_SHORT, elem->renderData.L_faces+faceL->I_offset);
         }
         if (!textured && elem->renderData.L_normals) glDisableClientState(GL_NORMAL_ARRAY);
+        if (!textured && elem->renderData.L_colors) glDisable(GL_COLOR_ARRAY);
         if (!textured && elem->FL_skeletized)
             g_AnimSkeletal.EndAnimation();
         
@@ -587,6 +597,8 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
 
         Shader::EnableTexturing(xState_On);
         Shader::Start();
+
+        RendererGL::SetColors(elem, false);
         
         if (elem->FL_skeletized) {
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -609,11 +621,12 @@ void RenderModelLST(bool transparent, const Math::Cameras::FieldOfView &FOV,
             if (!faceL->Material || !faceL->Material->texture.htex)
                 continue;
             if (faceL->Material != m_currentMaterial)
-                RendererGL::SetMaterial(elem->Color, m_currentMaterial = faceL->Material, false);
+                RendererGL::SetMaterial(m_currentMaterial = faceL->Material, false);
             glDrawElements(GL_TRIANGLES, 3*faceL->I_count, GL_UNSIGNED_SHORT, elem->renderData.L_faces+faceL->I_offset);
         }
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         if (elem->renderData.L_normals) glDisableClientState(GL_NORMAL_ARRAY);
+        if (elem->renderData.L_colors) glDisable(GL_COLOR_ARRAY);
         if (elem->FL_skeletized)
             g_AnimSkeletal.EndAnimation();
         
@@ -669,6 +682,8 @@ void RenderModelVBO(bool transparent, const Math::Cameras::FieldOfView &FOV,
     glPushMatrix();
     glMultMatrixf(&elem->MX_MeshToLocal.matrix[0][0]);
 
+    RendererGL::SetColors(elem, true);
+
     glBindBufferARB( GL_ARRAY_BUFFER_ARB, elem->renderData.gpuMain.vertexB );
     if (elem->FL_skeletized) {
         if (elem->FL_textured) {
@@ -711,7 +726,7 @@ void RenderModelVBO(bool transparent, const Math::Cameras::FieldOfView &FOV,
             continue;
         if (faceL->Material != m_currentMaterial)
         {
-            RendererGL::SetMaterial(elem->Color, m_currentMaterial = faceL->Material);
+            RendererGL::SetMaterial(m_currentMaterial = faceL->Material);
             if (elem->FL_skeletized)
                 g_AnimSkeletal.SetBones(modelInstance.I_bones, modelInstance.MX_bones, modelInstance.QT_bones,
                                 modelInstance.P_bone_roots, modelInstance.P_bone_trans, elem, true);
@@ -725,6 +740,7 @@ void RenderModelVBO(bool transparent, const Math::Cameras::FieldOfView &FOV,
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     if (elem->renderData.L_normals && Shader::NeedNormals())
         glDisableClientState(GL_NORMAL_ARRAY);
+    if (elem->renderData.L_colors) glDisable(GL_COLOR_ARRAY);
     if (elem->FL_skeletized)
         g_AnimSkeletal.EndAnimation();
     Shader::EnableSkeleton(xState_Off);

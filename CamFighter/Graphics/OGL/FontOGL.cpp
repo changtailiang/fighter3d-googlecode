@@ -43,10 +43,17 @@ bool Graphics::OGL::Font :: Create()
     wglUseFontBitmaps(hDC, FIRST_CHAR, 1, ID_GLFontBase); // Create twice, to overcome ATI bug
     wglUseFontBitmaps(hDC, FIRST_CHAR, NUM_CHARS, ID_GLFontBase); // Builds NUM_CHARS Characters Starting At Character FIRST_CHAR
 
-    ABCFLOAT metrics[NUM_CHARS]; // Storage For Information About Our Font
-    GetCharABCWidthsFloat(hDC, FIRST_CHAR, FIRST_CHAR+NUM_CHARS-1, metrics);
+    GlyphHeight = 0;
+    ABCFLOAT   metricsW[NUM_CHARS]; // Storage For Information About Our Font
+    TEXTMETRIC metricsH;            // Storage For Information About Our Font
+    GetCharABCWidthsFloat(hDC, FIRST_CHAR, FIRST_CHAR+NUM_CHARS-1, metricsW);
+    GetTextMetrics(hDC, &metricsH);
     for (int i = FIRST_CHAR; i != NUM_CHARS; ++i)
-        LWidth[i] = metrics[i].abcfA + metrics[i].abcfB + metrics[i].abcfC;
+        LWidth[i] = metricsW[i].abcfA + metricsW[i].abcfB + metricsW[i].abcfC;
+
+    GlyphHeight  = metricsH.tmHeight;
+    GlyphAscent  = metricsH.tmAscent;
+    GlyphDescent = metricsH.tmDescent;
 
 /*
     GLYPHMETRICSFLOAT gmf[NUM_CHARS]; // Storage For Information About Our Font
@@ -94,7 +101,11 @@ bool Graphics::OGL::Font :: Create()
 
     char s = FIRST_CHAR;
     for (int i = 0; i < NUM_CHARS; ++i, ++s)
-        LWidth[i] = XTextWidth(font, &s, 1);
+    {
+        LWidth[i]   = XTextWidth(font, &s, 1);
+        GlyphHeight = max(GlyphHeight, XTextHeight(font, &s, 1));
+    }
+    GlyphAscent = GlyphDescent = GlyphHeight >> 1;
 
     /* free our XFontStruct since we have our display lists */
     XFreeFont(hDC, font);

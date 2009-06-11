@@ -3,7 +3,7 @@
 
 #ifdef WIN32
 
-#include "../App Framework/System.h"
+#include "../AppFramework/System.h"
 
 class GraphicsModes
 {
