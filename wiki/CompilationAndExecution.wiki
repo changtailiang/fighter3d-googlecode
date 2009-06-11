@@ -31,7 +31,7 @@ There are four Makefile configurations available:
  * `make auto` - initializes/reinitializes automake environment - should be called when new files has been added to the project
  * `make debug` - compiles project with debugging info to `\fighter_dbg` output file
  * `make release` - compiles project into release `\fighter` executable
- * `make clean` - clean-ups automake environment (but do not remove `\Debug` nor `\Release` directories and executables) - should be called before svn submits, to clean-up the `\Makefile`.
+ * `make clean` - clean-ups automake environment (but doesn't remove `\Debug` nor `\Release` directories and executables) - should be called before svn submits, to clean-up the `\Makefile`.
 
 If the `\Makefile` is corrupted, you should explicitly call the `\make_auto` script to regenerate automake environment and create cleaned Makefile (stored in `\Makefile.def` till `make clean` is called).
 
