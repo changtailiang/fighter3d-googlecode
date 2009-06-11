@@ -17,7 +17,7 @@ There are two build configurations available:
 
 == Linux ==
 
-Several external packages must be installed before compiling project under Linux. As may be seen in `\Makefile.am`, the project depends on following libraries:
+Several external packages must be installed before compiling project under Linux. The project depends on following libraries:
  `-lGLEW -lGLU -lGL -lXxf86vm -l3ds -llua5.1 -lm`
 Most probably the packages will be named something like:
  * libGLdev
@@ -27,12 +27,13 @@ Most probably the packages will be named something like:
  * lib3dsdev
  * liblua5.1dev
 
-Before compilation the following scripts must be executed:
- * make_auto  - configures autotools for compilation
+There are four Makefile configurations available:
+ * `make auto` - initializes/reinitializes automake environment - should be called when new files has been added to the project
+ * `make debug` - compiles project with debugging info to `\fighter_dbg` output file
+ * `make release` - compiles project into release `\fighter` executable
+ * `make clean` - clean-ups automake environment (but do not remove Debug, Release directories and executables) - should be called before svn submits, to clean-up Makefile.
 
-There are two configurations available via scripts:
- * make_debug - compiles project with debugging info to `\fighter_dbg` output file
- * make_release - compiles project into release `\fighter` executable
+If the `\Makefile` is corrupted, you should explicitly call the `\make_auto` script to regenerate automake environment and create cleaned Makefile (stored in `\Makefile.def` till `make clean` is called).
 
 = Execution =
 
