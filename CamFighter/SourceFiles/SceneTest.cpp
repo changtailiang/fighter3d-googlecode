@@ -144,9 +144,8 @@ bool SceneTest::Create(int left, int top, unsigned int width, unsigned int heigh
     pcBtn->m_sBorderColor.a     = 0.f;
     pcWnd2->AddChild(*pcBtn);
 
-    pcCheckThisOut->OnCheckedChanged.Set(this, &::CheckThisOut_CheckedChanged);
+    pcCheckThisOut->OnCheckedChanged.Set(this, CheckThisOut_CheckedChanged); 
 
-    
     m_cGuiManager.AddChild( *pcWnd2 );
 
     return true;

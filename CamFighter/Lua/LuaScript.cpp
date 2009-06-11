@@ -111,7 +111,7 @@ static int LuaCallback (lua_State *lua)
 //
 //============================================================================
 CLuaScript::CLuaScript (CLuaVirtualMachine& vm)
- : m_vm (vm), m_nMethods (0), m_iThisRef (0), m_nArgs (0)
+ : m_nMethods (0), m_vm (vm), m_iThisRef (0), m_nArgs (0)
 {
    BEGIN_LUA_CHECK (vm)
       // Create a reference to the "this" table. Each reference is unique

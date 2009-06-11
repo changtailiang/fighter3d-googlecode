@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "../../AppFramework/Application.h"
+#include "../../Math/xMath.h"
 
 #ifndef WIN32
 #include <stdarg.h>
@@ -99,13 +100,20 @@ bool Graphics::OGL::Font :: Create()
     /* build 96 display lists out of our font starting at char 32 */
     glXUseXFont(font->fid, FIRST_CHAR, NUM_CHARS, ID_GLFontBase);
 
+    GlyphHeight = GlyphAscent = GlyphDescent = 0;
     char s = FIRST_CHAR;
     for (int i = 0; i < NUM_CHARS; ++i, ++s)
     {
         LWidth[i]   = XTextWidth(font, &s, 1);
-        GlyphHeight = max(GlyphHeight, XTextHeight(font, &s, 1));
+
+	int         direction, ascent, descent;
+	XCharStruct charStruct;
+	XTextExtents(font, &s, 1, &direction, &ascent, &descent, &charStruct);
+
+        GlyphAscent  = max(GlyphAscent, ascent);
+	GlyphDescent = max(GlyphDescent, descent);
     }
-    GlyphAscent = GlyphDescent = GlyphHeight >> 1;
+    GlyphHeight = GlyphAscent + GlyphDescent;
 
     /* free our XFontStruct since we have our display lists */
     XFreeFont(hDC, font);

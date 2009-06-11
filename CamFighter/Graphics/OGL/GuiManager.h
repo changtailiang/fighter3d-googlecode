@@ -37,6 +37,7 @@ namespace Graphics { namespace OGL {
         void MouseHideFromGui(bool bHide)
         {
             if (bHide != m_bMouseHiddenForGui)
+            {
                 if (bHide)
                     m_bMouseHiddenForGui = true;
                 else
@@ -44,6 +45,7 @@ namespace Graphics { namespace OGL {
                     m_bMouseHiddenForGui = false;
                     MouseUpdate();
                 }
+            }
         }
 
         virtual bool HitTest(xSHORT nX, xSHORT nY)

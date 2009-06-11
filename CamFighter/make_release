@@ -1,9 +1,0 @@
-#!/bin/sh
-
-mkdir Release
-cd    Release
-
-../configure CPPFLAGS='-O2'
-make
-mv fighter ../fighter
-cd ..

@@ -2,17 +2,17 @@
 #define __incl_Utils_Delegate_h
 
 #define EVENT_HANDLER0(HANDLER_METHOD, SENDER, RECEIVER)                      \
-    friend void HANDLER_METHOD(SENDER &control, void* receiver)               \
+    static void HANDLER_METHOD(SENDER &control, void* receiver)               \
     { reinterpret_cast<RECEIVER*>( receiver )->HANDLER_METHOD(control); }     \
     void HANDLER_METHOD(SENDER &control)
 
 #define EVENT_HANDLER1(HANDLER_METHOD, SENDER, RECEIVER, PARAM1TYPE, PARAM1NAME)       \
-    friend void HANDLER_METHOD(SENDER &control, void* receiver, PARAM1TYPE PARAM1NAME) \
+    static void HANDLER_METHOD(SENDER &control, void* receiver, PARAM1TYPE PARAM1NAME) \
     { reinterpret_cast<RECEIVER*>( receiver )->HANDLER_METHOD(control, PARAM1NAME); }  \
     void HANDLER_METHOD(SENDER &control, PARAM1TYPE PARAM1NAME)
 
 #define EVENT_HANDLER2(HANDLER_METHOD, SENDER, RECEIVER, PARAM1TYPE, PARAM1NAME, PARAM2TYPE, PARAM2NAME)      \
-    friend void HANDLER_METHOD(SENDER &control, void* receiver, PARAM1TYPE PARAM1NAME, PARAM2TYPE PARAM2NAME) \
+    static void HANDLER_METHOD(SENDER &control, void* receiver, PARAM1TYPE PARAM1NAME, PARAM2TYPE PARAM2NAME) \
     { reinterpret_cast<RECEIVER*>( receiver )->HANDLER_METHOD(control, PARAM1NAME, PARAM2NAME); }             \
     void HANDLER_METHOD(SENDER &control, PARAM1TYPE PARAM1NAME, PARAM2TYPE PARAM2NAME)
 

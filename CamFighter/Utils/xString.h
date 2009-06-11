@@ -3,8 +3,11 @@
 
 #include <cassert>
 #include <list>
+#include <cstring>
 
 typedef unsigned long UInt32;
+
+class xString;
 
 class xStringMgr
 {

@@ -81,12 +81,12 @@ namespace Graphics { namespace OGL {
         CGuiSlider()
             : CGuiControl()
             , m_pIconBox(HTexture()), m_pIconSlider(HTexture())
-            , m_nState(BS_Normal), m_fMinValue(0.f), m_fMaxValue(1.f), m_fCurValue(0.5f)
+            , m_nState(BS_Normal), m_fCurValue(0.5f), m_fMinValue(0.f), m_fMaxValue(1.f)
         { OnValueChanged = ControlEvent(*this); }
         CGuiSlider(xSHORT nX, xSHORT nY, xSHORT nWidth, xSHORT nHeight)
             : CGuiControl(nX, nY, nWidth, nHeight)
             , m_pIconBox(HTexture()), m_pIconSlider(HTexture())
-            , m_nState(BS_Normal), m_fMinValue(0.f), m_fMaxValue(1.f), m_fCurValue(0.5f)
+            , m_nState(BS_Normal), m_fCurValue(0.5f), m_fMinValue(0.f), m_fMaxValue(1.f)
         { OnValueChanged = ControlEvent(*this); }
         virtual ~CGuiSlider()
         {

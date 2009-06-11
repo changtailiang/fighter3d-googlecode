@@ -66,7 +66,7 @@ namespace Graphics { namespace OGL {
 
         void SetEnabled(bool bEnabled)
         {
-            if (bEnabled ^ m_nState != BS_Disabled)
+            if ( (bEnabled ^ m_nState) != BS_Disabled )
             {
                 m_nState = (bEnabled) ? BS_Normal : BS_Disabled;
                 OnEnabledChanged();
